@@ -1,0 +1,193 @@
+package io.jiangbyte.generator;
+
+import com.baomidou.mybatisplus.generator.FastAutoGenerator;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
+import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.baomidou.mybatisplus.generator.model.ClassAnnotationAttributes;
+import io.jiangbyte.framework.pojo.CommonEntity;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author ZhangJiangHu
+ * @version v1.0
+ * @date 28/09/2025
+ * @description TODO
+ */
+public class Gen {
+   public static void execute(List<Module> modules, String dataBaseUrl, String dataBaseUserName, String dataBasePassword, String author, String outputDir) {
+
+        DataSourceConfig.Builder datasourceBuilder = new DataSourceConfig.Builder(dataBaseUrl, dataBaseUserName, dataBasePassword);
+
+        for (Module module : modules) {
+            FastAutoGenerator.create(datasourceBuilder)
+                    /**
+                     * 全局配置
+                     * 可以配置作者、目录这些
+                     */
+                    .globalConfig(builder -> {
+                        builder.author(author) // 作者
+                                .disableOpenDir() // 禁止打开输出目录
+                                .enableSpringdoc()
+                                .outputDir(outputDir); // 指定输出目录
+                    })
+
+                    /**
+                     * 包配置
+                     */
+                    .packageConfig(builder -> builder
+                            .parent(module.getModuleName()) // 设置父包名
+                    )
+
+                    /**
+                     * 策略配置
+                     */
+                    .strategyConfig(builder -> builder
+                                    .addInclude(module.getTables()) // 设置需要生成的表名
+//                                .addTablePrefix("sys_") // 设置过滤表前缀
+
+                                    /**
+                                     * Entity
+                                     */
+                                    .entityBuilder()
+//                                .enableFileOverride() // 覆盖已生成文件
+                                    .superClass(CommonEntity.class) // 父类
+//                                    .addSuperEntityColumns("create_time", "create_user", "update_time", "update_user", "deleted")
+                                    .enableLombok(new ClassAnnotationAttributes("@Data", "lombok.Data")) // 开启 lombok
+                                    .naming(NamingStrategy.underline_to_camel) // 数据库表映射到实体的命名策略
+                                    .formatFileName("%s")
+
+                                    /**
+                                     * Service
+                                     */
+                                    .serviceBuilder()
+//                                .enableFileOverride()
+                                    .formatServiceFileName("%sService")
+                                    .formatServiceImplFileName("%sServiceImpl")
+
+                                    /**
+                                     * Mapper
+                                     */
+                                    .mapperBuilder()
+                                    .mapperAnnotation(Mapper.class)
+//                                .enableBaseResultMap()
+//                                .enableBaseColumnList()
+                                    .formatMapperFileName("%sMapper")
+                                    .formatXmlFileName("%sMapper")
+
+                                    /**
+                                     * Controller
+                                     */
+                                    .controllerBuilder()
+//                        .enableFileOverride() // 覆盖已生成文件
+                                    .enableHyphenStyle()
+                                    .enableRestStyle() // @RestController
+                                    .formatFileName("%sController")
+                    )
+                    .injectionConfig(injectConfig -> injectConfig
+                            .customMap(Map.of("GModule", module.getGModule()))
+                            .customFile(List.of(
+                                    /* ====================================================== 参数 ====================================================== */
+                                    new CustomFile.Builder()
+                                            .fileName("AddParam.java") // 文件名称
+                                            .templatePath("/backend/AddParam.java.ftl") // 生成模板路径
+                                            .packageName("param")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .build(),
+                                    new CustomFile.Builder()
+                                            .fileName("EditParam.java") // 文件名称
+                                            .templatePath("/backend/EditParam.java.ftl") // 生成模板路径
+                                            .packageName("param")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .build(),
+                                    new CustomFile.Builder()
+                                            .fileName("IdParam.java") // 文件名称
+                                            .templatePath("/backend/IdParam.java.ftl") // 生成模板路径
+                                            .packageName("param")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .build(),
+                                    new CustomFile.Builder()
+                                            .fileName("PageParam.java") // 文件名称
+                                            .templatePath("/backend/PageParam.java.ftl") // 生成模板路径
+                                            .packageName("param")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .build(),
+
+                                    /* ====================================================== 控制器 ====================================================== */
+                                    new CustomFile.Builder()
+                                            .fileName("Controller.java")
+                                            .templatePath("/backend/Controller.java.ftl")
+                                            .packageName("controller")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .build(),
+
+                                    /* ====================================================== 映射器 ====================================================== */
+                                    new CustomFile.Builder()
+                                            .fileName("Mapper.java")
+                                            .templatePath("/backend/Mapper.java.ftl")
+                                            .packageName("mapper")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .build(),
+
+                                    /* ====================================================== 实体类 ====================================================== */
+                                    new CustomFile.Builder()
+                                            .fileName(".java")
+                                            .templatePath("/backend/IEntity.java.ftl")
+                                            .packageName("entity")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .build(),
+
+                                    /* ====================================================== 服务类 ====================================================== */
+                                    new CustomFile.Builder()
+                                            .fileName("Service.java")
+                                            .templatePath("/backend/Service.java.ftl")
+                                            .packageName("service")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .build(),
+                                    new CustomFile.Builder()
+                                            .fileName("ServiceImpl.java")
+                                            .templatePath("/backend/ServiceImpl.java.ftl")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .packageName("service.impl")
+                                            .build(),
+
+                                    /* ====================================================== API ====================================================== */
+                                    new CustomFile.Builder()
+                                            .fileName("Api.ts")
+                                            .templatePath("/api/Api.ts.ftl")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .packageName("api")
+                                            .build(),
+
+                                    /* ====================================================== API VUE 文件 ====================================================== */
+                                    new CustomFile.Builder()
+                                            .fileName("index.vue")
+                                            .formatNameFunction(tableInfo -> "")
+                                            .templatePath("/api/index.vue.ftl")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .packageName("api")
+                                            .build(),
+                                    new CustomFile.Builder()
+                                            .fileName("form.vue")
+                                            .formatNameFunction(tableInfo -> "")
+                                            .templatePath("/api/form.vue.ftl")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .packageName("api")
+                                            .build(),
+                                    new CustomFile.Builder()
+                                            .fileName("detail.vue")
+                                            .formatNameFunction(tableInfo -> "")
+                                            .templatePath("/api/detail.vue.ftl")
+                                            .enableFileOverride() // 覆盖已生成文件
+                                            .packageName("api")
+                                            .build()
+                            )))
+                    .templateEngine(new FreemarkerTemplateEngine())
+                    .execute();
+        }
+    }
+}
