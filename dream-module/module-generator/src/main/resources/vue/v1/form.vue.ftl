@@ -78,7 +78,7 @@ defineExpose({
         <#list table.fields as field>
         <#if !["id", "isDeleted", "deletedAt", "deleteUser", "createdAt", "createUser", "updatedAt", "updateUser"]?seq_contains(field.propertyName)>
         <t-form-item label="${field.comment}" name="${field.propertyName}">
-          <t-input v-model="formData.${field.propertyName}" class="请输入${field.comment}" />
+          <t-input v-model="formData.${field.propertyName}" placeholder="请输入${field.comment}" />
         </t-form-item>
         </#if>
         </#list>

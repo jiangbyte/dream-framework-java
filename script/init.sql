@@ -26,32 +26,32 @@ VALUES ('1', '1', '网站名称', 'WEBSITE_NAME', 'Galaxy 内容管理系统', '
 
 
 -- 插入默认菜单数据
-INSERT INTO sys_menu (id, pid, name, path, component_path, title, icon, sort, keep_alive, visible, pined, without_tab, menu_type, external_url, open_target, created_at, updated_at)
-VALUES ('1', '0', 'dashboard', '/dashboard', '/dashboard/index.vue', '仪表盘', 'dashboard', 1, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('2', '0', 'system', '/system', NULL, '系统管理', 'setting', 2, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('3', '2', 'menu', '/system/menu', '/system/menu/index.vue', '菜单管理', 'menu', 1, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('4', '2', 'dict', '/system/dict', '/system/dict/index.vue', '数据字典', 'book', 2, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('5', '2', 'log', '/system/log', '/system/log/index.vue', '操作日志', 'system-log', 3, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('6', '0', 'config', '/config', NULL, '配置管理', 'setting', 3, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('7', '6', 'config-group', '/config/group', '/config/group/index.vue', '配置分组', 'setting', 1, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('8', '6', 'config-item', '/config/item', '/config/item/index.vue', '配置项管理', 'setting', 2, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('9', '0', 'auth', '/auth', NULL, '权限管理', 'user-safety', 4, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('10', '9', 'account', '/auth/account', '/auth/account/index.vue', '账号管理', 'user', 1, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('11', '9', 'role', '/auth/role', '/auth/role/index.vue', '角色管理', 'user-checked', 2, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('12', '9', 'group', '/auth/group', '/auth/group/index.vue', '用户组管理', 'usergroup-add', 3, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('13', '9', 'reset', '/auth/reset', '/auth/reset/index.vue', '密码重置', 'user-password', 4, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('14', '0', 'user', '/user', NULL, '个人中心', 'user', 5, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('15', '14', 'profile', '/user/profile', '/user/profile/index.vue', '个人信息', 'user-marked', 1, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('16', '14', 'info', '/user/info', '/user/info/index.vue', '账户信息', 'info-circle', 2, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('17', '14', 'preference', '/user/preference', '/user/preference/index.vue', '偏好设置', 'setting', 3, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('18', '14', 'stats', '/user/stats', '/user/stats/index.vue', '数据统计', 'chart-bar', 4, TRUE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('19', '0', 'authentication', '/authentication', NULL, '认证相关', 'user-locked', 6, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('20', '19', 'login', '/authentication/login', '/authentication/login.vue', '登录', 'login', 1, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('21', '19', 'register', '/authentication/register', '/authentication/register.vue', '注册', 'user-add', 2, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('22', '19', 'forget', '/authentication/forget', '/authentication/forget.vue', '忘记密码', 'user-password', 3, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('23', '19', 'reset', '/authentication/reset', '/authentication/reset.vue', '重置密码', 'user-password', 4, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('24', '0', 'code', '/code', NULL, '错误页面', 'error-circle', 7, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW()),
-       ('25', '24', '404', '/code/404', '/code/404.vue', '404页面', 'file-unknown', 1, FALSE, TRUE, FALSE, FALSE, 0, NULL, 0, NOW(), NOW());
+insert into public.sys_menu (id, pid, name, path, component_path, redirect, external_url, menu_type, open_target, iframe_attrs, title, icon, sort, keep_alive, visible, pined, without_tab, parameters, extra_params, is_deleted, deleted_at, delete_user, created_at, create_user, updated_at, update_user)
+values  ('1', '0', 'dashboard', '/dashboard', '/dashboard/index.vue', null, null, 0, 0, null, '仪表盘', 'dashboard', 1, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('2', '0', 'system', '/system', null, null, null, 0, 0, null, '系统管理', 'setting', 2, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('6', '0', 'config', '/config', null, null, null, 0, 0, null, '配置管理', 'setting', 3, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('9', '0', 'auth', '/auth', null, null, null, 0, 0, null, '权限管理', 'user-safety', 4, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('19', '0', 'authentication', '/authentication', null, null, null, 0, 0, null, '认证相关', 'user-locked', 6, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('20', '19', 'login', '/authentication/login', '/authentication/login.vue', null, null, 0, 0, null, '登录', 'login', 1, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('21', '19', 'register', '/authentication/register', '/authentication/register.vue', null, null, 0, 0, null, '注册', 'user-add', 2, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('22', '19', 'forget', '/authentication/forget', '/authentication/forget.vue', null, null, 0, 0, null, '忘记密码', 'user-password', 3, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('23', '19', 'reset', '/authentication/reset', '/authentication/reset.vue', null, null, 0, 0, null, '重置密码', 'user-password', 4, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('24', '0', 'code', '/code', null, null, null, 0, 0, null, '错误页面', 'error-circle', 7, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('25', '24', '404', '/code/404', '/code/404.vue', null, null, 0, 0, null, '404页面', 'file-unknown', 1, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('13', '9', 'authpasswordreset', '/auth/password/reset', '/auth/authpasswordreset/index.vue', null, null, 0, 0, null, '密码重置', 'user-password', 4, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('10', '9', 'authaccount', '/auth/account', '/auth/authaccount/index.vue', null, null, 0, 0, null, '账号管理', 'user', 1, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('12', '9', 'authgroup', '/auth/group', '/auth/authgroup/index.vue', null, null, 0, 0, null, '用户组管理', 'usergroup-add', 3, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('11', '9', 'authrole', '/auth/role', '/auth/authrole/index.vue', null, null, 0, 0, null, '角色管理', 'user-checked', 2, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('4', '2', 'sysdict', '/system/dict', '/system/sysdict/index.vue', null, null, 0, 0, null, '数据字典', 'book', 2, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('3', '2', 'sysmenu', '/system/menu', '/system/sysmenu/index.vue', null, null, 0, 0, null, '菜单管理', 'menu', 1, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('5', '2', 'syslog', '/system/log', '/system/syslog/index.vue', null, null, 0, 0, null, '操作日志', 'system-log', 3, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('8', '6', 'configitem', '/config/item', '/config/configitem/index.vue', null, null, 0, 0, null, '配置项管理', 'setting', 2, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('7', '6', 'configgroup', '/config/group', '/config/configgroup/index.vue', null, null, 0, 0, null, '配置分组', 'setting', 1, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('18', '14', 'userstats', '/user/stats', '/user/userstats/index.vue', null, null, 0, 0, null, '数据统计', 'chart-bar', 4, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('16', '14', 'userinfo', '/user/info', '/user/userinfo/index.vue', null, null, 0, 0, null, '账户信息', 'info-circle', 2, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('17', '14', 'userpreference', '/user/preference', '/user/userpreference/index.vue', null, null, 0, 0, null, '偏好设置', 'setting', 3, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('14', '0', 'user', '/user', null, null, null, 0, 0, null, '用户中心', 'user', 5, false, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null),
+        ('15', '14', 'userprofile', '/user/profile', '/user/userprofile/index.vue', null, null, 0, 0, null, '用户信息', 'user-marked', 1, true, true, false, false, null, null, false, null, null, '2025-11-19 02:41:46.956364', null, '2025-11-19 02:41:46.956364', null);
 
 -- 插入默认角色数据
 INSERT INTO auth_role (id, name, code, data_scope, description, created_at, updated_at)

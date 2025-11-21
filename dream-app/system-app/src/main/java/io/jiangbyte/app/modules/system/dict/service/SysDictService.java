@@ -6,6 +6,7 @@ import io.jiangbyte.app.modules.system.dict.entity.SysDict;
 import io.jiangbyte.app.modules.system.dict.param.SysDictAddParam;
 import io.jiangbyte.app.modules.system.dict.param.SysDictEditParam;
 import io.jiangbyte.app.modules.system.dict.param.SysDictPageParam;
+import io.jiangbyte.framework.option.LabelOption;
 
 import java.util.List;
 
@@ -29,4 +30,12 @@ public interface SysDictService extends IService<SysDict> {
     List<SysDict> latest(int n);
 
     List<SysDict> topN(int n);
+
+    List<LabelOption<String>> treeOptions(String keyword);
+
+    List<LabelOption<String>> listOptions(String keyword);
+
+    List<LabelOption<String>> listTypeOptions(String keyword);
+
+    List<LabelOption<String>> listOptionsByType(String type, String keyword);
 }

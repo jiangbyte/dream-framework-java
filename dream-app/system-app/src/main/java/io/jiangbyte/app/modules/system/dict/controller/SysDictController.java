@@ -21,11 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 /**
-* @author Charlie Zhang
-* @version v1.0
-* @date 2025-11-19
-* @description 系统字典表 控制器
-*/
+ * @author Charlie Zhang
+ * @version v1.0
+ * @date 2025-11-19
+ * @description 系统字典表 控制器
+ */
 @Tag(name = "系统字典表控制器")
 @Slf4j
 @RequiredArgsConstructor
@@ -84,6 +84,35 @@ public class SysDictController {
     @GetMapping("/sys/dict/top")
     public Result<?> topN(@RequestParam(value = "n", required = false) Integer n) {
         return Result.success(sysDictService.topN(n));
+    }
+
+    @Operation(summary = "获取系统字典树")
+    @GetMapping("/sys/dict/tree/options")
+    public Result<?> treeOptions(@RequestParam(value = "keyword", required = false) String keyword) {
+        return Result.success(sysDictService.treeOptions(keyword));
+    }
+
+    @Operation(summary = "获取系统字典树")
+    @GetMapping("/sys/dict/list/options")
+    public Result<?> listOptions(@RequestParam(value = "keyword", required = false) String keyword) {
+        return Result.success(sysDictService.listOptions(keyword));
+    }
+
+    @Operation(summary = "获取系统字典树")
+    @GetMapping("/sys/dict/list/options/by/type")
+    public Result<?> listOptionsByType(
+            @RequestParam(value = "type") String type,
+            @RequestParam(value = "keyword", required = false) String keyword
+    ) {
+        return Result.success(sysDictService.listOptionsByType(type, keyword));
+    }
+
+    @Operation(summary = "获取系统字典树")
+    @GetMapping("/sys/dict/list/type/options")
+    public Result<?> listTypeOptions(
+            @RequestParam(value = "keyword", required = false) String keyword
+    ) {
+        return Result.success(sysDictService.listTypeOptions(keyword));
     }
 
 }

@@ -69,7 +69,7 @@ const columnControllerVisible = ref(false)
 
 <template>
   <div>
-    <div class="h-24 flex flex-col gap-2 p-4">
+    <div class="h-24 flex flex-col gap-2 p-4 justify-center">
       <div class="flex items-center gap-4 flex-1">
         <div class="flex items-center gap-2">
           <span class="w-14">关键字</span>
