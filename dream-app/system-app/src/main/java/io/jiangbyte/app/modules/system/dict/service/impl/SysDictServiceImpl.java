@@ -42,6 +42,12 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public Page<SysDict> page(SysDictPageQuery req) {
         QueryWrapper<SysDict> queryWrapper = new QueryWrapper<SysDict>().checkSqlInjection();
+        // 类型过滤
+        if (ObjectUtil.isNotEmpty(req.getDictType())) {
+            queryWrapper.lambda().eq(SysDict::getDictType, req.getDictType());
+        } else {
+            return new Page<>();
+        }
         SortUtils.handleSort(SysDict.class, queryWrapper, req.getSortField(), req.getSortOrder());
         return this.page(BasePageRequest.Page(
                         Optional.ofNullable(req.getCurrent()).orElse(1),

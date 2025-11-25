@@ -1,5 +1,7 @@
-package io.jiangbyte.framework.exception;
+package io.jiangbyte.app.exceptions;
 
+import cn.dev33.satoken.exception.NotLoginException;
+import io.jiangbyte.framework.exception.BusinessException;
 import io.jiangbyte.framework.result.Result;
 import io.jiangbyte.framework.result.ResultCode;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +29,9 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    /**
+     * 处理业务异常
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BusinessException.class)
     public <T> Result<T> handleBizException(BusinessException e) {
@@ -38,6 +43,9 @@ public class GlobalExceptionHandler {
         return Result.failure(e.getMessage());
     }
 
+    /**
+     * 处理请求地址不存在异常
+     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
     public <T> Result<T> processException(NoHandlerFoundException e) {
@@ -46,6 +54,9 @@ public class GlobalExceptionHandler {
         return Result.failure(ResultCode.NOT_FOUND, e.getMessage());
     }
 
+    /**
+     * 处理静态资源不存在异常
+     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoResourceFoundException.class)
     public <T> Result<T> processNoResourceFoundException(NoResourceFoundException e) {
@@ -53,6 +64,9 @@ public class GlobalExceptionHandler {
         return Result.failure(ResultCode.NOT_FOUND, e.getMessage());
     }
 
+    /**
+     * 处理运行时异常
+     */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RuntimeException.class)
     public <T> Result<T> processException(RuntimeException e) {
@@ -102,40 +116,15 @@ public class GlobalExceptionHandler {
         return Result.failure(ResultCode.PARAM_ERROR, errorMsg);
     }
 
-    @ExceptionHandler(Exception.class)
-    public Object handleException(Exception e, HttpServletRequest request) {
-        // 检查是否是SSE请求
-        if (isSseRequest(request)) {
-            log.error("SSE请求异常: {}", e.getMessage());
-            // 对于SSE请求，返回SseEmitter错误
-            SseEmitter emitter = new SseEmitter();
-            emitter.completeWithError(e);
-            e.printStackTrace();
-            return emitter;
-        }
-
-        // 普通请求返回Result对象
-        log.error("系统异常: {}", e.getMessage(), e);
-        return Result.failure("系统异常: " + e.getMessage());
+    /**
+     * 未登录异常
+     */
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(NotLoginException.class)
+    public <T> Result<T> handleNotLoginException(NotLoginException e) {
+        log.error("未登录异常：{}", e.getMessage());
+        e.printStackTrace();
+        return Result.failure(ResultCode.NOT_LOGIN, e.getMessage());
     }
 
-    private boolean isSseRequest(HttpServletRequest request) {
-        String acceptHeader = request.getHeader("Accept");
-        String uri = request.getRequestURI();
-        return (acceptHeader != null && acceptHeader.contains(MediaType.TEXT_EVENT_STREAM_VALUE))
-                || uri.contains("/api/sse/");
-    }
-
-    // 专门处理SSE相关的异常
-    @ExceptionHandler(AsyncRequestTimeoutException.class)
-    public void handleAsyncRequestTimeoutException(AsyncRequestTimeoutException e,
-                                                   HttpServletRequest request,
-                                                   HttpServletResponse response) {
-        if (isSseRequest(request)) {
-            log.info("SSE连接超时: {}", e.getMessage());
-            response.setStatus(HttpStatus.NO_CONTENT.value());
-        } else {
-            log.warn("异步请求超时: {}", e.getMessage());
-        }
-    }
 }

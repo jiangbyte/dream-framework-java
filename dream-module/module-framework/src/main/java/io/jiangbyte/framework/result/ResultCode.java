@@ -21,6 +21,7 @@ public enum ResultCode implements IResultCode, Serializable {
 
     // 4xx (客户端错误状态码)
     PARAM_ERROR(400, "请求错误"),
+    NOT_LOGIN(401, "未登录"),
     UNAUTHORIZED(401, "无权限访问"),
     LOGIN_EXPIRED(401, "登录过期"),
     NOT_FOUND(404, "找不到资源"),

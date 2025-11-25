@@ -1,6 +1,7 @@
 package io.jiangbyte.app.modules.auths.account.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.stp.StpUtil;
 import io.jiangbyte.framework.result.Result;
 import io.jiangbyte.app.modules.auths.account.dto.AuthsAccountDto;
 import io.jiangbyte.app.modules.auths.account.dto.AuthsAccountPageQuery;
@@ -85,4 +86,9 @@ public class AuthsAccountController {
         return Result.success(authsAccountService.topN(n));
     }
 
+    @Operation(summary = "获取用户账户")
+    @GetMapping("/auths/account/user/{id}")
+    public Result<?> userAccount(@PathVariable("id") String id) {
+        return Result.success(authsAccountService.userAccount(id));
+    }
 }

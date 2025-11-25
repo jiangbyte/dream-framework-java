@@ -2,6 +2,7 @@ package io.jiangbyte.app.modules.auths.account.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.jiangbyte.app.modules.auths.account.dto.UserAccount;
 import io.jiangbyte.app.modules.auths.account.entity.AuthsAccount;
 import io.jiangbyte.app.modules.auths.account.dto.AuthsAccountDto;
 import io.jiangbyte.app.modules.auths.account.dto.AuthsAccountPageQuery;
@@ -28,4 +29,6 @@ public interface AuthsAccountService extends IService<AuthsAccount> {
     List<AuthsAccount> latest(int n);
 
     List<AuthsAccount> topN(int n);
+
+    UserAccount userAccount(String id);
 }

@@ -33,19 +33,8 @@ public class App {
 
         String displayContextPath = (contextPath == null || contextPath.isEmpty()) ? "" : contextPath;
 
-        log.info("""
-                                            \s
-                     -------------------------------------------------
-                         Application is running! Access URLs:
-                         Local:    http://localhost:{}{}
-                         Doc:      http://localhost:{}{}/doc.html
-                     -------------------------------------------------
-                    \s""",
-                port,
-                displayContextPath,
-                port,
-                displayContextPath
-        );
+        log.info("Local: http://localhost:{}{}", port, displayContextPath);
+        log.info("Docs: http://localhost:{}{}/doc.html", port, displayContextPath);
     }
 
     @RequiredArgsConstructor

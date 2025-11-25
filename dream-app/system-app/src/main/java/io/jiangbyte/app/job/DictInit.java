@@ -47,7 +47,7 @@ public class DictInit {
                     dictionaryTransService.refreshCache(dictType, transMap);
                 });
 
-                log.debug("字典缓存异步初始化完成，共初始化 {} 个字典类型", dictsByType.size());
+                log.info("字典缓存异步初始化完成，共初始化 {} 个字典类型", dictsByType.size());
             } catch (Exception e) {
                 log.error("字典缓存初始化失败", e);
             }

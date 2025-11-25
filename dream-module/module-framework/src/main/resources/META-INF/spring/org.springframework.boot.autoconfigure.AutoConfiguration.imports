@@ -1,4 +1,3 @@
-io.jiangbyte.framework.exception.GlobalExceptionHandler
 io.jiangbyte.framework.config.RedisConfig
 io.jiangbyte.framework.config.MybatisPlusConfig
 io.jiangbyte.framework.email.EmailConfig

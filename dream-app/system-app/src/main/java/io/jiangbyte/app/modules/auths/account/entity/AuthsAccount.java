@@ -15,6 +15,8 @@ import io.jiangbyte.framework.utils.SortConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.core.trans.anno.Trans;
+import org.dromara.core.trans.constant.TransType;
 
 /**
 * @author Charlie Zhang
@@ -49,10 +51,11 @@ public class AuthsAccount extends BaseEntity {
     private String telephone;
 
     @Schema(description = "账户状态：0-正常, 1-锁定, 2-禁用")
-    private Short status;
+    @Trans(type = TransType.DICTIONARY, key = "SYS_ACCOUNT_STATUS")
+    private Integer status;
 
     @Schema(description = "密码强度等级：0-3")
-    private Short passwordStrength;
+    private Integer passwordStrength;
 
     @Schema(description = "最后修改密码的时间")
     private Date lastPasswordChange;
