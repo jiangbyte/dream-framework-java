@@ -26,6 +26,7 @@ import io.jiangbyte.app.modules.users.stats.mapper.UsersStatsMapper;
 import io.jiangbyte.framework.utils.IpUtil;
 import io.jiangbyte.framework.email.EmailService;
 import io.jiangbyte.framework.exception.BusinessException;
+import io.jiangbyte.framework.utils.PasswordStrengthEvaluator;
 import io.jiangbyte.framework.utils.PasswordUtil;
 import io.jiangbyte.framework.utils.UserInputValidator;
 import lombok.RequiredArgsConstructor;
@@ -185,11 +186,12 @@ public class AccessServiceImpl implements AccessService {
         // 创建账户
         AuthsAccount authsAccount = new AuthsAccount();
         authsAccount.setUsername(registerReq.getUsername());
-        String decrypt = passwordUtil.decrypt(registerReq.getPassword());
+        String password = passwordUtil.decrypt(registerReq.getPassword());
         // 校验密码格式
-        UserInputValidator.validatePassword(decrypt).throwIfFailed();
-        authsAccount.setPassword(BCrypt.hashpw(decrypt, BCrypt.gensalt()));
+        UserInputValidator.validatePassword(password).throwIfFailed();
+        authsAccount.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
         authsAccount.setEmail(registerReq.getEmail());
+        authsAccount.setPasswordStrength(PasswordStrengthEvaluator.evaluateStrength(password));
         authsAccountMapper.insert(authsAccount);
 
         // 创建用户信息
@@ -319,6 +321,8 @@ public class AccessServiceImpl implements AccessService {
             throw new BusinessException("用户账户不存在");
         }
 
+        authAccount.setPasswordStrength(PasswordStrengthEvaluator.evaluateStrength(confirmPassword));
+        authAccount.setLastPasswordChange(new Date());
         // 更新密码
         authAccount.setPassword(BCrypt.hashpw(confirmPassword, BCrypt.gensalt()));
         int updateCount = authsAccountMapper.updateById(authAccount);
