@@ -1,13 +1,9 @@
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <div>
-    TODO HERE Home
+  <div v-for="value in 200" :key="value">
+    TODO HERE HOME {{ value }}
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

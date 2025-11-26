@@ -1,5 +1,5 @@
 {
-  "name": "vue-admin",
+  "name": "vue-pc",
   "type": "module",
   "version": "0.0.0",
   "private": true,
@@ -8,14 +8,13 @@
     "lint:fix": "eslint . --fix",
     "dev": "vite --mode dev",
     "dev:production": "vite --mode production",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
     "build": "vite build --mode production",
     "build:ts": "vue-tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@iconify/json": "^2.2.410",
+    "@vueuse/core": "^14.0.0",
     "alova": "^3.3.4",
     "crypto-js": "^4.2.0",
     "nprogress": "^0.2.0",
@@ -38,7 +37,6 @@
     "@vitejs/plugin-vue-jsx": "^5.1.2",
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.1",
-    "eslint-plugin-format": "^1.0.2",
     "eslint-plugin-vue": "^10.6.1",
     "typescript": "~5.9.3",
     "unocss": "^66.5.9",

@@ -11,7 +11,7 @@ export function useAuthAccountApi() {
      * 核心账户 分页接口
      */
     PageAuthAccount(data: any) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/account/page`, {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/account/page`, {
         params: {
           ...data,
         },
@@ -22,35 +22,35 @@ export function useAuthAccountApi() {
      * 核心账户 新增接口
      */
     AddAuthAccount(data: any) {
-      return request.Post<IResult<any>>(`${pathPrefix}/auth/account/add`, data)
+      return request.Post<IResult<any>>(`${pathPrefix}/auths/account/add`, data)
     },
 
     /*
      * 核心账户 修改接口
      */
     EditAuthAccount(data: any) {
-      return request.Post<IResult<any>>(`${pathPrefix}/auth/account/edit`, data)
+      return request.Post<IResult<any>>(`${pathPrefix}/auths/account/edit`, data)
     },
 
     /*
      * 核心账户 删除接口
      */
     DeleteAuthAccount(ids: string[]) {
-      return request.Post<IResult<any>>(`${pathPrefix}/auth/account/delete`, ids)
+      return request.Post<IResult<any>>(`${pathPrefix}/auths/account/delete`, ids)
     },
 
     /*
      * 核心账户 详情接口
      */
     GetAuthAccount(id: string) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/account/detail/${id}`)
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/account/detail/${id}`)
     },
 
     /*
-    * 核心账户 最新接口
-    */
+     * 核心账户 最新接口
+     */
     LatestAuthAccount(n: number) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/account/latest`, {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/account/latest`, {
         params: {
           n,
         },
@@ -58,14 +58,17 @@ export function useAuthAccountApi() {
     },
 
     /*
-    * 核心账户 TopN接口
-    */
+     * 核心账户 TopN接口
+     */
     TopAuthAccount(n: number) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/account/top`, {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/account/top`, {
         params: {
           n,
         },
       })
+    },
+    GetUserAccount(id: string) {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/account/user/${id}`)
     },
   }
 }

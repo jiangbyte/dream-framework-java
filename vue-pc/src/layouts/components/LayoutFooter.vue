@@ -1,13 +1,9 @@
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <div>
+  <div class="container m-auto">
     123
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

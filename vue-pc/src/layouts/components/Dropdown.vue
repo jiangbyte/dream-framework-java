@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { useAuthStore } from '@/stores'
 
+const props = withDefaults(defineProps<{
+  showNickname?: boolean
+}>(), {
+  showNickname: true,
+})
+
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 
@@ -24,8 +30,11 @@ const visibleLogoutDialog = ref(false)
       </t-dropdown-item>
     </template>
     <t-space :size="8" align="center" class="ml-2">
-      <t-avatar :image="String(user?.avatar)" />
-      {{ user?.nickname }}
+      <t-avatar :image="user?.avatar" />
+      <span v-if="props.showNickname">
+        {{ user?.nickname }}
+        <t-icon name="chevron-down" />
+      </span>
     </t-space>
   </t-dropdown>
   <t-dialog
@@ -42,6 +51,4 @@ const visibleLogoutDialog = ref(false)
   </t-dialog>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

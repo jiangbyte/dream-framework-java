@@ -88,12 +88,14 @@ const metaFields: SiteRoute.MetaKeys[] = [
   'iframeAttrs',
   'redirect',
 
-  'createUser',
-  'createdAt',
-  'updateUser',
-  'updatedAt',
-  'deleteUser',
   'deletedAt',
+  'deletedBy',
+  'createdAt',
+  'createdBy',
+  'updatedAt',
+  'updatedBy',
+  'isDeleted',
+  
   'componentPath'
 ]
 

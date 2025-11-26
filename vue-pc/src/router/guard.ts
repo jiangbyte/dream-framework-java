@@ -10,8 +10,12 @@ export function setupRouterGuard(router: Router) {
   const routerStore = useRouterStore()
   const tabStore = useTabStore()
 
-  const publicRoutes = ['/', '/home', '/404'] // 所有人都可以访问的页面
-  const authPages = ['login', 'forget', 'reset', 'register'] // 认证相关页面（登录/注册/忘记密码等）
+  // 从环境变量中读取配置
+  const publicRoutes = import.meta.env.VITE_PUBLIC_ROUTES?.split(',')
+  const authPages = import.meta.env.VITE_AUTH_PAGES?.split(',')
+  const whitelistRoutes = import.meta.env.VITE_WHITELIST_ROUTES?.split(',')
+
+  console.log('路由配置:', { publicRoutes, authPages, whitelistRoutes })
 
   router.beforeEach(async (to, _from, next) => {
     // 外链菜单处理
@@ -53,11 +57,13 @@ export function setupRouterGuard(router: Router) {
 
     const isPublicRoute = publicRoutes.includes(to.path)
     const isAuthPage = authPages.includes(String(to.name))
+    const isWhitelistRoute = whitelistRoutes.includes(to.path)
     const isLogined = authStore.isLogined
 
     // 情况1：公开路由 → 直接放行
-    if (isPublicRoute) {
-      console.log('公开路径直接放行')
+    // 情况1：公开路由 → 直接放行
+    if (isPublicRoute || isWhitelistRoute) {
+      console.log('公开路径或白名单路径直接放行')
       next()
       return
     }
@@ -85,8 +91,8 @@ export function setupRouterGuard(router: Router) {
       return
     }
 
-    // 路由初始化
-    if (!routerStore.isInit) {
+    // 路由初始化，已经登录但路由未初始化动态路由
+    if (isLogined && !routerStore.isInit) {
       try {
         await routerStore.initRouter()
 
@@ -111,8 +117,8 @@ export function setupRouterGuard(router: Router) {
 
         // 重新匹配当前路由（因为路由表已更新）
         const currentPath = to.fullPath
-        const exists = routerStore.rowRoutes.some(route =>
-          route.path === to.path || route.path === currentPath,
+        const exists = routerStore.rowRoutes.some(
+          route => route.path === to.path || route.path === currentPath,
         )
 
         if (!exists) {

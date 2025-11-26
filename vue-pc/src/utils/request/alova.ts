@@ -4,7 +4,13 @@ import VueHook from 'alova/vue'
 import adapterFetch from 'alova/fetch'
 import { useAuthStore } from '@/stores'
 import type { VueHookType } from 'alova/vue'
-import { handleAuthError, handleBusinessError, handleMethodError, handleResponseError, handleResult } from './handler'
+import {
+  handleAuthError,
+  handleBusinessError,
+  handleMethodError,
+  handleResponseError,
+  handleResult,
+} from './handler'
 import { defaultAlovaConfig, defaultAuthConfig } from './config'
 
 const { onAuthRequired, onResponseRefreshToken } = createServerTokenAuthentication<VueHookType>({
@@ -12,9 +18,11 @@ const { onAuthRequired, onResponseRefreshToken } = createServerTokenAuthenticati
     isExpired: async (response, method) => {
       const apiData = await response.clone().json()
       const isExpired = method.meta && method.meta.isExpired
-      return (defaultAuthConfig.expiredCodes.includes(response.status)
-        || defaultAuthConfig.expiredCodes.includes(apiData.code)
-      ) && !isExpired
+      return (
+        (defaultAuthConfig.expiredCodes.includes(response.status)
+          || defaultAuthConfig.expiredCodes.includes(apiData.code))
+        && !isExpired
+      )
     },
 
     handler: async (response, method) => {
@@ -36,7 +44,8 @@ const { onAuthRequired, onResponseRefreshToken } = createServerTokenAuthenticati
     const authStore = useAuthStore()
     const token = authStore.getToken
     if (token) {
-      method.config.headers[defaultAuthConfig.tokenHeader] = `${defaultAuthConfig.tokenPrefix} ${token}`
+      method.config.headers[defaultAuthConfig.tokenHeader]
+        = `${defaultAuthConfig.tokenPrefix} ${token}`
     }
   },
 })

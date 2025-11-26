@@ -1,7 +1,14 @@
 <script lang="ts" setup>
 import { useAccessApi } from '@/api'
 import { useAppStore } from '@/stores'
-import { VerifyCapchaRule, VerifyEmailRule, VerifyNicknameRule, VerifyPasswordRule, VerifyUsernameRule } from '@/utils'
+import {
+  PasswordUtil,
+  VerifyCapchaRule,
+  VerifyEmailRule,
+  VerifyNicknameRule,
+  VerifyPasswordRule,
+  VerifyUsernameRule,
+} from '@/utils'
 
 const formRef = ref()
 const formData = ref({
@@ -29,30 +36,36 @@ async function loadCaptcha() {
   captchaRef.value.captchaImg = ''
   formData.value.captchaId = ''
   formData.value.captchaCode = ''
-  useAccessApi().Captcha().then(({ data }) => {
-    captchaRef.value = data
-    formData.value.captchaId = captchaRef.value.captchaId
-  })
+  useAccessApi()
+    .Captcha()
+    .then(({ data }) => {
+      captchaRef.value = data
+      formData.value.captchaId = captchaRef.value.captchaId
+    })
 }
 
 loadCaptcha()
 
 const router = useRouter()
 const isLoading = ref(false)
-async function handleRegister(context: any) {
+async function handleSubmit(context: any) {
   const { validateResult } = context
   if (validateResult === true) {
     isLoading.value = true
-    useAccessApi().DoRegister(formData.value).then(({ success }) => {
-      isLoading.value = false
-      if (success) {
-        MessagePlugin.info('注册成功！')
-        router.push('/login')
-      }
-      else {
-        loadCaptcha()
-      }
-    })
+    const formDataParam = Object.assign({}, formData.value)
+    formDataParam.password = PasswordUtil.encrypt(formData.value.password)
+    useAccessApi()
+      .DoRegister(formDataParam)
+      .then(({ success }) => {
+        isLoading.value = false
+        if (success) {
+          MessagePlugin.info('注册成功！')
+          router.push('/login')
+        }
+        else {
+          loadCaptcha()
+        }
+      })
   }
 }
 
@@ -73,16 +86,8 @@ const { websiteConfig } = storeToRefs(appStore)
           </p>
         </div>
 
-        <t-form
-          ref="formRef"
-          :data="formData"
-          :rules="formRules"
-          @submit="handleRegister"
-        >
-          <t-form-item
-            label="昵称"
-            name="nickname"
-          >
+        <t-form ref="formRef" :data="formData" :rules="formRules" @submit="handleSubmit">
+          <t-form-item label="昵称" name="nickname">
             <t-input
               v-model="formData.nickname"
               placeholder="请输入昵称"
@@ -94,10 +99,7 @@ const { websiteConfig } = storeToRefs(appStore)
               </template>
             </t-input>
           </t-form-item>
-          <t-form-item
-            label="用户名"
-            name="username"
-          >
+          <t-form-item label="用户名" name="username">
             <t-input
               v-model="formData.username"
               placeholder="请输入用户名"
@@ -109,10 +111,7 @@ const { websiteConfig } = storeToRefs(appStore)
               </template>
             </t-input>
           </t-form-item>
-          <t-form-item
-            label="密码"
-            name="password"
-          >
+          <t-form-item label="密码" name="password">
             <t-input
               v-model="formData.password"
               type="password"
@@ -126,25 +125,14 @@ const { websiteConfig } = storeToRefs(appStore)
               </template>
             </t-input>
           </t-form-item>
-          <t-form-item
-            label="邮箱"
-            name="email"
-          >
-            <t-input
-              v-model="formData.email"
-              placeholder="请输入邮箱"
-              class="w-full"
-              size="large"
-            >
+          <t-form-item label="邮箱" name="email">
+            <t-input v-model="formData.email" placeholder="请输入邮箱" class="w-full" size="large">
               <template #prefix-icon>
                 <t-icon name="mail" />
               </template>
             </t-input>
           </t-form-item>
-          <t-form-item
-            label="验证码"
-            name="captchaCode"
-          >
+          <t-form-item label="验证码" name="captchaCode">
             <div class="flex items-center justify-between w-full">
               <t-input
                 v-model="formData.captchaCode"
@@ -171,20 +159,14 @@ const { websiteConfig } = storeToRefs(appStore)
             </div>
           </t-form-item>
           <t-form-item label-width="0">
-            <t-button
-              theme="primary"
-              block
-              type="submit"
-              :loading="isLoading"
-              size="large"
-            >
+            <t-button theme="primary" block type="submit" :loading="isLoading" size="large">
               {{ isLoading ? '注册中...' : '立即注册' }}
             </t-button>
           </t-form-item>
           <t-form-item label-width="0">
             <div class="flex flex-col w-full">
               <div class="text-center">
-                <span class="text-gray-500">已经有账号? </span>
+                <span class="text-gray-500">已经有账号?</span>
                 <t-link theme="primary" @click="$router.push('/login')">
                   立即登录
                 </t-link>
@@ -205,7 +187,9 @@ const { websiteConfig } = storeToRefs(appStore)
       <div>
         <div class="flex items-center mb-12">
           <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center mr-4">
-            <span class="text-blue-900 font-bold text-xl">{{ websiteConfig?.websiteName?.charAt(0) }}</span>
+            <span class="text-blue-900 font-bold text-xl">
+              {{ websiteConfig?.websiteName?.charAt(0) }}
+            </span>
           </div>
           <h1 class="text-3xl font-bold">
             {{ websiteConfig?.websiteName }}
@@ -226,6 +210,4 @@ const { websiteConfig } = storeToRefs(appStore)
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

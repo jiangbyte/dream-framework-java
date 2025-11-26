@@ -1,10 +1,10 @@
 import { router } from '@/router'
 import type { RouteRecordRaw } from 'vue-router'
 import { clone, min, omit, pick } from 'radash'
-import Layout from '@/layouts/index.vue'
 import { useSysMenuApi } from '@/api'
 import { arrayTree } from '@/utils'
 import { STATIC_ROUTES } from './StaticRouter'
+import { layoutRoutes } from '@/router/routes/layout'
 
 interface RoutesState {
   isInit: boolean
@@ -29,6 +29,7 @@ export const useRouterStore = defineStore('route-store', {
         return STATIC_ROUTES
       }
       const { data } = await useSysMenuApi().GetSysMenuListWithAccountID()
+      console.log('认证菜单-->', data)
       return data || []
     },
 
@@ -39,14 +40,16 @@ export const useRouterStore = defineStore('route-store', {
         console.error('获取菜单数据失败')
         return
       }
-      console.log('认证菜单-->', rowRoutes)
 
       this.rowRoutes = rowRoutes
 
       const routes = createRoutes(rowRoutes)
-      router.addRoute(routes)
+      // layoutRoutes中找到 name 为 default 的路由，其 children 追加 routes
+      const layoutRoute = layoutRoutes.find(r => r.name === 'default')
+      if (layoutRoute) {
+        layoutRoute.children = [...(layoutRoute.children || []), ...routes]
+      }
 
-      // 验证路由是否添加成功
       this.menus = createMenus(rowRoutes)
 
       console.log(this.menus)
@@ -88,27 +91,33 @@ const metaFields: SiteRoute.MetaKeys[] = [
   'iframeAttrs',
   'redirect',
 
-  'createUser',
-  'createdAt',
-  'updateUser',
-  'updatedAt',
-  'deleteUser',
   'deletedAt',
+  'deletedBy',
+  'createdAt',
+  'createdBy',
+  'updatedAt',
+  'updatedBy',
+  'isDeleted',
+
   'componentPath',
 ]
 
 function standardizedRoutes(routes: SiteRoute.RowRoute[]) {
-  return clone(routes).map((i: any) => ({ ...omit(i, metaFields), meta: pick(i, metaFields) })) as SiteRoute.Route[]
+  return clone(routes).map((i: any) => ({
+    ...omit(i, metaFields),
+    meta: pick(i, metaFields),
+  })) as SiteRoute.Route[]
 }
 
-function createRoutes(routes: SiteRoute.RowRoute[]): RouteRecordRaw {
+function createRoutes(routes: SiteRoute.RowRoute[]): RouteRecordRaw[] {
   const modules = import.meta.glob('@/views/**/*.vue')
   const resultRouter = arrayTree(
     standardizedRoutes(routes).map(item => ({
       ...item,
-      component: item.meta.componentPath && !item.meta.redirect
-        ? modules[`/src/views${item.meta.componentPath}`]
-        : undefined,
+      component:
+        item.meta.componentPath && !item.meta.redirect
+          ? modules[`/src/views${item.meta.componentPath}`]
+          : undefined,
     })),
   ) as SiteRoute.Route[]
 
@@ -116,17 +125,7 @@ function createRoutes(routes: SiteRoute.RowRoute[]): RouteRecordRaw {
 
   setRedirect(resultRouter)
 
-  return {
-    path: '/root',
-    name: 'root',
-    redirect: import.meta.env.VITE_HOME_PATH,
-    component: Layout,
-    meta: {
-      title: '系统',
-      icon: 'application',
-    },
-    children: resultRouter as unknown as RouteRecordRaw[],
-  }
+  return resultRouter as unknown as RouteRecordRaw[]
 }
 
 function setRedirect(routes: SiteRoute.Route[]) {
@@ -142,7 +141,9 @@ function setRedirect(routes: SiteRoute.Route[]) {
 
           // 如果有多个可见子菜单，按排序选择第一个
           if (visibleChilds.length > 1) {
-            const orderChilds = visibleChilds.filter(child => Number(child.meta.sort)) as any as SiteRoute.Route[]
+            const orderChilds = visibleChilds.filter(child =>
+              Number(child.meta.sort),
+            ) as any as SiteRoute.Route[]
             const sortedTarget = orderChilds.length
               ? min(orderChilds, (i: SiteRoute.Route) => Number(i.meta.sort)!)
               : visibleChilds[0]
@@ -169,28 +170,31 @@ function setRedirect(routes: SiteRoute.Route[]) {
 }
 
 function createMenus(userRoutes: SiteRoute.RowRoute[]) {
-  const fullTree = arrayTree(standardizedRoutes(userRoutes)
-    // 排序
-    .sort((a, b) => (Number(a.meta.sort) || 0) - (Number(b.meta.sort) || 0)),
+  const fullTree = arrayTree(
+    standardizedRoutes(userRoutes)
+      // 排序
+      .sort((a, b) => (Number(a.meta.sort) || 0) - (Number(b.meta.sort) || 0)),
   )
   // 递归过滤：如果父级不可见，子级也要隐藏
   const filterVisibleMenus = (menus: any[]): any[] => {
-    return menus
-      .filter((menu) => {
-        // 如果当前菜单不可见，直接过滤掉
-        if (!menu.meta.visible) {
-          return false
-        }
+    return (
+      menus
+        .filter((menu) => {
+          // 如果当前菜单不可见，直接过滤掉
+          if (!menu.meta.visible) {
+            return false
+          }
 
-        // 如果有子菜单，递归处理
-        if (menu.children) {
-          menu.children = filterVisibleMenus(menu.children)
-        }
+          // 如果有子菜单，递归处理
+          if (menu.children) {
+            menu.children = filterVisibleMenus(menu.children)
+          }
 
-        return true
-      })
-      // 排序
-      .sort((a, b) => (Number(a.meta.sort) || 0) - (Number(b.meta.sort) || 0))
+          return true
+        })
+        // 排序
+        .sort((a, b) => (Number(a.meta.sort) || 0) - (Number(b.meta.sort) || 0))
+    )
   }
 
   return filterVisibleMenus(fullTree)

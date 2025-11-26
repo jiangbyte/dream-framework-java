@@ -47,8 +47,8 @@ export function useSysDictApi() {
     },
 
     /*
-    * 系统字典 最新接口
-    */
+     * 系统字典 最新接口
+     */
     LatestSysDict(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/dict/latest`, {
         params: {
@@ -58,8 +58,8 @@ export function useSysDictApi() {
     },
 
     /*
-    * 系统字典 TopN接口
-    */
+     * 系统字典 TopN接口
+     */
     TopSysDict(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/dict/top`, {
         params: {

@@ -16,12 +16,13 @@ declare namespace SiteRoute {
     iframeAttrs?: string
     redirect?: string
 
-    createUser?: string
-    createdAt?: string
-    updateUser?: string
-    updatedAt?: string
-    deleteUser?: string
+    isDeleted?: boolean
     deletedAt?: string
+    deletedBy?: string
+    createdAt?: string
+    createdBy?: string
+    updatedAt?: string
+    updatedBy?: string
 
     componentPath?: string
   }

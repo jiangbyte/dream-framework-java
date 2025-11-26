@@ -11,7 +11,7 @@ export function useAuthAccountRoleApi() {
      * 账户角色关联 分页接口
      */
     PageAuthAccountRole(data: any) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/account/role/page`, {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/account/role/page`, {
         params: {
           ...data,
         },
@@ -22,35 +22,35 @@ export function useAuthAccountRoleApi() {
      * 账户角色关联 新增接口
      */
     AddAuthAccountRole(data: any) {
-      return request.Post<IResult<any>>(`${pathPrefix}/auth/account/role/add`, data)
+      return request.Post<IResult<any>>(`${pathPrefix}/auths/account/role/add`, data)
     },
 
     /*
      * 账户角色关联 修改接口
      */
     EditAuthAccountRole(data: any) {
-      return request.Post<IResult<any>>(`${pathPrefix}/auth/account/role/edit`, data)
+      return request.Post<IResult<any>>(`${pathPrefix}/auths/account/role/edit`, data)
     },
 
     /*
      * 账户角色关联 删除接口
      */
     DeleteAuthAccountRole(ids: string[]) {
-      return request.Post<IResult<any>>(`${pathPrefix}/auth/account/role/delete`, ids)
+      return request.Post<IResult<any>>(`${pathPrefix}/auths/account/role/delete`, ids)
     },
 
     /*
      * 账户角色关联 详情接口
      */
     GetAuthAccountRole(id: string) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/account/role/detail/${id}`)
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/account/role/detail/${id}`)
     },
 
     /*
-    * 账户角色关联 最新接口
-    */
+     * 账户角色关联 最新接口
+     */
     LatestAuthAccountRole(n: number) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/account/role/latest`, {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/account/role/latest`, {
         params: {
           n,
         },
@@ -58,10 +58,10 @@ export function useAuthAccountRoleApi() {
     },
 
     /*
-    * 账户角色关联 TopN接口
-    */
+     * 账户角色关联 TopN接口
+     */
     TopAuthAccountRole(n: number) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/account/role/top`, {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/account/role/top`, {
         params: {
           n,
         },

@@ -77,4 +77,10 @@ function handleAuthError(response: any, method: any, apiData?: Record<string, an
   }
 }
 
-export { handleAuthError, handleBusinessError, handleMethodError, handleResponseError, handleResult }
+export {
+  handleAuthError,
+  handleBusinessError,
+  handleMethodError,
+  handleResponseError,
+  handleResult,
+}

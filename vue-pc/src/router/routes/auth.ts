@@ -14,8 +14,8 @@ export const authRoutes: RouteRecordRaw[] = [
     meta: { title: '忘记密码' },
   },
   {
-    path: '/reset/confirm',
-    name: 'reset',
+    path: '/pwdreset',
+    name: 'pwdreset',
     component: () => import('@/views/authentication/reset.vue'),
     meta: { title: '重置密码' },
   },

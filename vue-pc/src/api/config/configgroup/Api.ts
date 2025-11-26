@@ -47,8 +47,8 @@ export function useConfigGroupApi() {
     },
 
     /*
-    * 配置分组 最新接口
-    */
+     * 配置分组 最新接口
+     */
     LatestConfigGroup(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/group/latest`, {
         params: {
@@ -58,8 +58,8 @@ export function useConfigGroupApi() {
     },
 
     /*
-    * 配置分组 TopN接口
-    */
+     * 配置分组 TopN接口
+     */
     TopConfigGroup(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/group/top`, {
         params: {

@@ -1,5 +1,4 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <t-config-provider>
@@ -7,6 +6,4 @@
   </t-config-provider>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

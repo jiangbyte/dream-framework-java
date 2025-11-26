@@ -11,7 +11,7 @@ export function useAuthRoleApi() {
      * 角色 分页接口
      */
     PageAuthRole(data: any) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/role/page`, {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/role/page`, {
         params: {
           ...data,
         },
@@ -22,35 +22,35 @@ export function useAuthRoleApi() {
      * 角色 新增接口
      */
     AddAuthRole(data: any) {
-      return request.Post<IResult<any>>(`${pathPrefix}/auth/role/add`, data)
+      return request.Post<IResult<any>>(`${pathPrefix}/auths/role/add`, data)
     },
 
     /*
      * 角色 修改接口
      */
     EditAuthRole(data: any) {
-      return request.Post<IResult<any>>(`${pathPrefix}/auth/role/edit`, data)
+      return request.Post<IResult<any>>(`${pathPrefix}/auths/role/edit`, data)
     },
 
     /*
      * 角色 删除接口
      */
     DeleteAuthRole(ids: string[]) {
-      return request.Post<IResult<any>>(`${pathPrefix}/auth/role/delete`, ids)
+      return request.Post<IResult<any>>(`${pathPrefix}/auths/role/delete`, ids)
     },
 
     /*
      * 角色 详情接口
      */
     GetAuthRole(id: string) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/role/detail/${id}`)
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/role/detail/${id}`)
     },
 
     /*
-    * 角色 最新接口
-    */
+     * 角色 最新接口
+     */
     LatestAuthRole(n: number) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/role/latest`, {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/role/latest`, {
         params: {
           n,
         },
@@ -58,10 +58,10 @@ export function useAuthRoleApi() {
     },
 
     /*
-    * 角色 TopN接口
-    */
+     * 角色 TopN接口
+     */
     TopAuthRole(n: number) {
-      return request.Get<IResult<any>>(`${pathPrefix}/auth/role/top`, {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/role/top`, {
         params: {
           n,
         },

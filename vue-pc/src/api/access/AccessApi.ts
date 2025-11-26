@@ -19,18 +19,18 @@ export function useAccessApi() {
     DoResetPassword(data: any) {
       return request.Post<IResult<any>>(`${pathPrefix}/access/password/reset`, data)
     },
-    DoValidateResetPasswordToken(data: any) {
-      return request.Get<IResult<any>>(`${pathPrefix}/access/password/reset/validate`, {
+    DoValidateResetPasswordToken(token: string) {
+      return request.Get<IResult<any>>(`${pathPrefix}/access/password/reset/token/validate`, {
         params: {
-          token: data,
+          token,
         },
       })
     },
     DoPasswordResetConfirm(data: any) {
-      return request.Post<IResult<any>>(`${pathPrefix}/password/reset/confirm`, data)
+      return request.Post<IResult<any>>(`${pathPrefix}/access/password/reset/confirm`, data)
     },
     ChangePassword(data: any) {
-      return request.Post<IResult<any>>(`${pathPrefix}/password/change`, data)
+      return request.Post<IResult<any>>(`${pathPrefix}/access/password/change`, data)
     },
   }
 }

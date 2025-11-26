@@ -47,8 +47,8 @@ export function useSysMenuApi() {
     },
 
     /*
-    * 菜单 最新接口
-    */
+     * 菜单 最新接口
+     */
     LatestSysMenu(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/menu/latest`, {
         params: {
@@ -58,8 +58,8 @@ export function useSysMenuApi() {
     },
 
     /*
-    * 菜单 TopN接口
-    */
+     * 菜单 TopN接口
+     */
     TopSysMenu(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/menu/top`, {
         params: {

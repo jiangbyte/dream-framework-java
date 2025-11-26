@@ -51,8 +51,8 @@ function isExternalMenu(menu: any) {
     :default-value="routerStore.menus[0]?.path"
   >
     <template #logo>
-      <div class="w-full flex items-center justify-center">
-        LOGO
+      <div class="w-full flex items-center justify-center" style="margin-left: 0">
+        <img src="/logo3.png" height="45px" style="object-fit: cover">
       </div>
     </template>
 
@@ -99,7 +99,12 @@ function isExternalMenu(menu: any) {
           </template>
 
           <!-- 递归子菜单 -->
-          <template v-for="child in menu.children.filter(c => c.meta.visible).sort((a, b) => Number(a.meta.sort) - Number(b.meta.sort))" :key="child.id">
+          <template
+            v-for="child in menu.children
+              .filter(c => c.meta.visible)
+              .sort((a, b) => Number(a.meta.sort) - Number(b.meta.sort))"
+            :key="child.id"
+          >
             <!-- 子菜单项为外链 -->
             <t-menu-item
               v-if="isExternalMenu(child)"
@@ -143,6 +148,4 @@ function isExternalMenu(menu: any) {
   </t-menu>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
