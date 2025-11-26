@@ -14,6 +14,9 @@ importers:
       alova:
         specifier: ^3.3.4
         version: 3.3.4
+      crypto-js:
+        specifier: ^4.2.0
+        version: 4.2.0
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
@@ -42,6 +45,9 @@ importers:
       '@tdesign-vue-next/auto-import-resolver':
         specifier: ^0.1.2
         version: 0.1.2(@babel/parser@7.28.5)(vue@3.5.24(typescript@5.9.3))
+      '@types/crypto-js':
+        specifier: ^4.2.2
+        version: 4.2.2
       '@types/node':
         specifier: ^24.10.0
         version: 24.10.1
@@ -753,6 +759,9 @@ packages:
   '@tdesign-vue-next/auto-import-resolver@0.1.2':
     resolution: {integrity: sha512-NoVMxIYDRGbqxUf0Z9RawWHfolmNEFRcvbjdbPCxxE6w4PzYUamjzLr1NXFEbEcKnfIxVCTCPcZ8m27r7SLpOA==}
 
+  '@types/crypto-js@4.2.2':
+    resolution: {integrity: sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==}
+
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
@@ -1219,6 +1228,9 @@ packages:
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
+
+  crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
 
   css-tree@3.1.0:
     resolution: {integrity: sha512-0eW44TGN5SQXU1mWSkKwFstI/22X2bG1nYzZTYMAWjylYURhse752YgbE4Cx46AC+bAvI+/dYTPRk1LqSUnu6w==}
@@ -3183,6 +3195,8 @@ snapshots:
       - supports-color
       - vue
 
+  '@types/crypto-js@4.2.2': {}
+
   '@types/debug@4.1.12':
     dependencies:
       '@types/ms': 2.1.0
@@ -3789,6 +3803,8 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  crypto-js@4.2.0: {}
 
   css-tree@3.1.0:
     dependencies:

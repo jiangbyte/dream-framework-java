@@ -1,9 +1,10 @@
 export * from './access/AccessApi'
 
+export * from './dashboard/DashboardApi'
+
 export * from './auth/authaccount/Api'
 export * from './auth/authaccountrole/Api'
 export * from './auth/authgroup/Api'
-export * from './auth/authpasswordreset/Api'
 export * from './auth/authrole/Api'
 export * from './auth/authrolemenu/Api'
 

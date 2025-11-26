@@ -15,6 +15,7 @@
   "dependencies": {
     "@iconify/json": "^2.2.406",
     "alova": "^3.3.4",
+    "crypto-js": "^4.2.0",
     "nprogress": "^0.2.0",
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate": "^4.7.1",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^6.2.0",
     "@tdesign-vue-next/auto-import-resolver": "^0.1.2",
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^24.10.0",
     "@types/nprogress": "^0.2.3",
     "@typescript-eslint/parser": "^8.46.4",

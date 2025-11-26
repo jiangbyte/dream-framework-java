@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useAccessApi } from '@/api'
 import { useAppStore } from '@/stores'
-import { VerifyCapchaRule, VerifyEmailRule, VerifyNicknameRule, VerifyPasswordRule, VerifyUsernameRule } from '@/utils'
+import { PasswordUtil, VerifyCapchaRule, VerifyEmailRule, VerifyNicknameRule, VerifyPasswordRule, VerifyUsernameRule } from '@/utils'
 
 const formRef = ref()
 const formData = ref({
@@ -39,11 +39,13 @@ loadCaptcha()
 
 const router = useRouter()
 const isLoading = ref(false)
-async function handleRegister(context: any) {
+async function handleSubmit(context: any) {
   const { validateResult } = context
   if (validateResult === true) {
     isLoading.value = true
-    useAccessApi().DoRegister(formData.value).then(({ success }) => {
+    const formDataParam = Object.assign({}, formData.value)
+    formDataParam.password = PasswordUtil.encrypt(formData.value.password)
+    useAccessApi().DoRegister(formDataParam).then(({ success }) => {
       isLoading.value = false
       if (success) {
         MessagePlugin.info('注册成功！')
@@ -77,7 +79,7 @@ const { websiteConfig } = storeToRefs(appStore)
           ref="formRef"
           :data="formData"
           :rules="formRules"
-          @submit="handleRegister"
+          @submit="handleSubmit"
         >
           <t-form-item
             label="昵称"

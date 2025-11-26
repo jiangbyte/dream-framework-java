@@ -11,7 +11,7 @@ export function setupRouterGuard(router: Router) {
   const tabStore = useTabStore()
 
   const publicRoutes = ['/', '/404'] // 所有人都可以访问的页面
-  const authPages = ['login', 'forget', 'reset', 'register'] // 认证相关页面（登录/注册/忘记密码等）
+  const authPages = ['login', 'forget', 'pwdreset', 'register'] // 认证相关页面（登录/注册/忘记密码等）
 
   router.beforeEach(async (to, _from, next) => {
     // 外链菜单处理

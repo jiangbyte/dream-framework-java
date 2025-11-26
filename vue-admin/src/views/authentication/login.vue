@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useAccessApi } from '@/api'
 import { useAppStore, useAuthStore } from '@/stores'
-import { VerifyCapchaRule, VerifyPasswordRule, VerifyUsernameRule } from '@/utils'
+import { PasswordUtil, VerifyCapchaRule, VerifyPasswordRule, VerifyUsernameRule } from '@/utils'
 
 const formRef = ref()
 const formData = ref({
@@ -36,11 +36,13 @@ loadCaptcha()
 const router = useRouter()
 const authStore = useAuthStore()
 const isLoading = ref(false)
-async function handleLogin(context: any) {
+async function handleSubmit(context: any) {
   const { validateResult } = context
   if (validateResult === true) {
     isLoading.value = true
-    useAccessApi().DoLogin(formData.value).then(({ data, success }) => {
+    const formDataParam = Object.assign({}, formData.value)
+    formDataParam.password = PasswordUtil.encrypt(formData.value.password)
+    useAccessApi().DoLogin(formDataParam).then(({ data, success }) => {
       isLoading.value = false
       if (success) {
         authStore.setAuth(data)
@@ -75,7 +77,7 @@ const { websiteConfig } = storeToRefs(appStore)
           ref="formRef"
           :data="formData"
           :rules="formRules"
-          @submit="handleLogin"
+          @submit="handleSubmit"
         >
           <t-form-item
             label="用户名"
