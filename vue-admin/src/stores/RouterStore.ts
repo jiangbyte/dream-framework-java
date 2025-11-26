@@ -20,7 +20,7 @@ export const useRouterStore = defineStore('route-store', {
     activeMenu: '',
     menus: [],
     rowRoutes: [],
-    cacheRoutes: [],
+    cacheRoutes: []
   }),
 
   actions: {
@@ -67,8 +67,8 @@ export const useRouterStore = defineStore('route-store', {
 
     setActiveMenu(key: string) {
       this.activeMenu = key
-    },
-  },
+    }
+  }
 })
 
 const metaFields: SiteRoute.MetaKeys[] = [
@@ -94,11 +94,14 @@ const metaFields: SiteRoute.MetaKeys[] = [
   'updatedAt',
   'deleteUser',
   'deletedAt',
-  'componentPath',
+  'componentPath'
 ]
 
 function standardizedRoutes(routes: SiteRoute.RowRoute[]) {
-  return clone(routes).map((i: any) => ({ ...omit(i, metaFields), meta: pick(i, metaFields) })) as SiteRoute.Route[]
+  return clone(routes).map((i: any) => ({
+    ...omit(i, metaFields),
+    meta: pick(i, metaFields)
+  })) as SiteRoute.Route[]
 }
 
 function createRoutes(routes: SiteRoute.RowRoute[]): RouteRecordRaw {
@@ -106,10 +109,11 @@ function createRoutes(routes: SiteRoute.RowRoute[]): RouteRecordRaw {
   const resultRouter = arrayTree(
     standardizedRoutes(routes).map(item => ({
       ...item,
-      component: item.meta.componentPath && !item.meta.redirect
-        ? modules[`/src/views${item.meta.componentPath}`]
-        : undefined,
-    })),
+      component:
+        item.meta.componentPath && !item.meta.redirect
+          ? modules[`/src/views${item.meta.componentPath}`]
+          : undefined
+    }))
   ) as SiteRoute.Route[]
 
   console.log('标准化后的路由表:', resultRouter)
@@ -123,14 +127,14 @@ function createRoutes(routes: SiteRoute.RowRoute[]): RouteRecordRaw {
     component: Layout,
     meta: {
       title: '系统',
-      icon: 'application',
+      icon: 'application'
     },
-    children: resultRouter as unknown as RouteRecordRaw[],
+    children: resultRouter as unknown as RouteRecordRaw[]
   }
 }
 
 function setRedirect(routes: SiteRoute.Route[]) {
-  routes.forEach((route) => {
+  routes.forEach(route => {
     if (route.children?.length) {
       console.log(route.meta.title, '有子路由:', route.children)
       if (!route.redirect) {
@@ -142,7 +146,9 @@ function setRedirect(routes: SiteRoute.Route[]) {
 
           // 如果有多个可见子菜单，按排序选择第一个
           if (visibleChilds.length > 1) {
-            const orderChilds = visibleChilds.filter(child => Number(child.meta.sort)) as any as SiteRoute.Route[]
+            const orderChilds = visibleChilds.filter(child =>
+              Number(child.meta.sort)
+            ) as any as SiteRoute.Route[]
             const sortedTarget = orderChilds.length
               ? min(orderChilds, (i: SiteRoute.Route) => Number(i.meta.sort)!)
               : visibleChilds[0]
@@ -157,8 +163,7 @@ function setRedirect(routes: SiteRoute.Route[]) {
             route.redirect = target.path
             console.log(route.meta.title, '设置重定向到:', target.path)
           }
-        }
-        else {
+        } else {
           console.log(route.meta.title, '没有可见的子菜单，无法设置重定向')
         }
       }
@@ -169,28 +174,31 @@ function setRedirect(routes: SiteRoute.Route[]) {
 }
 
 function createMenus(userRoutes: SiteRoute.RowRoute[]) {
-  const fullTree = arrayTree(standardizedRoutes(userRoutes)
-    // 排序
-    .sort((a, b) => (Number(a.meta.sort) || 0) - (Number(b.meta.sort) || 0)),
+  const fullTree = arrayTree(
+    standardizedRoutes(userRoutes)
+      // 排序
+      .sort((a, b) => (Number(a.meta.sort) || 0) - (Number(b.meta.sort) || 0))
   )
   // 递归过滤：如果父级不可见，子级也要隐藏
   const filterVisibleMenus = (menus: any[]): any[] => {
-    return menus
-      .filter((menu) => {
-        // 如果当前菜单不可见，直接过滤掉
-        if (!menu.meta.visible) {
-          return false
-        }
+    return (
+      menus
+        .filter(menu => {
+          // 如果当前菜单不可见，直接过滤掉
+          if (!menu.meta.visible) {
+            return false
+          }
 
-        // 如果有子菜单，递归处理
-        if (menu.children) {
-          menu.children = filterVisibleMenus(menu.children)
-        }
+          // 如果有子菜单，递归处理
+          if (menu.children) {
+            menu.children = filterVisibleMenus(menu.children)
+          }
 
-        return true
-      })
-      // 排序
-      .sort((a, b) => (Number(a.meta.sort) || 0) - (Number(b.meta.sort) || 0))
+          return true
+        })
+        // 排序
+        .sort((a, b) => (Number(a.meta.sort) || 0) - (Number(b.meta.sort) || 0))
+    )
   }
 
   return filterVisibleMenus(fullTree)

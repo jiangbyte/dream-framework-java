@@ -8,6 +8,8 @@
     "lint:fix": "eslint . --fix",
     "dev": "vite --mode dev",
     "dev:production": "vite --mode production",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "build": "vite build --mode production",
     "build:ts": "vue-tsc -b && vite build",
     "preview": "vite preview"
@@ -36,6 +38,7 @@
     "@vitejs/plugin-vue-jsx": "^5.1.1",
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.1",
+    "eslint-plugin-format": "^1.0.2",
     "eslint-plugin-vue": "^10.5.1",
     "typescript": "~5.9.3",
     "unocss": "^66.5.6",

@@ -15,8 +15,7 @@ import { TDesignResolver } from '@tdesign-vue-next/auto-import-resolver'
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const apiUrl = env.VITE_API_URL
-  console.log('Using API:', apiUrl)
+  console.log('Using API:', env.VITE_API_URL)
   return {
     plugins: [
       vue(),
@@ -24,55 +23,45 @@ export default defineConfig(({ command, mode }) => {
       vueDevTools(),
       UnoCSS(),
       AutoImport({
-        imports: [
-          'vue',
-          'vue-router',
-          'pinia',
-          {
-            'naive-ui': [
-              'useDialog',
-              'useMessage',
-              'useNotification',
-              'useLoadingBar',
-              'useModal',
-            ],
-          },
+        imports: ['vue', 'vue-router', 'pinia'],
+        resolvers: [
+          TDesignResolver({
+            library: 'vue-next'
+          })
         ],
-        resolvers: [TDesignResolver({
-          library: 'vue-next',
-        })],
         include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
-        dts: 'src/typings/auto-imports.d.ts',
+        dts: 'src/typings/auto-imports.d.ts'
       }),
       Components({
         dts: 'src/typings/components.d.ts',
         resolvers: [
           IconsResolver({
-            prefix: false,
+            prefix: false
           }),
           TDesignResolver({
-            library: 'vue-next',
-          }),
-        ],
+            library: 'vue-next'
+          })
+        ]
       }),
       Icons({
         defaultStyle: 'display:inline-block',
-        compiler: 'vue3',
-      }),
+        compiler: 'vue3'
+      })
     ],
     resolve: {
       alias: {
-        '@': resolve(__dirname, 'src'),
-      },
+        '@': resolve(__dirname, 'src')
+      }
     },
     server: {
       host: '0.0.0.0',
-      port: 80,
+      port: Number.parseInt(env.VITE_PORT) || 3000
     },
-    esbuild: command === 'build'
-      ? {
-          drop: ['console', 'debugger'],
-        }
-      : {},
+    esbuild:
+      command === 'build'
+        ? {
+            drop: ['console', 'debugger']
+          }
+        : {}
   }
 })

@@ -13,8 +13,8 @@ export function useUserProfileApi() {
     PageUserProfile(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/profile/page`, {
         params: {
-          ...data,
-        },
+          ...data
+        }
       })
     },
 
@@ -47,25 +47,25 @@ export function useUserProfileApi() {
     },
 
     /*
-    * 用户档案详情 最新接口
-    */
+     * 用户档案详情 最新接口
+     */
     LatestUserProfile(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/profile/latest`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     /*
-    * 用户档案详情 TopN接口
-    */
+     * 用户档案详情 TopN接口
+     */
     TopUserProfile(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/profile/top`, {
         params: {
-          n,
-        },
+          n
+        }
       })
-    },
+    }
   }
 }

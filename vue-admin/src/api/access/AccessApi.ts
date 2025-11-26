@@ -22,8 +22,8 @@ export function useAccessApi() {
     DoValidateResetPasswordToken(token: string) {
       return request.Get<IResult<any>>(`${pathPrefix}/access/password/reset/token/validate`, {
         params: {
-          token,
-        },
+          token
+        }
       })
     },
     DoPasswordResetConfirm(data: any) {
@@ -31,6 +31,6 @@ export function useAccessApi() {
     },
     ChangePassword(data: any) {
       return request.Post<IResult<any>>(`${pathPrefix}/access/password/change`, data)
-    },
+    }
   }
 }

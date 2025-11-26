@@ -1,0 +1,10 @@
+dist/
+node_modules/
+*.min.js
+*.min.css
+.coverage
+.nyc_output
+.DS_Store
+*.log
+yarn.lock
+package-lock.json

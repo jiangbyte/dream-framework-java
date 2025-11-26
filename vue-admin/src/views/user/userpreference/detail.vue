@@ -1,40 +1,39 @@
 <script lang="ts" setup>
-import { useUserPreferenceApi } from '@/api'
-import { useBoolean, useLoading } from '@/hooks'
-import { ResetFormData } from '@/utils'
+  import { useUserPreferenceApi } from '@/api'
+  import { useBoolean, useLoading } from '@/hooks'
+  import { ResetFormData } from '@/utils'
 
-const props = defineProps<{
-  formName?: string
-}>()
+  const props = defineProps<{
+    formName?: string
+  }>()
 
-const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
-const { isLoading, withLoading } = useLoading()
+  const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+  const { isLoading, withLoading } = useLoading()
 
-const formData = reactive<DataFormType>({})
+  const formData = reactive<DataFormType>({})
 
-function doClose() {
-  ResetFormData(formData)
-  closeDrawer()
-}
+  function doClose() {
+    ResetFormData(formData)
+    closeDrawer()
+  }
 
-async function doOpen(row: any) {
-  openDrawer()
-  ResetFormData(formData)
+  async function doOpen(row: any) {
+    openDrawer()
+    ResetFormData(formData)
 
-  if (row?.id) {
-    const { data, success } = await withLoading(useUserPreferenceApi().GetUserPreference(row?.id))
-    if (success) {
-      Object.assign(formData, data)
-    }
-    else {
-      closeDrawer()
+    if (row?.id) {
+      const { data, success } = await withLoading(useUserPreferenceApi().GetUserPreference(row?.id))
+      if (success) {
+        Object.assign(formData, data)
+      } else {
+        closeDrawer()
+      }
     }
   }
-}
 
-defineExpose({
-  doOpen,
-})
+  defineExpose({
+    doOpen
+  })
 </script>
 
 <template>
@@ -74,6 +73,4 @@ defineExpose({
   </t-drawer>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

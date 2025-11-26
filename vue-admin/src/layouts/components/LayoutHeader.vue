@@ -1,29 +1,25 @@
 <script lang="ts" setup>
-import { useAppStore } from '@/stores'
-import Dropdown from './Dropdown.vue'
+  import { useAppStore } from '@/stores'
+  import Dropdown from './Dropdown.vue'
 
-const appStore = useAppStore()
+  const appStore = useAppStore()
 
-const route = useRoute()
-const routes = computed(() => {
-  return route.matched
-})
+  const route = useRoute()
+  const routes = computed(() => {
+    return route.matched
+  })
 </script>
 
 <template>
-  <t-head-menu style="min-width: 800px;" class="border-b border-b-solid border-b-gray-200">
+  <t-head-menu style="min-width: 800px" class="border-b border-b-solid border-b-gray-200">
     <template #logo>
       <t-space align="center">
-        <t-button
-          shape="square"
-          variant="text"
-          @click="appStore.toggleCollapse"
-        >
+        <t-button shape="square" variant="text" @click="appStore.toggleCollapse">
           <t-icon v-if="appStore.collapsed" name="chevron-right" />
           <t-icon v-else name="chevron-left" />
         </t-button>
         <t-breadcrumb max-item-width="150">
-          <t-breadcrumb-item v-for="(item) in routes" :key="item.path" :to="item.path">
+          <t-breadcrumb-item v-for="item in routes" :key="item.path" :to="item.path">
             <template #icon>
               <t-icon :name="item.meta.icon" />
             </template>
@@ -60,6 +56,4 @@ const routes = computed(() => {
   </t-head-menu>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

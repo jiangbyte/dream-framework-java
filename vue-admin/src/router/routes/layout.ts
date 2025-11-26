@@ -6,6 +6,6 @@ export const layoutRoutes: RouteRecordRaw[] = [
     name: 'default',
     redirect: '/root',
     component: () => import('@/layouts/index.vue'),
-    children: [],
-  },
+    children: []
+  }
 ]

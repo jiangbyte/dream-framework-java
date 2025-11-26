@@ -1,5 +1,4 @@
 declare namespace SiteRoute {
-
   interface RouteMeta {
     title?: string
     icon?: string
@@ -44,5 +43,4 @@ declare namespace SiteRoute {
     component: any
     meta: RouteMeta
   }
-
 }

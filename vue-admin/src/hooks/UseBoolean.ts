@@ -22,6 +22,6 @@ export function useBoolean(initialValue = false) {
     setTrue,
     setFalse,
     toggle,
-    setValue,
+    setValue
   }
 }

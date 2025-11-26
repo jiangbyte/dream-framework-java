@@ -1,0 +1,5 @@
+
+docker build -f Dockerfile -t registry.cn-beijing.aliyuncs.com/jiangbyte/galaxy-app-admin-web:latest .
+docker push registry.cn-beijing.aliyuncs.com/jiangbyte/galaxy-app-admin-web:latest
+
+docker run -d --pull always -p 80:80 registry.cn-beijing.aliyuncs.com/jiangbyte/galaxy-app-admin-web:latest

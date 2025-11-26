@@ -13,8 +13,8 @@ export function useUserStatsApi() {
     PageUserStats(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/stats/page`, {
         params: {
-          ...data,
-        },
+          ...data
+        }
       })
     },
 
@@ -47,25 +47,25 @@ export function useUserStatsApi() {
     },
 
     /*
-    * 用户统计信息 最新接口
-    */
+     * 用户统计信息 最新接口
+     */
     LatestUserStats(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/stats/latest`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     /*
-    * 用户统计信息 TopN接口
-    */
+     * 用户统计信息 TopN接口
+     */
     TopUserStats(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/stats/top`, {
         params: {
-          n,
-        },
+          n
+        }
       })
-    },
+    }
   }
 }

@@ -1,57 +1,60 @@
 <script lang="ts" setup>
-import { useAccessApi } from '@/api'
-import { useAppStore } from '@/stores'
-import { VerifyCapchaRule, VerifyEmailRule } from '@/utils'
+  import { useAccessApi } from '@/api'
+  import { useAppStore } from '@/stores'
+  import { VerifyCapchaRule, VerifyEmailRule } from '@/utils'
 
-const formRef = ref()
-const formData = ref({
-  email: '',
-  captchaId: '',
-  captchaCode: '',
-})
-const formRules = {
-  email: VerifyEmailRule,
-  captchaCode: VerifyCapchaRule,
-} as any
-
-const captchaRef = ref({
-  captchaId: '',
-  captchaImg: '',
-})
-async function loadCaptcha() {
-  captchaRef.value.captchaId = ''
-  captchaRef.value.captchaImg = ''
-  formData.value.captchaId = ''
-  formData.value.captchaCode = ''
-  useAccessApi().Captcha().then(({ data }) => {
-    captchaRef.value = data
-    formData.value.captchaId = captchaRef.value.captchaId
+  const formRef = ref()
+  const formData = ref({
+    email: '',
+    captchaId: '',
+    captchaCode: ''
   })
-}
+  const formRules = {
+    email: VerifyEmailRule,
+    captchaCode: VerifyCapchaRule
+  } as any
 
-loadCaptcha()
-
-const isLoading = ref(false)
-const router = useRouter()
-async function handleSubmit(context: any) {
-  const { validateResult } = context
-  if (validateResult === true) {
-    isLoading.value = true
-    useAccessApi().DoResetPassword(formData.value).then(({ success }) => {
-      isLoading.value = false
-      if (success) {
-        MessagePlugin.info('重置邮件发送成功！')
-        router.push('/login')
-      }
-      else {
-        loadCaptcha()
-      }
-    })
+  const captchaRef = ref({
+    captchaId: '',
+    captchaImg: ''
+  })
+  async function loadCaptcha() {
+    captchaRef.value.captchaId = ''
+    captchaRef.value.captchaImg = ''
+    formData.value.captchaId = ''
+    formData.value.captchaCode = ''
+    useAccessApi()
+      .Captcha()
+      .then(({ data }) => {
+        captchaRef.value = data
+        formData.value.captchaId = captchaRef.value.captchaId
+      })
   }
-}
 
-const appStore = useAppStore()
-const { websiteConfig } = storeToRefs(appStore)
+  loadCaptcha()
+
+  const isLoading = ref(false)
+  const router = useRouter()
+  async function handleSubmit(context: any) {
+    const { validateResult } = context
+    if (validateResult === true) {
+      isLoading.value = true
+      useAccessApi()
+        .DoResetPassword(formData.value)
+        .then(({ success }) => {
+          isLoading.value = false
+          if (success) {
+            MessagePlugin.info('重置邮件发送成功！')
+            router.push('/login')
+          } else {
+            loadCaptcha()
+          }
+        })
+    }
+  }
+
+  const appStore = useAppStore()
+  const { websiteConfig } = storeToRefs(appStore)
 </script>
 
 <template>
@@ -59,24 +62,12 @@ const { websiteConfig } = storeToRefs(appStore)
     <div class="w-full md:w-1/2 flex items-center justify-center p-8">
       <div class="w-full max-w-md">
         <div class="text-center mb-10">
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">
-            忘记密码
-          </h2>
-          <p class="text-gray-500">
-            输入您的注册邮箱，我们将发送重置密码的指引邮件给您
-          </p>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">忘记密码</h2>
+          <p class="text-gray-500">输入您的注册邮箱，我们将发送重置密码的指引邮件给您</p>
         </div>
 
-        <t-form
-          ref="formRef"
-          :data="formData"
-          :rules="formRules"
-          @submit="handleSubmit"
-        >
-          <t-form-item
-            label="注册邮箱"
-            name="email"
-          >
+        <t-form ref="formRef" :data="formData" :rules="formRules" @submit="handleSubmit">
+          <t-form-item label="注册邮箱" name="email">
             <t-input
               v-model="formData.email"
               placeholder="请输入注册邮箱"
@@ -88,10 +79,7 @@ const { websiteConfig } = storeToRefs(appStore)
               </template>
             </t-input>
           </t-form-item>
-          <t-form-item
-            label="验证码"
-            name="captchaCode"
-          >
+          <t-form-item label="验证码" name="captchaCode">
             <div class="flex items-center justify-between w-full">
               <t-input
                 v-model="formData.captchaCode"
@@ -107,27 +95,19 @@ const { websiteConfig } = storeToRefs(appStore)
                 :src="captchaRef.captchaImg"
                 class="w-30 h-full ml-2 cursor-pointer border border-gray-200 object-cover"
                 @click="loadCaptcha"
-              >
+              />
             </div>
           </t-form-item>
           <t-form-item label-width="0">
-            <t-button
-              theme="primary"
-              block
-              type="submit"
-              :loading="isLoading"
-              size="large"
-            >
+            <t-button theme="primary" block type="submit" :loading="isLoading" size="large">
               {{ isLoading ? '发送中...' : '发送重置邮件' }}
             </t-button>
           </t-form-item>
           <t-form-item label-width="0">
             <div class="flex flex-col w-full">
               <div class="text-center">
-                <span class="text-gray-500">想起密码了? </span>
-                <t-link theme="primary" @click="$router.push('/login')">
-                  立即登录
-                </t-link>
+                <span class="text-gray-500">想起密码了?</span>
+                <t-link theme="primary" @click="$router.push('/login')">立即登录</t-link>
               </div>
             </div>
           </t-form-item>
@@ -139,7 +119,9 @@ const { websiteConfig } = storeToRefs(appStore)
       <div>
         <div class="flex items-center mb-12">
           <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center mr-4">
-            <span class="text-blue-900 font-bold text-xl">{{ websiteConfig?.websiteName?.charAt(0) }}</span>
+            <span class="text-blue-900 font-bold text-xl">
+              {{ websiteConfig?.websiteName?.charAt(0) }}
+            </span>
           </div>
           <h1 class="text-3xl font-bold">
             {{ websiteConfig?.websiteName }}
@@ -160,6 +142,4 @@ const { websiteConfig } = storeToRefs(appStore)
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

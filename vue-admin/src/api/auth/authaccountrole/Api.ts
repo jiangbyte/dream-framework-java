@@ -13,8 +13,8 @@ export function useAuthAccountRoleApi() {
     PageAuthAccountRole(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/account/role/page`, {
         params: {
-          ...data,
-        },
+          ...data
+        }
       })
     },
 
@@ -47,25 +47,25 @@ export function useAuthAccountRoleApi() {
     },
 
     /*
-    * 账户角色关联 最新接口
-    */
+     * 账户角色关联 最新接口
+     */
     LatestAuthAccountRole(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/account/role/latest`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     /*
-    * 账户角色关联 TopN接口
-    */
+     * 账户角色关联 TopN接口
+     */
     TopAuthAccountRole(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/account/role/top`, {
         params: {
-          n,
-        },
+          n
+        }
       })
-    },
+    }
   }
 }

@@ -13,8 +13,8 @@ export function useUserPreferenceApi() {
     PageUserPreference(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/preference/page`, {
         params: {
-          ...data,
-        },
+          ...data
+        }
       })
     },
 
@@ -47,25 +47,25 @@ export function useUserPreferenceApi() {
     },
 
     /*
-    * 用户偏好设置 最新接口
-    */
+     * 用户偏好设置 最新接口
+     */
     LatestUserPreference(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/preference/latest`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     /*
-    * 用户偏好设置 TopN接口
-    */
+     * 用户偏好设置 TopN接口
+     */
     TopUserPreference(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/preference/top`, {
         params: {
-          n,
-        },
+          n
+        }
       })
-    },
+    }
   }
 }

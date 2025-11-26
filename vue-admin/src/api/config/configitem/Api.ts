@@ -13,8 +13,8 @@ export function useConfigItemApi() {
     PageConfigItem(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/item/page`, {
         params: {
-          ...data,
-        },
+          ...data
+        }
       })
     },
 
@@ -47,28 +47,28 @@ export function useConfigItemApi() {
     },
 
     /*
-    * 系统配置 最新接口
-    */
+     * 系统配置 最新接口
+     */
     LatestConfigItem(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/item/latest`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     /*
-    * 系统配置 TopN接口
-    */
+     * 系统配置 TopN接口
+     */
     TopConfigItem(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/item/top`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
     GetWebsiteConfig() {
       return request.Get<IResult<any>>(`${pathPrefix}/config/item/website`)
-    },
+    }
   }
 }

@@ -13,8 +13,8 @@ export function useAuthRoleApi() {
     PageAuthRole(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/page`, {
         params: {
-          ...data,
-        },
+          ...data
+        }
       })
     },
 
@@ -47,25 +47,25 @@ export function useAuthRoleApi() {
     },
 
     /*
-    * 角色 最新接口
-    */
+     * 角色 最新接口
+     */
     LatestAuthRole(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/latest`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     /*
-    * 角色 TopN接口
-    */
+     * 角色 TopN接口
+     */
     TopAuthRole(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/top`, {
         params: {
-          n,
-        },
+          n
+        }
       })
-    },
+    }
   }
 }

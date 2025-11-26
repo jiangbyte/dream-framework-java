@@ -5,7 +5,7 @@ import { setupRouterGuard } from './guard'
 
 export const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes
 })
 
 export async function setupRouter(app: App) {

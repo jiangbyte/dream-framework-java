@@ -8,8 +8,7 @@ export class PasswordUtil {
    * 加密密码，返回加密后的字符串
    */
   static encrypt(password: string): string {
-    if (!password)
-      return ''
+    if (!password) return ''
 
     try {
       const keyBytes = this.stringToBytes(PASSWORD_SECRET_KEY)
@@ -20,8 +19,7 @@ export class PasswordUtil {
 
       // 转换为Base64
       return this.bytesToBase64(encryptedBytes)
-    }
-    catch (error) {
+    } catch (error) {
       console.error('密码加密失败:', error)
       throw new Error('密码加密失败')
     }
@@ -75,7 +73,7 @@ export class PasswordUtil {
   private static stringToBytes(str: string): Uint8Array {
     const bytes = new Uint8Array(str.length)
     for (let i = 0; i < str.length; i++) {
-      bytes[i] = str.charCodeAt(i) & 0xFF
+      bytes[i] = str.charCodeAt(i) & 0xff
     }
     return bytes
   }
@@ -104,8 +102,7 @@ export class RouteCrypto {
    * @returns 加密后的密文
    */
   static encrypt(plainText: string): string {
-    if (!plainText)
-      return ''
+    if (!plainText) return ''
     return CryptoJS.AES.encrypt(plainText, PATH_SECRET_KEY).toString()
   }
 
@@ -115,8 +112,7 @@ export class RouteCrypto {
    * @returns 解密后的明文
    */
   static decrypt(cipherText: string): string {
-    if (!cipherText)
-      return ''
+    if (!cipherText) return ''
     const bytes = CryptoJS.AES.decrypt(cipherText, PATH_SECRET_KEY)
     return bytes.toString(CryptoJS.enc.Utf8)
   }

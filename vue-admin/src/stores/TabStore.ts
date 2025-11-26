@@ -12,11 +12,11 @@ export const useTabStore = defineStore('tab-store', {
     return {
       pinedTabs: [],
       tabs: [],
-      currentPath: '',
+      currentPath: ''
     }
   },
   getters: {
-    allTabs: state => [...state.pinedTabs, ...state.tabs],
+    allTabs: state => [...state.pinedTabs, ...state.tabs]
   },
   actions: {
     addTab(route: RouteLocationNormalized) {
@@ -30,8 +30,7 @@ export const useTabStore = defineStore('tab-store', {
 
       if (route.meta.pined) {
         this.pinedTabs.push(route)
-      }
-      else {
+      } else {
         this.tabs.push(route)
       }
     },
@@ -44,18 +43,17 @@ export const useTabStore = defineStore('tab-store', {
     closeTab(path: string) {
       const tabsLength = this.tabs.length
       if (this.tabs.length > 1) {
-        const index = this.tabs.findIndex((item) => {
+        const index = this.tabs.findIndex(item => {
           return item.path === path
         })
         const isLast = index + 1 === tabsLength
         if (this.currentPath === path && !isLast) {
           router.push(this.tabs[index + 1].path as string)
-        }
-        else if (this.currentPath === path && isLast) {
+        } else if (this.currentPath === path && isLast) {
           router.push(this.tabs[index - 1].path as string)
         }
       }
-      this.tabs = this.tabs.filter((item) => {
+      this.tabs = this.tabs.filter(item => {
         return item.path !== path
       })
       if (tabsLength - 1 === 0) {
@@ -71,8 +69,7 @@ export const useTabStore = defineStore('tab-store', {
         // 优先跳转到固定标签
         if (this.pinedTabs.length > 0) {
           router.push(this.pinedTabs[0].path as string)
-        }
-        else {
+        } else {
           router.push('/')
         }
       }
@@ -102,9 +99,9 @@ export const useTabStore = defineStore('tab-store', {
       if (!this.exist(this.currentPath)) {
         router.push('/')
       }
-    },
+    }
   },
   persist: {
-    storage: sessionStorage,
-  },
+    storage: sessionStorage
+  }
 })

@@ -13,8 +13,8 @@ export function useAuthRoleMenuApi() {
     PageAuthRoleMenu(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/menu/page`, {
         params: {
-          ...data,
-        },
+          ...data
+        }
       })
     },
 
@@ -47,25 +47,25 @@ export function useAuthRoleMenuApi() {
     },
 
     /*
-    * 角色菜单关联 最新接口
-    */
+     * 角色菜单关联 最新接口
+     */
     LatestAuthRoleMenu(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/menu/latest`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     /*
-    * 角色菜单关联 TopN接口
-    */
+     * 角色菜单关联 TopN接口
+     */
     TopAuthRoleMenu(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/menu/top`, {
         params: {
-          n,
-        },
+          n
+        }
       })
-    },
+    }
   }
 }

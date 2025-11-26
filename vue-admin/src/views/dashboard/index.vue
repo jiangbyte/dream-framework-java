@@ -1,22 +1,22 @@
 <script lang="ts" setup>
-import { useDashboardApi } from '@/api'
-import { useLoading } from '@/hooks'
+  import { useDashboardApi } from '@/api'
+  import { useLoading } from '@/hooks'
 
-interface PaneItem {
-  icon: string
-  title: string
-  value: number
-  unit: string
-}
+  interface PaneItem {
+    icon: string
+    title: string
+    value: number
+    unit: string
+  }
 
-const listData = ref<PaneItem[]>([])
-const { isLoading, withLoading } = useLoading()
+  const listData = ref<PaneItem[]>([])
+  const { isLoading, withLoading } = useLoading()
 
-async function loadPageData() {
-  const { data } = await withLoading(useDashboardApi().GetDashboardPaneItems())
-  listData.value = data
-}
-loadPageData()
+  async function loadPageData() {
+    const { data } = await withLoading(useDashboardApi().GetDashboardPaneItems())
+    listData.value = data
+  }
+  loadPageData()
 </script>
 
 <template>
@@ -27,11 +27,13 @@ loadPageData()
           <t-space align="center">
             <t-icon :name="item.icon" class="icon" />
             <t-statistic
-              :title="item.title" :value="item.value" :unit="item.unit"
+              :title="item.title"
+              :value="item.value"
+              :unit="item.unit"
               :animation-start="!isLoading"
               :animation="{
                 valueFrom: 0,
-                duration: 2000,
+                duration: 2000
               }"
             />
           </t-space>
@@ -42,11 +44,11 @@ loadPageData()
 </template>
 
 <style scoped>
-.icon {
-  font-size: 54px;
-  color: var(--td-brand-color);
-  background: var(--td-brand-color-light);
-  border-radius: var(--td-radius-medium);
-  padding: 12px;
-}
+  .icon {
+    font-size: 54px;
+    color: var(--td-brand-color);
+    background: var(--td-brand-color-light);
+    border-radius: var(--td-radius-medium);
+    padding: 12px;
+  }
 </style>

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useAuthStore } from '@/stores'
+  import { useAuthStore } from '@/stores'
 
-const authStore = useAuthStore()
-const { user } = storeToRefs(authStore)
+  const authStore = useAuthStore()
+  const { user } = storeToRefs(authStore)
 
-const visibleLogoutDialog = ref(false)
+  const visibleLogoutDialog = ref(false)
 </script>
 
 <template>
@@ -35,13 +35,9 @@ const visibleLogoutDialog = ref(false)
     @confirm="authStore.logoutAndRedirect"
   >
     <template #body>
-      <div class="flex w-full items-center justify-start">
-        确认登出吗？
-      </div>
+      <div class="flex w-full items-center justify-start">确认登出吗？</div>
     </template>
   </t-dialog>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

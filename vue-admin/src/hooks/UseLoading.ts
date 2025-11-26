@@ -15,8 +15,7 @@ export function useLoading() {
     try {
       const result = await promise
       return result
-    }
-    finally {
+    } finally {
       loadingEnd()
     }
   }
@@ -25,6 +24,6 @@ export function useLoading() {
     isLoading,
     loadingStart,
     loadingEnd,
-    withLoading,
+    withLoading
   }
 }

@@ -36,17 +36,17 @@ export const useAppStore = defineStore('appStore', {
       lastFetchTime: 0,
       isFetching: false,
       hasAutoFetched: false, // 标记是否已自动获取过
-      collapsed: true,
+      collapsed: true
     }
   },
   getters: {
-    shouldRefreshConfig: (state) => {
+    shouldRefreshConfig: state => {
       const CACHE_DURATION = 5 * 60 * 1000
       return !state.website || Date.now() - state.lastFetchTime > CACHE_DURATION
     },
 
     // 计算属性，访问时自动触发获取
-    websiteConfig: (state) => {
+    websiteConfig: state => {
       const store = useAppStore()
 
       // 如果没有获取过且需要刷新，自动触发获取
@@ -56,7 +56,7 @@ export const useAppStore = defineStore('appStore', {
       }
 
       return state.website
-    },
+    }
   },
   actions: {
     toggleCollapse() {
@@ -77,21 +77,19 @@ export const useAppStore = defineStore('appStore', {
         this.website = data
         this.lastFetchTime = Date.now()
         return data
-      }
-      catch (error) {
+      } catch (error) {
         console.error('获取网站配置失败:', error)
         throw error
-      }
-      finally {
+      } finally {
         this.isFetching = false
       }
     },
 
     async refreshWebsiteConfig() {
       return this.fetchWebsiteConfig(true)
-    },
+    }
   },
   persist: {
-    storage: localStorage,
-  },
+    storage: localStorage
+  }
 })

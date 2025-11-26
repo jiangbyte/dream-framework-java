@@ -1,69 +1,68 @@
 <script lang="ts" setup>
-import { useSysDictApi, useSysMenuApi } from '@/api'
-import { useBoolean, useLoading } from '@/hooks'
-import { ResetFormData } from '@/utils'
-import { manifest } from 'tdesign-icons-vue-next'
+  import { useSysDictApi, useSysMenuApi } from '@/api'
+  import { useBoolean, useLoading } from '@/hooks'
+  import { ResetFormData } from '@/utils'
+  import { manifest } from 'tdesign-icons-vue-next'
 
-const props = defineProps<{
-  formName?: string
-}>()
+  const props = defineProps<{
+    formName?: string
+  }>()
 
-const emit = defineEmits(['close', 'submit'])
+  const emit = defineEmits(['close', 'submit'])
 
-const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
-const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
-const { isLoading, withLoading } = useLoading()
-const { isLoading: listTypeOptionsLoading, withLoading: withListTypeOptionsLoading } = useLoading()
+  const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+  const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
+  const { isLoading, withLoading } = useLoading()
+  const { isLoading: listTypeOptionsLoading, withLoading: withListTypeOptionsLoading } =
+    useLoading()
 
-const formData = reactive<DataFormType>({})
-const booleanTypeOptions = ref<TypeOption[]>([])
-async function doOpen(row: any) {
-  openDrawer()
-  ResetFormData(formData)
+  const formData = reactive<DataFormType>({})
+  const booleanTypeOptions = ref<TypeOption[]>([])
+  async function doOpen(row: any) {
+    openDrawer()
+    ResetFormData(formData)
 
-  if (row?.id) {
-    setEditMode()
-    const { data, success } = await withLoading(useSysMenuApi().GetSysMenu(row?.id))
-    if (success) {
-      Object.assign(formData, data)
+    if (row?.id) {
+      setEditMode()
+      const { data, success } = await withLoading(useSysMenuApi().GetSysMenu(row?.id))
+      if (success) {
+        Object.assign(formData, data)
+      } else {
+        closeDrawer()
+      }
+    } else {
+      setAddMode()
     }
-    else {
-      closeDrawer()
-    }
+
+    withListTypeOptionsLoading(useSysDictApi().ListOptionsByType('SYS_BOOLEAN')).then(
+      ({ data }) => {
+        booleanTypeOptions.value = data.map((item: TypeOption) => ({
+          ...item,
+          value: item.value === 'true' // 直接比较转换为 boolean
+        }))
+      }
+    )
   }
-  else {
-    setAddMode()
-  }
 
-  withListTypeOptionsLoading(useSysDictApi().ListOptionsByType('SYS_BOOLEAN')).then(({ data }) => {
-    booleanTypeOptions.value = data.map((item: TypeOption) => ({
-      ...item,
-      value: item.value === 'true', // 直接比较转换为 boolean
-    }))
-  })
-}
-
-function doClose() {
-  ResetFormData(formData)
-  closeDrawer()
-  emit('close')
-}
-
-async function doSubmit() {
-  const api = isEdit.value
-    ? useSysMenuApi().EditSysMenu
-    : useSysMenuApi().AddSysMenu
-
-  const { success } = await withLoading(api(formData))
-  if (success) {
+  function doClose() {
+    ResetFormData(formData)
     closeDrawer()
-    emit('submit')
+    emit('close')
   }
-}
 
-defineExpose({
-  doOpen,
-})
+  async function doSubmit() {
+    const api = isEdit.value ? useSysMenuApi().EditSysMenu : useSysMenuApi().AddSysMenu
+
+    const { success } = await withLoading(api(formData))
+    if (success) {
+      closeDrawer()
+      emit('submit')
+    }
+  }
+
+  defineExpose({
+    doOpen
+  })
 </script>
 
 <template>
@@ -100,11 +99,20 @@ defineExpose({
         <t-form-item label="外部链接地址" name="externalUrl">
           <t-input v-model="formData.externalUrl" placeholder="请输入外部链接地址" />
         </t-form-item>
-        <t-form-item label="菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入" name="menuType">
-          <t-input v-model="formData.menuType" placeholder="请输入菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入" />
+        <t-form-item
+          label="菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入"
+          name="menuType"
+        >
+          <t-input
+            v-model="formData.menuType"
+            placeholder="请输入菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入"
+          />
         </t-form-item>
         <t-form-item label="打开方式：0-当前窗口 1-新窗口打开" name="openTarget">
-          <t-input v-model="formData.openTarget" placeholder="请输入打开方式：0-当前窗口 1-新窗口打开" />
+          <t-input
+            v-model="formData.openTarget"
+            placeholder="请输入打开方式：0-当前窗口 1-新窗口打开"
+          />
         </t-form-item>
         <t-form-item label="iframe属性" name="iframeAttrs">
           <t-input v-model="formData.iframeAttrs" placeholder="请输入iframe属性" />
@@ -119,7 +127,12 @@ defineExpose({
             :style="{ width: '400px' }"
             :popup-props="{ overlayInnerStyle: { width: '400px' } }"
           >
-            <t-option v-for="item in manifest" :key="item.stem" :value="item.stem" class="overlay-options">
+            <t-option
+              v-for="item in manifest"
+              :key="item.stem"
+              :value="item.stem"
+              class="overlay-options"
+            >
               <div>
                 <t-icon :name="item.stem" />
               </div>
@@ -173,8 +186,8 @@ defineExpose({
 </template>
 
 <style scoped>
-.overlay-options {
-  display: inline-block;
-  font-size: 20px;
-}
+  .overlay-options {
+    display: inline-block;
+    font-size: 20px;
+  }
 </style>

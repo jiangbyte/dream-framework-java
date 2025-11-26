@@ -13,8 +13,8 @@ export function useSysDictApi() {
     PageSysDict(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/dict/page`, {
         params: {
-          ...data,
-        },
+          ...data
+        }
       })
     },
 
@@ -47,46 +47,46 @@ export function useSysDictApi() {
     },
 
     /*
-    * 系统字典 最新接口
-    */
+     * 系统字典 最新接口
+     */
     LatestSysDict(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/dict/latest`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     /*
-    * 系统字典 TopN接口
-    */
+     * 系统字典 TopN接口
+     */
     TopSysDict(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/dict/top`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     TreeOptions(keyword: string) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/dict/tree/options`, {
         params: {
-          keyword,
-        },
+          keyword
+        }
       })
     },
     ListOptions(keyword: string) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/dict/list/options`, {
         params: {
-          keyword,
-        },
+          keyword
+        }
       })
     },
     ListTypeOptions(keyword: string) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/dict/list/type/options`, {
         params: {
-          keyword,
-        },
+          keyword
+        }
       })
     },
 
@@ -94,9 +94,9 @@ export function useSysDictApi() {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/dict/list/options/by/type`, {
         params: {
           type,
-          ...(keyword && { keyword }), // 只有当 keyword 有值时才传入
-        },
+          ...(keyword && { keyword }) // 只有当 keyword 有值时才传入
+        }
       })
-    },
+    }
   }
 }

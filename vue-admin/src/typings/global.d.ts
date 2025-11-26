@@ -1,6 +1,4 @@
-interface Window {
-
-}
+interface Window {}
 
 interface DataFormType {
   [key: string]: any

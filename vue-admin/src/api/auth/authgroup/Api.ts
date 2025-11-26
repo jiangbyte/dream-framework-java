@@ -13,8 +13,8 @@ export function useAuthGroupApi() {
     PageAuthGroup(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/group/page`, {
         params: {
-          ...data,
-        },
+          ...data
+        }
       })
     },
 
@@ -47,25 +47,25 @@ export function useAuthGroupApi() {
     },
 
     /*
-    * 用户组 最新接口
-    */
+     * 用户组 最新接口
+     */
     LatestAuthGroup(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/group/latest`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     /*
-    * 用户组 TopN接口
-    */
+     * 用户组 TopN接口
+     */
     TopAuthGroup(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/group/top`, {
         params: {
-          n,
-        },
+          n
+        }
       })
-    },
+    }
   }
 }

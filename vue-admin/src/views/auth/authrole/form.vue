@@ -1,60 +1,56 @@
 <script lang="ts" setup>
-import { useAuthRoleApi } from '@/api'
-import { useBoolean, useLoading } from '@/hooks'
-import { ResetFormData } from '@/utils'
+  import { useAuthRoleApi } from '@/api'
+  import { useBoolean, useLoading } from '@/hooks'
+  import { ResetFormData } from '@/utils'
 
-const props = defineProps<{
-  formName?: string
-}>()
+  const props = defineProps<{
+    formName?: string
+  }>()
 
-const emit = defineEmits(['close', 'submit'])
+  const emit = defineEmits(['close', 'submit'])
 
-const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
-const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
-const { isLoading, withLoading } = useLoading()
+  const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+  const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
+  const { isLoading, withLoading } = useLoading()
 
-const formData = reactive<DataFormType>({})
+  const formData = reactive<DataFormType>({})
 
-async function doOpen(row: any) {
-  openDrawer()
-  ResetFormData(formData)
+  async function doOpen(row: any) {
+    openDrawer()
+    ResetFormData(formData)
 
-  if (row?.id) {
-    setEditMode()
-    const { data, success } = await withLoading(useAuthRoleApi().GetAuthRole(row?.id))
-    if (success) {
-      Object.assign(formData, data)
-    }
-    else {
-      closeDrawer()
+    if (row?.id) {
+      setEditMode()
+      const { data, success } = await withLoading(useAuthRoleApi().GetAuthRole(row?.id))
+      if (success) {
+        Object.assign(formData, data)
+      } else {
+        closeDrawer()
+      }
+    } else {
+      setAddMode()
     }
   }
-  else {
-    setAddMode()
-  }
-}
 
-function doClose() {
-  ResetFormData(formData)
-  closeDrawer()
-  emit('close')
-}
-
-async function doSubmit() {
-  const api = isEdit.value
-    ? useAuthRoleApi().EditAuthRole
-    : useAuthRoleApi().AddAuthRole
-
-  const { success } = await withLoading(api(formData))
-  if (success) {
+  function doClose() {
+    ResetFormData(formData)
     closeDrawer()
-    emit('submit')
+    emit('close')
   }
-}
 
-defineExpose({
-  doOpen,
-})
+  async function doSubmit() {
+    const api = isEdit.value ? useAuthRoleApi().EditAuthRole : useAuthRoleApi().AddAuthRole
+
+    const { success } = await withLoading(api(formData))
+    if (success) {
+      closeDrawer()
+      emit('submit')
+    }
+  }
+
+  defineExpose({
+    doOpen
+  })
 </script>
 
 <template>
@@ -93,6 +89,4 @@ defineExpose({
   </t-drawer>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

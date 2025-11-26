@@ -13,8 +13,8 @@ export function useSysLogApi() {
     PageSysLog(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/log/page`, {
         params: {
-          ...data,
-        },
+          ...data
+        }
       })
     },
 
@@ -47,25 +47,25 @@ export function useSysLogApi() {
     },
 
     /*
-    * 系统活动日志记录 最新接口
-    */
+     * 系统活动日志记录 最新接口
+     */
     LatestSysLog(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/log/latest`, {
         params: {
-          n,
-        },
+          n
+        }
       })
     },
 
     /*
-    * 系统活动日志记录 TopN接口
-    */
+     * 系统活动日志记录 TopN接口
+     */
     TopSysLog(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/log/top`, {
         params: {
-          n,
-        },
+          n
+        }
       })
-    },
+    }
   }
 }

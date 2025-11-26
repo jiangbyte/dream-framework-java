@@ -66,7 +66,7 @@ export const useAuthStore = defineStore('authStore', {
   state: () => {
     return {
       token: null as string | null,
-      user: null as UserPublicAssociatedInfo | null,
+      user: null as UserPublicAssociatedInfo | null
     }
   },
   getters: {
@@ -78,7 +78,7 @@ export const useAuthStore = defineStore('authStore', {
     },
     isLogined(state) {
       return !!state.token
-    },
+    }
   },
   actions: {
     async setToken(token: string) {
@@ -103,9 +103,9 @@ export const useAuthStore = defineStore('authStore', {
       routerStore.resetRouteStore()
       MessagePlugin.info('登出成功！')
       window.location.reload()
-    },
+    }
   },
   persist: {
-    storage: localStorage,
-  },
+    storage: localStorage
+  }
 })

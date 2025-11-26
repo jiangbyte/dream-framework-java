@@ -1,47 +1,43 @@
 <script lang="ts" setup>
-import { useAppStore, useRouterStore } from '@/stores'
-import { useRouter } from 'vue-router'
+  import { useAppStore, useRouterStore } from '@/stores'
+  import { useRouter } from 'vue-router'
 
-const appStore = useAppStore()
-const routerStore = useRouterStore()
-const router = useRouter()
-const { collapsed } = storeToRefs(appStore)
+  const appStore = useAppStore()
+  const routerStore = useRouterStore()
+  const router = useRouter()
+  const { collapsed } = storeToRefs(appStore)
 
-// 处理菜单点击
-function handleMenuClick(menu: any) {
-  if (menu.menu_type === 1 && menu.external_url) {
-    // 外链菜单
-    if (menu.open_target === 1) {
-      window.open(menu.external_url, '_blank')
+  // 处理菜单点击
+  function handleMenuClick(menu: any) {
+    if (menu.menu_type === 1 && menu.external_url) {
+      // 外链菜单
+      if (menu.open_target === 1) {
+        window.open(menu.external_url, '_blank')
+      } else {
+        window.location.href = menu.external_url
+      }
+    } else if (menu.menu_type === 2 && menu.redirect) {
+      // 重定向菜单
+      router.push(menu.redirect)
+    } else if (menu.menu_type === 3 && menu.external_url) {
+      // iframe 嵌入菜单
+      // 这里可以根据你的 iframe 实现方式处理
+      console.log('iframe menu:', menu)
+    } else if (menu.path) {
+      // 内部路由菜单
+      router.push(menu.path)
     }
-    else {
-      window.location.href = menu.external_url
-    }
   }
-  else if (menu.menu_type === 2 && menu.redirect) {
-    // 重定向菜单
-    router.push(menu.redirect)
-  }
-  else if (menu.menu_type === 3 && menu.external_url) {
-    // iframe 嵌入菜单
-    // 这里可以根据你的 iframe 实现方式处理
-    console.log('iframe menu:', menu)
-  }
-  else if (menu.path) {
-    // 内部路由菜单
-    router.push(menu.path)
-  }
-}
 
-// 获取菜单路径
-function getMenuPath(menu: any) {
-  return menu.path || menu.id
-}
+  // 获取菜单路径
+  function getMenuPath(menu: any) {
+    return menu.path || menu.id
+  }
 
-// 判断是否为外链菜单
-function isExternalMenu(menu: any) {
-  return menu.menu_type === 1 && menu.external_url
-}
+  // 判断是否为外链菜单
+  function isExternalMenu(menu: any) {
+    return menu.menu_type === 1 && menu.external_url
+  }
 </script>
 
 <template>
@@ -52,7 +48,7 @@ function isExternalMenu(menu: any) {
   >
     <template #logo>
       <div class="w-full flex items-center justify-center" style="margin-left: 0">
-        <img src="/logo3.png" height="45px" style="object-fit: cover">
+        <img src="/logo3.png" height="45px" style="object-fit: cover" />
       </div>
     </template>
 
@@ -99,7 +95,12 @@ function isExternalMenu(menu: any) {
           </template>
 
           <!-- 递归子菜单 -->
-          <template v-for="child in menu.children.filter(c => c.meta.visible).sort((a, b) => Number(a.meta.sort) - Number(b.meta.sort))" :key="child.id">
+          <template
+            v-for="child in menu.children
+              .filter(c => c.meta.visible)
+              .sort((a, b) => Number(a.meta.sort) - Number(b.meta.sort))"
+            :key="child.id"
+          >
             <!-- 子菜单项为外链 -->
             <t-menu-item
               v-if="isExternalMenu(child)"
@@ -143,6 +144,4 @@ function isExternalMenu(menu: any) {
   </t-menu>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
