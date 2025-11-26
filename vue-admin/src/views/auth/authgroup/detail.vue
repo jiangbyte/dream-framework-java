@@ -72,9 +72,6 @@ defineExpose({
         <t-descriptions-item label="最大用户数量限制">
           {{ formData.maxUserCount }}
         </t-descriptions-item>
-        <t-descriptions-item label="是否为系统预设组">
-          {{ formData.isSystem }}
-        </t-descriptions-item>
       </t-descriptions>
     </t-loading>
   </t-drawer>

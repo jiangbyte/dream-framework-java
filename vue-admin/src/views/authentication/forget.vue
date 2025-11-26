@@ -32,6 +32,7 @@ async function loadCaptcha() {
 loadCaptcha()
 
 const isLoading = ref(false)
+const router = useRouter()
 async function handleSubmit(context: any) {
   const { validateResult } = context
   if (validateResult === true) {
@@ -40,6 +41,7 @@ async function handleSubmit(context: any) {
       isLoading.value = false
       if (success) {
         MessagePlugin.info('重置邮件发送成功！')
+        router.push('/login')
       }
       else {
         loadCaptcha()

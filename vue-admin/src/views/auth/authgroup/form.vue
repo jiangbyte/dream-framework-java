@@ -94,9 +94,6 @@ defineExpose({
         <t-form-item label="最大用户数量限制" name="maxUserCount">
           <t-input v-model="formData.maxUserCount" placeholder="请输入最大用户数量限制" />
         </t-form-item>
-        <t-form-item label="是否为系统预设组" name="isSystem">
-          <t-input v-model="formData.isSystem" placeholder="请输入是否为系统预设组" />
-        </t-form-item>
       </t-form>
     </t-loading>
   </t-drawer>

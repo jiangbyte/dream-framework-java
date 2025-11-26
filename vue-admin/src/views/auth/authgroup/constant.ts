@@ -51,21 +51,15 @@ export const COLUMNS: PrimaryTableCol[] = [
     ellipsis: true,
   },
   {
-    title: '是否为系统预设组',
-    colKey: 'isSystem',
-    width: 120,
-    ellipsis: true,
-  },
-  {
     title: '创建时间',
     colKey: 'createdAt',
-    width: 120,
+    width: 180,
     ellipsis: true,
   },
   {
     title: '更新时间',
     colKey: 'updatedAt',
-    width: 120,
+    width: 180,
     ellipsis: true,
   },
   {

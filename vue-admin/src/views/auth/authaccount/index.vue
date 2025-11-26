@@ -167,7 +167,7 @@ const columnControllerVisible = ref(false)
         </t-typography-text>
       </template>
       <template #passwordStrength="{ row }">
-        <t-rate :default-value="row.passwordStrength" :disabled="true" :count="3" />
+        <t-rate :value="row.passwordStrength" :disabled="true" :count="3" />
       </template>
       <template #operation="{ row }">
         <t-space :size="12" align="center">

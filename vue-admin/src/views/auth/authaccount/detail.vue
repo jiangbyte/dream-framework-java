@@ -73,7 +73,7 @@ defineExpose({
               {{ formData.account?.statusName }}
             </t-descriptions-item>
             <t-descriptions-item label="密码强度等级">
-              <t-rate :default-value="formData.passwordStrength" :disabled="true" :count="3" />
+              <t-rate :value="formData.account?.passwordStrength" :disabled="true" :count="3" />
             </t-descriptions-item>
             <t-descriptions-item label="最后修改密码的时间">
               {{ formData.account?.lastPasswordChange }}
