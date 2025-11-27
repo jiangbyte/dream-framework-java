@@ -11,7 +11,8 @@
     <modules>
         <module>dream-dependencies</module>
         <module>dream-app</module>
-        <module>dream-module</module>
+        <module>dream-core</module>
+        <module>dream-common</module>
     </modules>
 
     <properties>

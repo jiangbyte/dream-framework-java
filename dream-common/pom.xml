@@ -9,10 +9,12 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>dream-app</artifactId>
+    <artifactId>dream-common</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>app-system</module>
+        <module>common-generator</module>
+        <module>common-ai</module>
+        <module>common-mq</module>
     </modules>
 
     <properties>
