@@ -39,22 +39,22 @@ public class RabbitConfig {
     }
 
 
-//    @Bean
-//    public RabbitListenerContainerFactory<?> rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
-//        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-//        factory.setConnectionFactory(connectionFactory);
-//        factory.setMessageConverter(new Jackson2JsonMessageConverter());
-//        factory.setConcurrentConsumers(5); // 初始消费者数量
-//        factory.setMaxConcurrentConsumers(20); // 最大消费者数量
-//        factory.setPrefetchCount(10); // 控制预取数量
-//        // 设置重试机制
-//        factory.setAdviceChain(RetryInterceptorBuilder.stateless()
-//                .maxAttempts(3) // 最大重试次数
-//                .backOffOptions(1000, 2.0, 5000) // 初始间隔1秒，倍数2.0，最大间隔10秒
-//                .recoverer(new RejectAndDontRequeueRecoverer()) // 超过重试次数后不重新入队
-//                .build());
-//
-//        return factory;
-//    }
-//
+    @Bean
+    public RabbitListenerContainerFactory<?> rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(new Jackson2JsonMessageConverter());
+        factory.setConcurrentConsumers(5); // 初始消费者数量
+        factory.setMaxConcurrentConsumers(20); // 最大消费者数量
+        factory.setPrefetchCount(10); // 控制预取数量
+        // 设置重试机制
+        factory.setAdviceChain(RetryInterceptorBuilder.stateless()
+                .maxAttempts(3) // 最大重试次数
+                .backOffOptions(1000, 2.0, 5000) // 初始间隔1秒，倍数2.0，最大间隔10秒
+                .recoverer(new RejectAndDontRequeueRecoverer()) // 超过重试次数后不重新入队
+                .build());
+
+        return factory;
+    }
+
 }

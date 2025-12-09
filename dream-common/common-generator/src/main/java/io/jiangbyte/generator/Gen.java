@@ -192,6 +192,7 @@ public class Gen {
 
                         injectConfig
                                 .customMap(Map.of("GModule", module.getGModule()))
+                                .customMap(Map.of("ModuleName", module.getModuleName()))
                                 .customFile(build);
                     })
                     .templateEngine(new FreemarkerTemplateEngine())
