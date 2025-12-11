@@ -13,8 +13,8 @@ export function useUserInfoApi() {
     PageUserInfo(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/info/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useUserInfoApi() {
     LatestUserInfo(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/info/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,9 +63,9 @@ export function useUserInfoApi() {
     TopUserInfo(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/info/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
-    }
+    },
   }
 }

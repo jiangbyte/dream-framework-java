@@ -46,7 +46,7 @@ public class BaseEntity implements Serializable, TransPojo {
      * 创建者ID
      */
     @TableField(fill = FieldFill.INSERT)
-    @Trans(type = TransType.SIMPLE, targetClassName = "io.jiangbyte.app.modules.users.info.entity.UsersInfo", fields = {"avatar", "nickname"}, refs = {"createUserAvatar", "createUserName"})
+    @Trans(type = TransType.SIMPLE, targetClassName = "io.jiangbyte.app.base.users.info.entity.UsersInfo", fields = {"avatar", "nickname"}, refs = {"createUserAvatar", "createUserName"})
     private String createdBy;
 
     /**
@@ -71,7 +71,7 @@ public class BaseEntity implements Serializable, TransPojo {
      * 记录最后更新的用户ID
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    @Trans(type = TransType.SIMPLE, targetClassName = "io.jiangbyte.app.modules.users.info.entity.UsersInfo", fields = {"avatar", "nickname"}, refs = {"updateUserAvatar", "updateUserName"})
+    @Trans(type = TransType.SIMPLE, targetClassName = "io.jiangbyte.app.base.users.info.entity.UsersInfo", fields = {"avatar", "nickname"}, refs = {"updateUserAvatar", "updateUserName"})
     private String updatedBy;
 
     /**

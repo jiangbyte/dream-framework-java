@@ -13,8 +13,8 @@ export function useConfigItemApi() {
     PageConfigItem(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/item/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useConfigItemApi() {
     LatestConfigItem(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/item/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,12 +63,12 @@ export function useConfigItemApi() {
     TopConfigItem(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/item/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
     GetWebsiteConfig() {
       return request.Get<IResult<any>>(`${pathPrefix}/config/item/website`)
-    }
+    },
   }
 }

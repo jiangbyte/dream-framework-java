@@ -9,7 +9,7 @@ import {
   handleBusinessError,
   handleMethodError,
   handleResponseError,
-  handleResult
+  handleResult,
 } from './handler'
 import { defaultAlovaConfig, defaultAuthConfig } from './config'
 
@@ -19,34 +19,35 @@ const { onAuthRequired, onResponseRefreshToken } = createServerTokenAuthenticati
       const apiData = await response.clone().json()
       const isExpired = method.meta && method.meta.isExpired
       return (
-        (defaultAuthConfig.expiredCodes.includes(response.status) ||
-          defaultAuthConfig.expiredCodes.includes(apiData.code)) &&
-        !isExpired
+        (defaultAuthConfig.expiredCodes.includes(response.status)
+          || defaultAuthConfig.expiredCodes.includes(apiData.code))
+        && !isExpired
       )
     },
 
     handler: async (response, method) => {
       if (!method.meta) {
         method.meta = {
-          isExpired: true
+          isExpired: true,
         }
-      } else {
+      }
+      else {
         method.meta.isExpired = true
       }
 
       const apiData = await response.clone().json()
       handleAuthError(response, method, apiData)
-    }
+    },
   },
 
-  assignToken: method => {
+  assignToken: (method) => {
     const authStore = useAuthStore()
     const token = authStore.getToken
     if (token) {
-      method.config.headers[defaultAuthConfig.tokenHeader] =
-        `${defaultAuthConfig.tokenPrefix} ${token}`
+      method.config.headers[defaultAuthConfig.tokenHeader]
+        = `${defaultAuthConfig.tokenPrefix} ${token}`
     }
-  }
+  },
 })
 
 const alovaInstance = createAlova({
@@ -56,7 +57,7 @@ const alovaInstance = createAlova({
   baseURL: defaultAlovaConfig.baseURL,
   timeout: defaultAlovaConfig.timeout,
 
-  beforeRequest: onAuthRequired(method => {
+  beforeRequest: onAuthRequired((method) => {
     if (method.meta?.isFormPost) {
       method.config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
       method.data = new URLSearchParams(method.data as URLSearchParams).toString()
@@ -102,8 +103,8 @@ const alovaInstance = createAlova({
       handleMethodError(error, method)
     },
 
-    onComplete: async _method => {}
-  })
+    onComplete: async (_method) => {},
+  }),
 })
 
 export const request = alovaInstance

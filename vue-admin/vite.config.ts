@@ -26,42 +26,42 @@ export default defineConfig(({ command, mode }) => {
         imports: ['vue', 'vue-router', 'pinia'],
         resolvers: [
           TDesignResolver({
-            library: 'vue-next'
-          })
+            library: 'vue-next',
+          }),
         ],
         include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
-        dts: 'src/typings/auto-imports.d.ts'
+        dts: 'src/typings/auto-imports.d.ts',
       }),
       Components({
         dts: 'src/typings/components.d.ts',
         resolvers: [
           IconsResolver({
-            prefix: false
+            prefix: false,
           }),
           TDesignResolver({
-            library: 'vue-next'
-          })
-        ]
+            library: 'vue-next',
+          }),
+        ],
       }),
       Icons({
         defaultStyle: 'display:inline-block',
-        compiler: 'vue3'
-      })
+        compiler: 'vue3',
+      }),
     ],
     resolve: {
       alias: {
-        '@': resolve(__dirname, 'src')
-      }
+        '@': resolve(__dirname, 'src'),
+      },
     },
     server: {
       host: '0.0.0.0',
-      port: Number.parseInt(env.VITE_PORT) || 3000
+      port: Number.parseInt(env.VITE_PORT) || 3000,
     },
     esbuild:
       command === 'build'
         ? {
-            drop: ['console', 'debugger']
+            drop: ['console', 'debugger'],
           }
-        : {}
+        : {},
   }
 })

@@ -33,16 +33,16 @@ const asideWidth = computed(() => collapsed.value ? '64px' : '232px')
 </style> -->
 
 <script setup lang="ts">
-  import { useAppStore } from '@/stores'
-  import LayoutHeader from './components/LayoutHeader.vue'
-  import LayoutSide from './components/LayoutSide.vue'
-  import LayoutContent from './components/LayoutContent.vue'
+import { useAppStore } from '@/stores'
+import LayoutHeader from './components/LayoutHeader.vue'
+import LayoutSide from './components/LayoutSide.vue'
+import LayoutContent from './components/LayoutContent.vue'
 
-  const appStore = useAppStore()
-  const { collapsed } = storeToRefs(appStore)
+const appStore = useAppStore()
+const { collapsed } = storeToRefs(appStore)
 
-  // 定义折叠时的宽度
-  const asideWidth = computed(() => (collapsed.value ? '64px' : '232px'))
+// 定义折叠时的宽度
+const asideWidth = computed(() => (collapsed.value ? '64px' : '232px'))
 </script>
 
 <template>

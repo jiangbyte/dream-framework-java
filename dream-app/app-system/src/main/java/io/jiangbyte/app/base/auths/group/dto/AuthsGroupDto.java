@@ -25,7 +25,10 @@ public class AuthsGroupDto implements Serializable {
     private String id;
 
     @Schema(description = "父级组ID")
-    private String parentId;
+    private String pid;
+
+    @Schema(description = "父级组路径")
+    private String pidPath;
 
     @Schema(description = "用户组名称")
     private String name;

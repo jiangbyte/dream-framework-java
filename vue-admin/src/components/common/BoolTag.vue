@@ -1,10 +1,10 @@
 <script setup>
-  defineProps({
-    value: {
-      type: Boolean,
-      required: true
-    }
-  })
+defineProps({
+  value: {
+    type: Boolean,
+    required: true,
+  },
+})
 </script>
 
 <template>

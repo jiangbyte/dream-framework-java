@@ -13,8 +13,8 @@ export function useUserStatsApi() {
     PageUserStats(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/stats/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useUserStatsApi() {
     LatestUserStats(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/stats/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,9 +63,9 @@ export function useUserStatsApi() {
     TopUserStats(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/stats/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
-    }
+    },
   }
 }

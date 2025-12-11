@@ -13,8 +13,8 @@ export function useAuthAccountApi() {
     PageAuthAccount(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/account/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useAuthAccountApi() {
     LatestAuthAccount(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/account/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,12 +63,12 @@ export function useAuthAccountApi() {
     TopAuthAccount(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/account/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
     GetUserAccount(id: string) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/account/user/${id}`)
-    }
+    },
   }
 }

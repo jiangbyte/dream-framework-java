@@ -5,6 +5,6 @@ export function useDashboardApi() {
   return {
     GetDashboardPaneItems() {
       return request.Get<IResult<any>>(`${pathPrefix}/dashboard/pane/items`)
-    }
+    },
   }
 }

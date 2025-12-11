@@ -1,68 +1,96 @@
 <script lang="ts" setup>
-  import { useSysDictApi, useSysMenuApi } from '@/api'
-  import { useBoolean, useLoading } from '@/hooks'
-  import { ResetFormData } from '@/utils'
-  import { manifest } from 'tdesign-icons-vue-next'
+import { useSysDictApi, useSysMenuApi } from '@/api'
+import { useBoolean, useLoading } from '@/hooks'
+import { ResetFormData } from '@/utils'
+import { manifest } from 'tdesign-icons-vue-next'
 
-  const props = defineProps<{
-    formName?: string
-  }>()
+const props = defineProps<{
+  formName?: string
+}>()
 
-  const emit = defineEmits(['close', 'submit'])
+const emit = defineEmits(['close', 'submit'])
 
-  const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
-  const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
-  const { isLoading, withLoading } = useLoading()
-  const { isLoading: listTypeOptionsLoading, withLoading: withListTypeOptionsLoading } =
-    useLoading()
+const { isLoading, withLoading } = useLoading()
+const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
+const { isLoading: parentMenuOptionsLoading, withLoading: withParentMenuOptionsLoading } = useLoading()
+const formData = reactive<DataFormType>({})
+const booleanTypeOptions = ref<TypeOption[]>([])
+const menuTypeOptions = ref<TypeOption[]>([])
+const menuOpenMethodOptions = ref<TypeOption[]>([])
+const menuListTreeOptions = ref<any[]>([{
+  id: '0',
+  title: '无',
+}])
+async function doOpen(row: any) {
+  openDrawer()
+  ResetFormData(formData)
 
-  const formData = reactive<DataFormType>({})
-  const booleanTypeOptions = ref<TypeOption[]>([])
-  async function doOpen(row: any) {
-    openDrawer()
-    ResetFormData(formData)
-
-    if (row?.id) {
-      setEditMode()
-      const { data, success } = await withLoading(useSysMenuApi().GetSysMenu(row?.id))
-      if (success) {
-        Object.assign(formData, data)
-      } else {
-        closeDrawer()
-      }
-    } else {
-      setAddMode()
-    }
-
-    withListTypeOptionsLoading(useSysDictApi().ListOptionsByType('SYS_BOOLEAN')).then(
-      ({ data }) => {
-        booleanTypeOptions.value = data.map((item: TypeOption) => ({
-          ...item,
-          value: item.value === 'true' // 直接比较转换为 boolean
-        }))
-      }
-    )
-  }
-
-  function doClose() {
-    ResetFormData(formData)
-    closeDrawer()
-    emit('close')
-  }
-
-  async function doSubmit() {
-    const api = isEdit.value ? useSysMenuApi().EditSysMenu : useSysMenuApi().AddSysMenu
-
-    const { success } = await withLoading(api(formData))
+  if (row?.id) {
+    setEditMode()
+    const { data, success } = await withLoading(useSysMenuApi().GetSysMenu(row?.id))
     if (success) {
+      Object.assign(formData, data)
+    }
+    else {
       closeDrawer()
-      emit('submit')
     }
   }
+  else {
+    setAddMode()
+  }
 
-  defineExpose({
-    doOpen
-  })
+  useSysDictApi().ListOptionsByType('SYS_BOOLEAN').then(
+    ({ data }) => {
+      booleanTypeOptions.value = data.map((item: TypeOption) => ({
+        ...item,
+        value: item.value === 'true', // 直接比较转换为 boolean
+      }))
+    },
+  )
+  useSysDictApi().ListOptionsByType('SYS_MENU').then(
+    ({ data }) => {
+      menuTypeOptions.value = data.map((item: TypeOption) => ({
+        ...item,
+        value: Number(item.value),
+      }))
+    },
+  )
+  useSysDictApi().ListOptionsByType('SYS_OPEN_METHOD').then(
+    ({ data }) => {
+      menuOpenMethodOptions.value = data.map((item: TypeOption) => ({
+        ...item,
+        value: Number(item.value),
+      }))
+    },
+  )
+
+  withParentMenuOptionsLoading(useSysMenuApi().GetSysMenuListTreeWithAccountID('')).then(
+    ({ data }) => {
+      menuListTreeOptions.value.push(...data)
+    },
+  )
+}
+
+function doClose() {
+  ResetFormData(formData)
+  closeDrawer()
+  emit('close')
+}
+
+async function doSubmit() {
+  const api = isEdit.value ? useSysMenuApi().EditSysMenu : useSysMenuApi().AddSysMenu
+
+  const { success } = await withLoading(api(formData))
+  if (success) {
+    closeDrawer()
+    emit('submit')
+  }
+}
+
+defineExpose({
+  doOpen,
+})
 </script>
 
 <template>
@@ -82,7 +110,12 @@
     <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
       <t-form :data="formData" label-align="left">
         <t-form-item label="父级ID" name="pid">
-          <t-input v-model="formData.pid" placeholder="请输入父级ID" />
+          <t-tree-select
+            v-model="formData.pid"
+            :keys="{ value: 'id', label: 'title' }"
+            :data="menuListTreeOptions"
+            placeholder="请输入父级"
+          />
         </t-form-item>
         <t-form-item label="菜单名称" name="name">
           <t-input v-model="formData.name" placeholder="请输入菜单名称" />
@@ -100,19 +133,21 @@
           <t-input v-model="formData.externalUrl" placeholder="请输入外部链接地址" />
         </t-form-item>
         <t-form-item
-          label="菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入"
+          label="菜单类型"
           name="menuType"
         >
-          <t-input
-            v-model="formData.menuType"
-            placeholder="请输入菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入"
-          />
+          <t-radio-group v-model="formData.menuType" :default-value="formData.menuType">
+            <t-radio v-for="item in menuTypeOptions" :key="item.value" :value="item.value">
+              {{ item.text }}
+            </t-radio>
+          </t-radio-group>
         </t-form-item>
-        <t-form-item label="打开方式：0-当前窗口 1-新窗口打开" name="openTarget">
-          <t-input
-            v-model="formData.openTarget"
-            placeholder="请输入打开方式：0-当前窗口 1-新窗口打开"
-          />
+        <t-form-item label="打开方式" name="openTarget">
+          <t-radio-group v-model="formData.openTarget" :default-value="formData.openTarget">
+            <t-radio v-for="item in menuOpenMethodOptions" :key="item.value" :value="item.value">
+              {{ item.text }}
+            </t-radio>
+          </t-radio-group>
         </t-form-item>
         <t-form-item label="iframe属性" name="iframeAttrs">
           <t-input v-model="formData.iframeAttrs" placeholder="请输入iframe属性" />
@@ -121,7 +156,7 @@
           <t-input v-model="formData.title" placeholder="请输入菜单标题" />
         </t-form-item>
         <t-form-item label="菜单图标" name="icon">
-          <t-select
+          <!-- <t-select
             v-model="formData.icon"
             placeholder="请输入菜单图标"
             :style="{ width: '400px' }"
@@ -140,6 +175,30 @@
             <template #valueDisplay>
               <t-icon :name="formData.icon" :style="{ marginRight: '8px' }" />
               {{ formData.icon }}
+            </template>
+          </t-select> -->
+          <t-select
+            v-model="formData.icon"
+            placeholder="请选择菜单图标"
+            :style="{ width: '400px' }"
+            :popup-props="{ overlayInnerStyle: { width: '400px' } }"
+          >
+            <t-option
+              v-for="item in manifest"
+              :key="item.stem"
+              :value="item.stem"
+            >
+              <div class="icon-option-content">
+                <t-icon :name="item.stem" size="18" />
+                <span class="icon-name">{{ item.stem }}</span>
+              </div>
+            </t-option>
+
+            <template #valueDisplay="{ value }">
+              <div class="selected-value">
+                <t-icon :name="value" size="18" />
+                <span>{{ value }}</span>
+              </div>
             </template>
           </t-select>
         </t-form-item>
@@ -186,8 +245,24 @@
 </template>
 
 <style scoped>
-  .overlay-options {
-    display: inline-block;
-    font-size: 20px;
-  }
+.icon-option {
+  padding: 6px 12px;
+}
+
+.icon-option-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-name {
+  font-size: 14px;
+  color: var(--td-text-color-primary);
+}
+
+.selected-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 </style>

@@ -13,8 +13,8 @@ export function useSysLogApi() {
     PageSysLog(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/log/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useSysLogApi() {
     LatestSysLog(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/log/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,9 +63,9 @@ export function useSysLogApi() {
     TopSysLog(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/log/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
-    }
+    },
   }
 }

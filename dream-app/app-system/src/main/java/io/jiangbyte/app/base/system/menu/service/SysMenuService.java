@@ -32,10 +32,10 @@ public interface SysMenuService extends IService<SysMenu> {
     /**
      * 根据账户ID获取菜单列表（树形结构）
      */
-    List<SysMenu> getSysMenuListTreeWithAccountID(String accountId);
+    List<SysMenu> getSysMenuListTreeWithAccountID(String accountId, String keyword);
 
     /**
      * 根据账户ID获取菜单列表（扁平结构）
      */
-    List<SysMenu> getSysMenuListWithAccountID(String accountId);
+    List<SysMenu> getSysMenuListWithAccountID(String accountId, String keyword);
 }

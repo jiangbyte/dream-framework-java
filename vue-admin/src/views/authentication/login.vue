@@ -1,66 +1,67 @@
 <script lang="ts" setup>
-  import { useAccessApi } from '@/api'
-  import { useAppStore, useAuthStore } from '@/stores'
-  import { PasswordUtil, VerifyCapchaRule, VerifyPasswordRule, VerifyUsernameRule } from '@/utils'
+import { useAccessApi } from '@/api'
+import { useAppStore, useAuthStore } from '@/stores'
+import { PasswordUtil, VerifyCapchaRule, VerifyPasswordRule, VerifyUsernameRule } from '@/utils'
 
-  const formRef = ref()
-  const formData = ref({
-    username: 'superadmin',
-    password: '123456',
-    captchaId: '',
-    captchaCode: ''
-  })
-  const formRules = {
-    username: VerifyUsernameRule,
-    password: VerifyPasswordRule,
-    captchaCode: VerifyCapchaRule
-  } as any
+const formRef = ref()
+const formData = ref({
+  username: 'superadmin',
+  password: '123456',
+  captchaId: '',
+  captchaCode: '',
+})
+const formRules = {
+  username: VerifyUsernameRule,
+  password: VerifyPasswordRule,
+  captchaCode: VerifyCapchaRule,
+} as any
 
-  const captchaRef = ref({
-    captchaId: '',
-    captchaImg: ''
-  })
-  async function loadCaptcha() {
-    captchaRef.value.captchaId = ''
-    captchaRef.value.captchaImg = ''
-    formData.value.captchaId = ''
-    formData.value.captchaCode = ''
+const captchaRef = ref({
+  captchaId: '',
+  captchaImg: '',
+})
+async function loadCaptcha() {
+  captchaRef.value.captchaId = ''
+  captchaRef.value.captchaImg = ''
+  formData.value.captchaId = ''
+  formData.value.captchaCode = ''
+  useAccessApi()
+    .Captcha()
+    .then(({ data }) => {
+      captchaRef.value = data
+      formData.value.captchaId = captchaRef.value.captchaId
+    })
+}
+
+loadCaptcha()
+
+const router = useRouter()
+const authStore = useAuthStore()
+const isLoading = ref(false)
+async function handleSubmit(context: any) {
+  const { validateResult } = context
+  if (validateResult === true) {
+    isLoading.value = true
+    const formDataParam = Object.assign({}, formData.value)
+    formDataParam.password = PasswordUtil.encrypt(formData.value.password)
     useAccessApi()
-      .Captcha()
-      .then(({ data }) => {
-        captchaRef.value = data
-        formData.value.captchaId = captchaRef.value.captchaId
+      .DoLogin(formDataParam)
+      .then(({ data, success }) => {
+        isLoading.value = false
+        if (success) {
+          authStore.setAuth(data)
+          MessagePlugin.info('登录成功！')
+          router.push('/')
+        }
+        else {
+          loadCaptcha()
+        }
       })
   }
+}
 
-  loadCaptcha()
-
-  const router = useRouter()
-  const authStore = useAuthStore()
-  const isLoading = ref(false)
-  async function handleSubmit(context: any) {
-    const { validateResult } = context
-    if (validateResult === true) {
-      isLoading.value = true
-      const formDataParam = Object.assign({}, formData.value)
-      formDataParam.password = PasswordUtil.encrypt(formData.value.password)
-      useAccessApi()
-        .DoLogin(formDataParam)
-        .then(({ data, success }) => {
-          isLoading.value = false
-          if (success) {
-            authStore.setAuth(data)
-            MessagePlugin.info('登录成功！')
-            router.push('/')
-          } else {
-            loadCaptcha()
-          }
-        })
-    }
-  }
-
-  const appStore = useAppStore()
-  const { websiteConfig } = storeToRefs(appStore)
+const appStore = useAppStore()
+const { websiteConfig } = storeToRefs(appStore)
 </script>
 
 <template>
@@ -68,8 +69,12 @@
     <div class="w-full md:w-1/2 flex items-center justify-center p-8">
       <div class="w-full max-w-md">
         <div class="text-center mb-10">
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">登录</h2>
-          <p class="text-gray-500">欢迎回来，请登录您的账号</p>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">
+            登录
+          </h2>
+          <p class="text-gray-500">
+            欢迎回来，请登录您的账号
+          </p>
         </div>
 
         <t-form ref="formRef" :data="formData" :rules="formRules" @submit="handleSubmit">
@@ -115,12 +120,14 @@
                 :src="captchaRef.captchaImg"
                 class="w-30 h-full ml-2 cursor-pointer border border-gray-200 object-cover"
                 @click="loadCaptcha"
-              />
+              >
             </div>
           </t-form-item>
           <t-form-item label-width="0">
             <div class="flex w-full justify-end items-center">
-              <t-link @click="$router.push('/forget')">忘记密码?</t-link>
+              <t-link @click="$router.push('/forget')">
+                忘记密码?
+              </t-link>
             </div>
           </t-form-item>
           <t-form-item label-width="0">
@@ -132,7 +139,9 @@
             <div class="flex flex-col w-full">
               <div class="text-center">
                 <span class="text-gray-500">还没有账号?</span>
-                <t-link theme="primary" @click="$router.push('/register')">立即注册</t-link>
+                <t-link theme="primary" @click="$router.push('/register')">
+                  立即注册
+                </t-link>
               </div>
               <div class="text-center">
                 <t-divider>其他登录方式</t-divider>

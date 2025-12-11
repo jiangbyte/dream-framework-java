@@ -1,24 +1,24 @@
 <script lang="ts" setup>
-  const mousePosition = ref({ x: 0, y: 0 })
-  const showParticles = ref(false)
+const mousePosition = ref({ x: 0, y: 0 })
+const showParticles = ref(false)
 
-  // 监听鼠标移动，用于视差效果
-  onMounted(() => {
-    // 页面加载动画延迟
-    setTimeout(() => {
-      showParticles.value = true
-    }, 500)
+// 监听鼠标移动，用于视差效果
+onMounted(() => {
+  // 页面加载动画延迟
+  setTimeout(() => {
+    showParticles.value = true
+  }, 500)
 
-    const handleMouseMove = (e: MouseEvent) => {
-      mousePosition.value = {
-        x: e.clientX / window.innerWidth - 0.5,
-        y: e.clientY / window.innerHeight - 0.5
-      }
+  const handleMouseMove = (e: MouseEvent) => {
+    mousePosition.value = {
+      x: e.clientX / window.innerWidth - 0.5,
+      y: e.clientY / window.innerHeight - 0.5,
     }
+  }
 
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  })
+  window.addEventListener('mousemove', handleMouseMove)
+  return () => window.removeEventListener('mousemove', handleMouseMove)
+})
 </script>
 
 <template>
@@ -36,7 +36,7 @@
         height: `${Math.random() * 4 + 1}px`,
         animationDelay: `${Math.random() * 5}s`,
         animationDuration: `${Math.random() * 10 + 10}s`,
-        transform: `translate(${mousePosition.x * 10}px, ${mousePosition.y * 10}px)`
+        transform: `translate(${mousePosition.x * 10}px, ${mousePosition.y * 10}px)`,
       }"
     />
 
@@ -44,7 +44,7 @@
     <div
       class="content"
       :style="{
-        transform: `translate(${mousePosition.x * 15}px, ${mousePosition.y * 15}px)`
+        transform: `translate(${mousePosition.x * 15}px, ${mousePosition.y * 15}px)`,
       }"
     >
       <div class="error-code">
@@ -52,8 +52,12 @@
         <span class="highlight">0</span>
         4
       </div>
-      <h1 class="title">页面不存在</h1>
-      <p class="message">抱歉，您访问的页面可能已被删除、移动或从未存在过</p>
+      <h1 class="title">
+        页面不存在
+      </h1>
+      <p class="message">
+        抱歉，您访问的页面可能已被删除、移动或从未存在过
+      </p>
       <button class="back-button" @click="$router.push('/')">
         返回首页
         <svg
@@ -76,13 +80,13 @@
     <div
       class="decor top-left"
       :style="{
-        transform: `translate(${-mousePosition.x * 20}px, ${-mousePosition.y * 20}px)`
+        transform: `translate(${-mousePosition.x * 20}px, ${-mousePosition.y * 20}px)`,
       }"
     />
     <div
       class="decor bottom-right"
       :style="{
-        transform: `translate(${-mousePosition.x * 20}px, ${-mousePosition.y * 20}px)`
+        transform: `translate(${-mousePosition.x * 20}px, ${-mousePosition.y * 20}px)`,
       }"
     />
   </div>

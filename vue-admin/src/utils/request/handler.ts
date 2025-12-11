@@ -60,7 +60,8 @@ function handleAuthError(response: any, method: any, apiData?: Record<string, an
       // 清除token
       authStore.resetAuth()
     }
-  } else if (apiData?.code === 401) {
+  }
+  else if (apiData?.code === 401) {
     // 业务 401 - 业务层面的权限错误
     console.warn(`[业务权限错误] ${method.type} ${method.url}`, apiData)
 
@@ -68,7 +69,8 @@ function handleAuthError(response: any, method: any, apiData?: Record<string, an
     if (apiData.message) {
       // window.$message.warning(apiData.message)
       MessagePlugin.warning(apiData.message)
-    } else {
+    }
+    else {
       // window.$message.warning('无权限访问该资源')
       MessagePlugin.warning('无权限访问该资源')
     }
@@ -80,5 +82,5 @@ export {
   handleBusinessError,
   handleMethodError,
   handleResponseError,
-  handleResult
+  handleResult,
 }

@@ -13,8 +13,8 @@ export function useSysMenuApi() {
     PageSysMenu(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/menu/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useSysMenuApi() {
     LatestSysMenu(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/menu/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,16 +63,24 @@ export function useSysMenuApi() {
     TopSysMenu(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/sys/menu/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
-    GetSysMenuListTreeWithAccountID() {
-      return request.Get<IResult<any>>(`${pathPrefix}/sys/menu/list/tree`)
+    GetSysMenuListTreeWithAccountID(keyword: string) {
+      return request.Get<IResult<any>>(`${pathPrefix}/sys/menu/list/tree`, {
+        params: {
+          keyword,
+        },
+      })
     },
-    GetSysMenuListWithAccountID() {
-      return request.Get<IResult<any>>(`${pathPrefix}/sys/menu/list`)
-    }
+    GetSysMenuListWithAccountID(keyword: string) {
+      return request.Get<IResult<any>>(`${pathPrefix}/sys/menu/list`, {
+        params: {
+          keyword,
+        },
+      })
+    },
   }
 }

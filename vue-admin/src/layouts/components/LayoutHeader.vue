@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-  import { useAppStore } from '@/stores'
-  import Dropdown from './Dropdown.vue'
+import { useAppStore } from '@/stores'
+import Dropdown from './Dropdown.vue'
 
-  const appStore = useAppStore()
+const appStore = useAppStore()
 
-  const route = useRoute()
-  const routes = computed(() => {
-    return route.matched
-  })
+const route = useRoute()
+const routes = computed(() => {
+  return route.matched
+})
 </script>
 
 <template>

@@ -1,19 +1,21 @@
 export function arrayTree(arr: any[]) {
   const res: any = []
   const map = new Map()
-  arr.forEach(item => {
+  arr.forEach((item) => {
     map.set(item.id, item)
   })
 
-  arr.forEach(item => {
+  arr.forEach((item) => {
     const parent = item.pid && map.get(item.pid)
     if (parent) {
       if (parent?.children) {
         parent.children.push(item)
-      } else {
+      }
+      else {
         parent.children = [item]
       }
-    } else {
+    }
+    else {
       res.push(item)
     }
   })

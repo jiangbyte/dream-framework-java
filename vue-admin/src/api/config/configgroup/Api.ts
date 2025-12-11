@@ -13,8 +13,8 @@ export function useConfigGroupApi() {
     PageConfigGroup(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/group/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useConfigGroupApi() {
     LatestConfigGroup(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/group/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,9 +63,9 @@ export function useConfigGroupApi() {
     TopConfigGroup(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/config/group/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
-    }
+    },
   }
 }

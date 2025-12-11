@@ -1,56 +1,65 @@
 <script lang="ts" setup>
-  import { useAuthRoleApi } from '@/api'
-  import { useBoolean, useLoading } from '@/hooks'
-  import { ResetFormData } from '@/utils'
+import { useAuthRoleApi, useSysDictApi } from '@/api'
+import { useBoolean, useLoading } from '@/hooks'
+import { ResetFormData } from '@/utils'
 
-  const props = defineProps<{
-    formName?: string
-  }>()
+const props = defineProps<{
+  formName?: string
+}>()
 
-  const emit = defineEmits(['close', 'submit'])
+const emit = defineEmits(['close', 'submit'])
 
-  const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
-  const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
-  const { isLoading, withLoading } = useLoading()
+const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
+const { isLoading, withLoading } = useLoading()
 
-  const formData = reactive<DataFormType>({})
+const formData = reactive<DataFormType>({})
+const dataScopeOptions = ref<TypeOption[]>([])
+async function doOpen(row: any) {
+  openDrawer()
+  ResetFormData(formData)
 
-  async function doOpen(row: any) {
-    openDrawer()
-    ResetFormData(formData)
-
-    if (row?.id) {
-      setEditMode()
-      const { data, success } = await withLoading(useAuthRoleApi().GetAuthRole(row?.id))
-      if (success) {
-        Object.assign(formData, data)
-      } else {
-        closeDrawer()
-      }
-    } else {
-      setAddMode()
-    }
-  }
-
-  function doClose() {
-    ResetFormData(formData)
-    closeDrawer()
-    emit('close')
-  }
-
-  async function doSubmit() {
-    const api = isEdit.value ? useAuthRoleApi().EditAuthRole : useAuthRoleApi().AddAuthRole
-
-    const { success } = await withLoading(api(formData))
+  if (row?.id) {
+    setEditMode()
+    const { data, success } = await withLoading(useAuthRoleApi().GetAuthRole(row?.id))
     if (success) {
+      Object.assign(formData, data)
+    }
+    else {
       closeDrawer()
-      emit('submit')
     }
   }
+  else {
+    setAddMode()
+  }
+  useSysDictApi().ListOptionsByType('DATA_SCOPE').then(
+    ({ data }) => {
+      dataScopeOptions.value = data.map((item: TypeOption) => ({
+        ...item,
+      }))
+    },
+  )
+}
 
-  defineExpose({
-    doOpen
-  })
+function doClose() {
+  ResetFormData(formData)
+  closeDrawer()
+  emit('close')
+}
+
+async function doSubmit() {
+  const api = isEdit.value ? useAuthRoleApi().EditAuthRole : useAuthRoleApi().AddAuthRole
+
+  const { success } = await withLoading(api(formData))
+  if (success) {
+    closeDrawer()
+    emit('submit')
+  }
+}
+
+defineExpose({
+  doOpen,
+})
 </script>
 
 <template>
@@ -76,14 +85,18 @@
           <t-input v-model="formData.code" placeholder="请输入角色编码" />
         </t-form-item>
         <t-form-item label="数据权限范围" name="dataScope">
-          <t-input v-model="formData.dataScope" placeholder="请输入数据权限范围" />
+          <t-select
+            v-model="formData.dataScope" :options="dataScopeOptions" :keys="{
+              label: 'text',
+            }" placeholder="请输入数据权限范围"
+          />
         </t-form-item>
         <t-form-item label="角色描述" name="description">
           <t-input v-model="formData.description" placeholder="请输入角色描述" />
         </t-form-item>
-        <t-form-item label="分配的用户组ID列表" name="assignGroupIds">
+        <!-- <t-form-item label="分配的用户组ID列表" name="assignGroupIds">
           <t-input v-model="formData.assignGroupIds" placeholder="请输入分配的用户组ID列表" />
-        </t-form-item>
+        </t-form-item> -->
       </t-form>
     </t-loading>
   </t-drawer>

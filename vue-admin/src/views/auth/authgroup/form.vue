@@ -1,56 +1,58 @@
 <script lang="ts" setup>
-  import { useAuthGroupApi } from '@/api'
-  import { useBoolean, useLoading } from '@/hooks'
-  import { ResetFormData } from '@/utils'
+import { useAuthGroupApi } from '@/api'
+import { useBoolean, useLoading } from '@/hooks'
+import { ResetFormData } from '@/utils'
 
-  const props = defineProps<{
-    formName?: string
-  }>()
+const props = defineProps<{
+  formName?: string
+}>()
 
-  const emit = defineEmits(['close', 'submit'])
+const emit = defineEmits(['close', 'submit'])
 
-  const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
-  const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
-  const { isLoading, withLoading } = useLoading()
+const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
+const { isLoading, withLoading } = useLoading()
 
-  const formData = reactive<DataFormType>({})
+const formData = reactive<DataFormType>({})
 
-  async function doOpen(row: any) {
-    openDrawer()
-    ResetFormData(formData)
+async function doOpen(row: any) {
+  openDrawer()
+  ResetFormData(formData)
 
-    if (row?.id) {
-      setEditMode()
-      const { data, success } = await withLoading(useAuthGroupApi().GetAuthGroup(row?.id))
-      if (success) {
-        Object.assign(formData, data)
-      } else {
-        closeDrawer()
-      }
-    } else {
-      setAddMode()
-    }
-  }
-
-  function doClose() {
-    ResetFormData(formData)
-    closeDrawer()
-    emit('close')
-  }
-
-  async function doSubmit() {
-    const api = isEdit.value ? useAuthGroupApi().EditAuthGroup : useAuthGroupApi().AddAuthGroup
-
-    const { success } = await withLoading(api(formData))
+  if (row?.id) {
+    setEditMode()
+    const { data, success } = await withLoading(useAuthGroupApi().GetAuthGroup(row?.id))
     if (success) {
+      Object.assign(formData, data)
+    }
+    else {
       closeDrawer()
-      emit('submit')
     }
   }
+  else {
+    setAddMode()
+  }
+}
 
-  defineExpose({
-    doOpen
-  })
+function doClose() {
+  ResetFormData(formData)
+  closeDrawer()
+  emit('close')
+}
+
+async function doSubmit() {
+  const api = isEdit.value ? useAuthGroupApi().EditAuthGroup : useAuthGroupApi().AddAuthGroup
+
+  const { success } = await withLoading(api(formData))
+  if (success) {
+    closeDrawer()
+    emit('submit')
+  }
+}
+
+defineExpose({
+  doOpen,
+})
 </script>
 
 <template>
@@ -69,8 +71,8 @@
     </template>
     <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
       <t-form :data="formData" label-align="left">
-        <t-form-item label="父级组ID" name="parentId">
-          <t-input v-model="formData.parentId" placeholder="请输入父级组ID" />
+        <t-form-item label="父级组ID" name="pid">
+          <t-input v-model="formData.pid" placeholder="请输入父级组ID" />
         </t-form-item>
         <t-form-item label="用户组名称" name="name">
           <t-input v-model="formData.name" placeholder="请输入用户组名称" />

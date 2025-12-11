@@ -41,7 +41,10 @@ public class ConfigItemServiceImpl extends ServiceImpl<ConfigItemMapper, ConfigI
     public Page<ConfigItem> page(ConfigItemPageQuery req) {
         QueryWrapper<ConfigItem> queryWrapper = new QueryWrapper<ConfigItem>().checkSqlInjection();
         if (ObjectUtil.isNotEmpty(req.getKeyword())) {
-            queryWrapper.lambda().like(ConfigItem::getName, req.getKeyword());
+            queryWrapper.lambda()
+                    .like(ConfigItem::getName, req.getKeyword())
+                    .or()
+                    .like(ConfigItem::getCode, req.getKeyword());
         }
         SortUtils.handleSort(ConfigItem.class, queryWrapper, req.getSortField(), req.getSortOrder());
         return this.page(BasePageRequest.Page(

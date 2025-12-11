@@ -1,88 +1,90 @@
 <script lang="ts" setup>
-  import { useAccessApi } from '@/api'
-  import { useAppStore } from '@/stores'
-  import { PasswordUtil, VerifyCapchaRule, VerifyPasswordRule } from '@/utils'
+import { useAccessApi } from '@/api'
+import { useAppStore } from '@/stores'
+import { PasswordUtil, VerifyCapchaRule, VerifyPasswordRule } from '@/utils'
 
-  const formRef = ref()
-  const formData = ref({
-    token: '',
-    newPassword: '',
-    confirmPassword: '',
-    captchaId: '',
-    captchaCode: ''
-  })
-  const formRules = {
-    newPassword: VerifyPasswordRule,
-    confirmPassword: VerifyPasswordRule,
-    captchaCode: VerifyCapchaRule
-  } as any
+const formRef = ref()
+const formData = ref({
+  token: '',
+  newPassword: '',
+  confirmPassword: '',
+  captchaId: '',
+  captchaCode: '',
+})
+const formRules = {
+  newPassword: VerifyPasswordRule,
+  confirmPassword: VerifyPasswordRule,
+  captchaCode: VerifyCapchaRule,
+} as any
 
-  const captchaRef = ref({
-    captchaId: '',
-    captchaImg: ''
-  })
-  async function loadCaptcha() {
-    captchaRef.value.captchaId = ''
-    captchaRef.value.captchaImg = ''
-    formData.value.captchaId = ''
-    formData.value.captchaCode = ''
+const captchaRef = ref({
+  captchaId: '',
+  captchaImg: '',
+})
+async function loadCaptcha() {
+  captchaRef.value.captchaId = ''
+  captchaRef.value.captchaImg = ''
+  formData.value.captchaId = ''
+  formData.value.captchaCode = ''
+  useAccessApi()
+    .Captcha()
+    .then(({ data }) => {
+      captchaRef.value = data
+      formData.value.captchaId = captchaRef.value.captchaId
+    })
+}
+
+loadCaptcha()
+
+const router = useRouter()
+const isLoading = ref(false)
+
+const route = useRoute()
+// 从URL参数获取token
+onMounted(() => {
+  const tokenParam = route.query.token as string
+  if (tokenParam) {
+    formData.value.token = tokenParam
+
     useAccessApi()
-      .Captcha()
-      .then(({ data }) => {
-        captchaRef.value = data
-        formData.value.captchaId = captchaRef.value.captchaId
+      .DoValidateResetPasswordToken(formData.value.token)
+      .then(({ success }) => {
+        if (!success) {
+          MessagePlugin.error('无效的重置链接')
+          router.push('/login')
+        }
       })
   }
-
-  loadCaptcha()
-
-  const router = useRouter()
-  const isLoading = ref(false)
-
-  const route = useRoute()
-  // 从URL参数获取token
-  onMounted(() => {
-    const tokenParam = route.query.token as string
-    if (tokenParam) {
-      formData.value.token = tokenParam
-
-      useAccessApi()
-        .DoValidateResetPasswordToken(formData.value.token)
-        .then(({ success }) => {
-          if (!success) {
-            MessagePlugin.error('无效的重置链接')
-            router.push('/login')
-          }
-        })
-    } else {
-      MessagePlugin.error('无效的重置链接')
-      router.push('/login')
-    }
-  })
-  async function handleSubmit(context: any) {
-    const { validateResult } = context
-    if (validateResult === true) {
-      isLoading.value = true
-      const formDataParam = Object.assign({}, formData.value)
-      formDataParam.newPassword = PasswordUtil.encrypt(formData.value.newPassword)
-      formDataParam.confirmPassword = PasswordUtil.encrypt(formData.value.confirmPassword)
-      useAccessApi()
-        .DoPasswordResetConfirm(formDataParam)
-        .then(({ success }) => {
-          isLoading.value = false
-          if (success) {
-            MessagePlugin.info('密码重置成功！')
-            router.push('/')
-          } else {
-            loadCaptcha()
-            MessagePlugin.error('密码重置失败，请重试')
-          }
-        })
-    }
+  else {
+    MessagePlugin.error('无效的重置链接')
+    router.push('/login')
   }
+})
+async function handleSubmit(context: any) {
+  const { validateResult } = context
+  if (validateResult === true) {
+    isLoading.value = true
+    const formDataParam = Object.assign({}, formData.value)
+    formDataParam.newPassword = PasswordUtil.encrypt(formData.value.newPassword)
+    formDataParam.confirmPassword = PasswordUtil.encrypt(formData.value.confirmPassword)
+    useAccessApi()
+      .DoPasswordResetConfirm(formDataParam)
+      .then(({ success }) => {
+        isLoading.value = false
+        if (success) {
+          MessagePlugin.info('密码重置成功！')
+          router.push('/')
+        }
+        else {
+          loadCaptcha()
+          MessagePlugin.error('密码重置失败，请重试')
+        }
+      })
+  }
+}
 
-  const appStore = useAppStore()
-  const { websiteConfig } = storeToRefs(appStore)
+const appStore = useAppStore()
+const { websiteConfig } = storeToRefs(appStore)
 </script>
 
 <template>
@@ -90,8 +92,12 @@
     <div class="w-full md:w-1/2 flex items-center justify-center p-8">
       <div class="w-full max-w-md">
         <div class="text-center mb-10">
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">重置密码</h2>
-          <p class="text-gray-500">欢迎回来，请登录您的账号</p>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">
+            重置密码
+          </h2>
+          <p class="text-gray-500">
+            欢迎回来，请登录您的账号
+          </p>
         </div>
 
         <t-form ref="formRef" :data="formData" :rules="formRules" @submit="handleSubmit">
@@ -139,7 +145,7 @@
                 :src="captchaRef.captchaImg"
                 class="w-30 h-full ml-2 cursor-pointer border border-gray-200 object-cover"
                 @click="loadCaptcha"
-              />
+              >
             </div>
           </t-form-item>
           <t-form-item label-width="0">
@@ -151,7 +157,9 @@
             <div class="flex flex-col w-full">
               <div class="text-center">
                 <span class="text-gray-500">想起密码了?</span>
-                <t-link theme="primary" @click="$router.push('/login')">立即登录</t-link>
+                <t-link theme="primary" @click="$router.push('/login')">
+                  立即登录
+                </t-link>
               </div>
             </div>
           </t-form-item>

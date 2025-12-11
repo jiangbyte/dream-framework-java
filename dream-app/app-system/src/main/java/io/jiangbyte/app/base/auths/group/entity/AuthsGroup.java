@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.jiangbyte.framework.pojo.BaseEntity;
 
 import java.io.Serial;
+import java.util.List;
 
 import io.jiangbyte.framework.enums.SortType;
 import io.jiangbyte.framework.utils.SortConfig;
@@ -35,7 +36,10 @@ public class AuthsGroup extends BaseEntity {
     private String id;
 
     @Schema(description = "父级组ID")
-    private String parentId;
+    private String pid;
+
+    @Schema(description = "父级组路径")
+    private String pidPath;
 
     @Schema(description = "用户组名称")
     private String name;
@@ -55,4 +59,8 @@ public class AuthsGroup extends BaseEntity {
 
     @Schema(description = "最大用户数量限制")
     private Integer maxUserCount;
+
+    @Schema(description = "子级")
+    @TableField(exist = false)
+    private List<AuthsGroup> children;
 }

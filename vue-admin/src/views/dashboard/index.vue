@@ -1,22 +1,22 @@
 <script lang="ts" setup>
-  import { useDashboardApi } from '@/api'
-  import { useLoading } from '@/hooks'
+import { useDashboardApi } from '@/api'
+import { useLoading } from '@/hooks'
 
-  interface PaneItem {
-    icon: string
-    title: string
-    value: number
-    unit: string
-  }
+interface PaneItem {
+  icon: string
+  title: string
+  value: number
+  unit: string
+}
 
-  const listData = ref<PaneItem[]>([])
-  const { isLoading, withLoading } = useLoading()
+const listData = ref<PaneItem[]>([])
+const { isLoading, withLoading } = useLoading()
 
-  async function loadPageData() {
-    const { data } = await withLoading(useDashboardApi().GetDashboardPaneItems())
-    listData.value = data
-  }
-  loadPageData()
+async function loadPageData() {
+  const { data } = await withLoading(useDashboardApi().GetDashboardPaneItems())
+  listData.value = data
+}
+loadPageData()
 </script>
 
 <template>
@@ -33,7 +33,7 @@
               :animation-start="!isLoading"
               :animation="{
                 valueFrom: 0,
-                duration: 2000
+                duration: 2000,
               }"
             />
           </t-space>

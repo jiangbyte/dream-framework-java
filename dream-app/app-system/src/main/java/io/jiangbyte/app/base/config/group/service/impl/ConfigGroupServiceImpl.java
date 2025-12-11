@@ -38,7 +38,10 @@ public class ConfigGroupServiceImpl extends ServiceImpl<ConfigGroupMapper, Confi
     public Page<ConfigGroup> page(ConfigGroupPageQuery req) {
         QueryWrapper<ConfigGroup> queryWrapper = new QueryWrapper<ConfigGroup>().checkSqlInjection();
         if (ObjectUtil.isNotEmpty(req.getKeyword())) {
-            queryWrapper.lambda().like(ConfigGroup::getName, req.getKeyword());
+            queryWrapper.lambda()
+                    .like(ConfigGroup::getName, req.getKeyword())
+                    .or()
+                    .like(ConfigGroup::getCode, req.getKeyword());
         }
         SortUtils.handleSort(ConfigGroup.class, queryWrapper, req.getSortField(), req.getSortOrder());
         return this.page(BasePageRequest.Page(

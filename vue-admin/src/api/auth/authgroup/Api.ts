@@ -13,8 +13,8 @@ export function useAuthGroupApi() {
     PageAuthGroup(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/group/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useAuthGroupApi() {
     LatestAuthGroup(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/group/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,9 +63,9 @@ export function useAuthGroupApi() {
     TopAuthGroup(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/group/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
-    }
+    },
   }
 }

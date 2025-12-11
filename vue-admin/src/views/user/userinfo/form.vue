@@ -1,56 +1,58 @@
 <script lang="ts" setup>
-  import { useUserInfoApi } from '@/api'
-  import { useBoolean, useLoading } from '@/hooks'
-  import { ResetFormData } from '@/utils'
+import { useUserInfoApi } from '@/api'
+import { useBoolean, useLoading } from '@/hooks'
+import { ResetFormData } from '@/utils'
 
-  const props = defineProps<{
-    formName?: string
-  }>()
+const props = defineProps<{
+  formName?: string
+}>()
 
-  const emit = defineEmits(['close', 'submit'])
+const emit = defineEmits(['close', 'submit'])
 
-  const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
-  const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
-  const { isLoading, withLoading } = useLoading()
+const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
+const { isLoading, withLoading } = useLoading()
 
-  const formData = reactive<DataFormType>({})
+const formData = reactive<DataFormType>({})
 
-  async function doOpen(row: any) {
-    openDrawer()
-    ResetFormData(formData)
+async function doOpen(row: any) {
+  openDrawer()
+  ResetFormData(formData)
 
-    if (row?.id) {
-      setEditMode()
-      const { data, success } = await withLoading(useUserInfoApi().GetUserInfo(row?.id))
-      if (success) {
-        Object.assign(formData, data)
-      } else {
-        closeDrawer()
-      }
-    } else {
-      setAddMode()
-    }
-  }
-
-  function doClose() {
-    ResetFormData(formData)
-    closeDrawer()
-    emit('close')
-  }
-
-  async function doSubmit() {
-    const api = isEdit.value ? useUserInfoApi().EditUserInfo : useUserInfoApi().AddUserInfo
-
-    const { success } = await withLoading(api(formData))
+  if (row?.id) {
+    setEditMode()
+    const { data, success } = await withLoading(useUserInfoApi().GetUserInfo(row?.id))
     if (success) {
+      Object.assign(formData, data)
+    }
+    else {
       closeDrawer()
-      emit('submit')
     }
   }
+  else {
+    setAddMode()
+  }
+}
 
-  defineExpose({
-    doOpen
-  })
+function doClose() {
+  ResetFormData(formData)
+  closeDrawer()
+  emit('close')
+}
+
+async function doSubmit() {
+  const api = isEdit.value ? useUserInfoApi().EditUserInfo : useUserInfoApi().AddUserInfo
+
+  const { success } = await withLoading(api(formData))
+  if (success) {
+    closeDrawer()
+    emit('submit')
+  }
+}
+
+defineExpose({
+  doOpen,
+})
 </script>
 
 <template>

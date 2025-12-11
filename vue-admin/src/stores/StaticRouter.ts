@@ -31,7 +31,7 @@ export const STATIC_ROUTES = [
     withoutTab: true,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -64,7 +64,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -97,7 +97,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -130,7 +130,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -163,7 +163,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -196,7 +196,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -229,7 +229,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -262,7 +262,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -295,7 +295,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -328,7 +328,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -361,7 +361,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -394,7 +394,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -427,7 +427,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -460,7 +460,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -493,7 +493,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -526,7 +526,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -559,7 +559,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -592,7 +592,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -625,7 +625,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -658,7 +658,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -691,7 +691,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -724,7 +724,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -757,7 +757,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -790,7 +790,7 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
+    children: null,
   },
   {
     isDeleted: false,
@@ -823,6 +823,6 @@ export const STATIC_ROUTES = [
     withoutTab: false,
     parameters: null,
     extraParams: null,
-    children: null
-  }
+    children: null,
+  },
 ]

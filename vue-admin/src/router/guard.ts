@@ -24,7 +24,8 @@ export function setupRouterGuard(router: Router) {
         // 新窗口打开
         window.open(externalUrl, '_blank')
         next(false)
-      } else {
+      }
+      else {
         // 当前窗口打开
         window.location.href = externalUrl
         next(false)
@@ -103,7 +104,7 @@ export function setupRouterGuard(router: Router) {
             path: to.fullPath,
             replace: true,
             query: to.query,
-            hash: to.hash
+            hash: to.hash,
           })
           return
         }
@@ -111,7 +112,7 @@ export function setupRouterGuard(router: Router) {
         // 重新匹配当前路由（因为路由表已更新）
         const currentPath = to.fullPath
         const exists = routerStore.rowRoutes.some(
-          route => route.path === to.path || route.path === currentPath
+          route => route.path === to.path || route.path === currentPath,
         )
 
         if (!exists) {
@@ -123,7 +124,8 @@ export function setupRouterGuard(router: Router) {
         console.log('路由初始化完成，继续导航')
         next()
         return
-      } catch (error) {
+      }
+      catch (error) {
         console.error('路由初始化失败:', error)
         authStore.$reset()
         next({ path: '/login' })
@@ -136,13 +138,13 @@ export function setupRouterGuard(router: Router) {
     next()
   })
 
-  router.beforeResolve(to => {
+  router.beforeResolve((to) => {
     routerStore.setActiveMenu(to.path)
     tabStore.addTab(to)
     tabStore.setCurrent(to.path)
   })
 
-  router.afterEach(to => {
+  router.afterEach((to) => {
     document.title = `${to.meta.title || '默认标题'}`
     NProgress.done()
   })

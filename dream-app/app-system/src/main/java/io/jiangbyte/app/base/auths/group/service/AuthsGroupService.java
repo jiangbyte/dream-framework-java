@@ -28,4 +28,9 @@ public interface AuthsGroupService extends IService<AuthsGroup> {
     List<AuthsGroup> latest(int n);
 
     List<AuthsGroup> topN(int n);
+
+    List<AuthsGroup> getAuthsGroupListTreeWithAccountID(String accountId, String keyword);
+
+    List<AuthsGroup> getAuthsGroupListWithAccountID(String accountId, String keyword);
+
 }

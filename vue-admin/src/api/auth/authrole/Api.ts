@@ -13,8 +13,8 @@ export function useAuthRoleApi() {
     PageAuthRole(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useAuthRoleApi() {
     LatestAuthRole(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,9 +63,9 @@ export function useAuthRoleApi() {
     TopAuthRole(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
-    }
+    },
   }
 }

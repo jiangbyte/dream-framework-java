@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.jiangbyte.framework.pojo.BaseEntity;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 import io.jiangbyte.framework.enums.SortType;
 import io.jiangbyte.framework.utils.SortConfig;
@@ -20,11 +21,10 @@ import lombok.EqualsAndHashCode;
 * @date 2025-11-25
 * @description 账户用户组关联表
 */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName(value = "auths_account_group", autoResultMap = true)
 @Schema(name = "AuthsAccountGroup", description = "账户用户组关联表")
-public class AuthsAccountGroup extends BaseEntity {
+public class AuthsAccountGroup implements Serializable {
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

@@ -1,72 +1,74 @@
 <script lang="ts" setup>
-  import { useAuthAccountApi, useSysDictApi } from '@/api'
-  import { useBoolean, useLoading } from '@/hooks'
-  import { ResetFormData } from '@/utils'
+import { useAuthAccountApi, useSysDictApi } from '@/api'
+import { useBoolean, useLoading } from '@/hooks'
+import { ResetFormData } from '@/utils'
 
-  const props = defineProps<{
-    formName?: string
-  }>()
+const props = defineProps<{
+  formName?: string
+}>()
 
-  const emit = defineEmits(['close', 'submit'])
+const emit = defineEmits(['close', 'submit'])
 
-  const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
-  const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
-  const { isLoading, withLoading } = useLoading()
-  const {
-    isLoading: accountStatusTypeOptionsLoading,
-    withLoading: withAccountStatusTypeOptionsLoading
-  } = useLoading()
+const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
+const { isLoading, withLoading } = useLoading()
+const {
+  isLoading: accountStatusTypeOptionsLoading,
+  withLoading: withAccountStatusTypeOptionsLoading,
+} = useLoading()
 
-  const tabsValue = ref('account')
-  const formData = reactive<DataFormType>({})
-  const accountStatusTypeOptions = ref<TypeOption[]>([])
-  async function doOpen(row: any) {
-    openDrawer()
-    ResetFormData(formData)
+const tabsValue = ref('account')
+const formData = reactive<DataFormType>({})
+const accountStatusTypeOptions = ref<TypeOption[]>([])
+async function doOpen(row: any) {
+  openDrawer()
+  ResetFormData(formData)
 
-    if (row?.id) {
-      setEditMode()
-      const { data, success } = await withLoading(useAuthAccountApi().GetAuthAccount(row?.id))
-      if (success) {
-        Object.assign(formData, data)
-      } else {
-        closeDrawer()
-      }
-    } else {
-      setAddMode()
-    }
-
-    withAccountStatusTypeOptionsLoading(
-      useSysDictApi().ListOptionsByType('SYS_ACCOUNT_STATUS')
-    ).then(({ data }) => {
-      accountStatusTypeOptions.value = data.map((item: TypeOption) => ({
-        ...item,
-        value: Number(item.value)
-      }))
-    })
-  }
-
-  function doClose() {
-    ResetFormData(formData)
-    closeDrawer()
-    emit('close')
-  }
-
-  async function doSubmit() {
-    const api = isEdit.value
-      ? useAuthAccountApi().EditAuthAccount
-      : useAuthAccountApi().AddAuthAccount
-
-    const { success } = await withLoading(api(formData))
+  if (row?.id) {
+    setEditMode()
+    const { data, success } = await withLoading(useAuthAccountApi().GetAuthAccount(row?.id))
     if (success) {
+      Object.assign(formData, data)
+    }
+    else {
       closeDrawer()
-      emit('submit')
     }
   }
+  else {
+    setAddMode()
+  }
 
-  defineExpose({
-    doOpen
+  withAccountStatusTypeOptionsLoading(
+    useSysDictApi().ListOptionsByType('SYS_ACCOUNT_STATUS'),
+  ).then(({ data }) => {
+    accountStatusTypeOptions.value = data.map((item: TypeOption) => ({
+      ...item,
+      value: Number(item.value),
+    }))
   })
+}
+
+function doClose() {
+  ResetFormData(formData)
+  closeDrawer()
+  emit('close')
+}
+
+async function doSubmit() {
+  const api = isEdit.value
+    ? useAuthAccountApi().EditAuthAccount
+    : useAuthAccountApi().AddAuthAccount
+
+  const { success } = await withLoading(api(formData))
+  if (success) {
+    closeDrawer()
+    emit('submit')
+  }
+}
+
+defineExpose({
+  doOpen,
+})
 </script>
 
 <template>

@@ -13,8 +13,8 @@ export function useUserProfileApi() {
     PageUserProfile(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/profile/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useUserProfileApi() {
     LatestUserProfile(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/profile/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,9 +63,9 @@ export function useUserProfileApi() {
     TopUserProfile(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/profile/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
-    }
+    },
   }
 }

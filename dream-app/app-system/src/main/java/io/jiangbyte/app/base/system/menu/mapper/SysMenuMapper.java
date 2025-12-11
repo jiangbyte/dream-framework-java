@@ -15,5 +15,5 @@ import java.util.List;
 @Mapper
 //@CacheNamespace(implementation = MybatisPlusRedisCache.class, eviction = MybatisPlusRedisCache.class)
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
-    List<SysMenu> selectMenusByAccountId(String accountId);
+    List<SysMenu> selectMenusByAccountId(String accountId, String keyword);
 }

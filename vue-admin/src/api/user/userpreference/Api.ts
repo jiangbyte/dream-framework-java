@@ -13,8 +13,8 @@ export function useUserPreferenceApi() {
     PageUserPreference(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/preference/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useUserPreferenceApi() {
     LatestUserPreference(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/preference/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,9 +63,9 @@ export function useUserPreferenceApi() {
     TopUserPreference(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/users/preference/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
-    }
+    },
   }
 }

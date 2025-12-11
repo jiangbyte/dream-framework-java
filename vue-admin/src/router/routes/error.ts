@@ -5,6 +5,6 @@ export const errorRoutes: RouteRecordRaw[] = [
     path: '/:pathMatch(.*)*',
     name: '404',
     component: () => import('@/views/code/404.vue'),
-    meta: { title: 'Not Found' }
-  }
+    meta: { title: 'Not Found' },
+  },
 ]

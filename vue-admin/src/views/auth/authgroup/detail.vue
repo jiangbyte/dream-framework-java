@@ -1,39 +1,40 @@
 <script lang="ts" setup>
-  import { useAuthGroupApi } from '@/api'
-  import { useBoolean, useLoading } from '@/hooks'
-  import { ResetFormData } from '@/utils'
+import { useAuthGroupApi } from '@/api'
+import { useBoolean, useLoading } from '@/hooks'
+import { ResetFormData } from '@/utils'
 
-  const props = defineProps<{
-    formName?: string
-  }>()
+const props = defineProps<{
+  formName?: string
+}>()
 
-  const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
-  const { isLoading, withLoading } = useLoading()
+const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+const { isLoading, withLoading } = useLoading()
 
-  const formData = reactive<DataFormType>({})
+const formData = reactive<DataFormType>({})
 
-  function doClose() {
-    ResetFormData(formData)
-    closeDrawer()
-  }
+function doClose() {
+  ResetFormData(formData)
+  closeDrawer()
+}
 
-  async function doOpen(row: any) {
-    openDrawer()
-    ResetFormData(formData)
+async function doOpen(row: any) {
+  openDrawer()
+  ResetFormData(formData)
 
-    if (row?.id) {
-      const { data, success } = await withLoading(useAuthGroupApi().GetAuthGroup(row?.id))
-      if (success) {
-        Object.assign(formData, data)
-      } else {
-        closeDrawer()
-      }
+  if (row?.id) {
+    const { data, success } = await withLoading(useAuthGroupApi().GetAuthGroup(row?.id))
+    if (success) {
+      Object.assign(formData, data)
+    }
+    else {
+      closeDrawer()
     }
   }
+}
 
-  defineExpose({
-    doOpen
-  })
+defineExpose({
+  doOpen,
+})
 </script>
 
 <template>
@@ -51,7 +52,7 @@
     <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
       <t-descriptions :column="1" colon table-layout="auto">
         <t-descriptions-item label="父级组ID">
-          {{ formData.parentId }}
+          {{ formData.pid }}
         </t-descriptions-item>
         <t-descriptions-item label="用户组名称">
           {{ formData.name }}

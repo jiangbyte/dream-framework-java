@@ -13,8 +13,8 @@ export function useAuthRoleMenuApi() {
     PageAuthRoleMenu(data: any) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/menu/page`, {
         params: {
-          ...data
-        }
+          ...data,
+        },
       })
     },
 
@@ -52,8 +52,8 @@ export function useAuthRoleMenuApi() {
     LatestAuthRoleMenu(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/menu/latest`, {
         params: {
-          n
-        }
+          n,
+        },
       })
     },
 
@@ -63,9 +63,9 @@ export function useAuthRoleMenuApi() {
     TopAuthRoleMenu(n: number) {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/role/menu/top`, {
         params: {
-          n
-        }
+          n,
+        },
       })
-    }
+    },
   }
 }

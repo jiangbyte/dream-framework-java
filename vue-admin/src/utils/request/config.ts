@@ -29,14 +29,14 @@ interface BackEndResponseStructure {
 // 默认配置
 export const defaultAlovaConfig: RequestConfig = {
   baseURL: import.meta.env.VITE_API_URL || '',
-  timeout: 60 * 1000
+  timeout: 60 * 1000,
 }
 
 // 认证配置
 export const defaultAuthConfig: AuthConfig = {
   tokenHeader: 'Authorization',
   tokenPrefix: 'Bearer',
-  expiredCodes: [401]
+  expiredCodes: [401],
 }
 
 // 后端返回结构
@@ -45,5 +45,5 @@ export const defaultBackEndResponseStructure: BackEndResponseStructure = {
   message: '',
   data: null,
   succsess: true,
-  time: ''
+  time: '',
 }

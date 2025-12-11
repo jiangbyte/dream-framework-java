@@ -1,69 +1,69 @@
 <script lang="ts" setup>
-  import { useAuthAccountApi } from '@/api'
-  import { COLUMNS, SortOptions } from './constant'
-  import { SortTypeOptions } from '@/constants'
-  import { toIDArray } from '@/utils'
-  import { useLoading } from '@/hooks'
-  import Form from './form.vue'
-  import Detail from './detail.vue'
+import { useAuthAccountApi } from '@/api'
+import { COLUMNS, SortOptions } from './constant'
+import { SortTypeOptions } from '@/constants'
+import { toIDArray } from '@/utils'
+import { useLoading } from '@/hooks'
+import Form from './form.vue'
+import Detail from './detail.vue'
 
-  const pageData = ref({
-    current: 1,
-    pages: 1,
-    records: [],
-    size: 20,
-    total: 0
-  })
+const pageData = ref({
+  current: 1,
+  pages: 1,
+  records: [],
+  size: 20,
+  total: 0,
+})
 
-  const pageParams = reactive({
-    current: 1,
-    pageSize: 20,
-    sortField: '',
-    sortOrder: '',
-    keyword: ''
-  })
+const pageParams = reactive({
+  current: 1,
+  pageSize: 20,
+  sortField: '',
+  sortOrder: '',
+  keyword: '',
+})
 
-  const { isLoading, withLoading } = useLoading()
+const { isLoading, withLoading } = useLoading()
 
-  async function loadPageData() {
-    const { data } = await withLoading(useAuthAccountApi().PageAuthAccount(pageParams))
-    pageData.value = data
+async function loadPageData() {
+  const { data } = await withLoading(useAuthAccountApi().PageAuthAccount(pageParams))
+  pageData.value = data
+}
+loadPageData()
+
+const selectedRowKeys = ref([])
+function handleSelectChange(selectedKeys: any) {
+  selectedRowKeys.value = selectedKeys
+}
+
+async function handleDelete(id: string | string[]) {
+  const idArray = toIDArray(id)
+  if (idArray.length === 0) {
+    MessagePlugin.warning('请选择要删除的记录')
+    return
   }
+  const { success } = await useAuthAccountApi().DeleteAuthAccount(idArray)
+  if (success) {
+    loadPageData()
+  }
+}
+
+function handleReset() {
+  pageParams.keyword = ''
   loadPageData()
+}
 
-  const selectedRowKeys = ref([])
-  function handleSelectChange(selectedKeys: any) {
-    selectedRowKeys.value = selectedKeys
-  }
+function handlePageChange(pageInfo: any) {
+  pageParams.current = pageInfo.current
+  pageParams.pageSize = pageInfo.pageSize
+  loadPageData()
+}
 
-  async function handleDelete(id: string | string[]) {
-    const idArray = toIDArray(id)
-    if (idArray.length === 0) {
-      MessagePlugin.warning('请选择要删除的记录')
-      return
-    }
-    const { success } = await useAuthAccountApi().DeleteAuthAccount(idArray)
-    if (success) {
-      loadPageData()
-    }
-  }
+const formRef = ref()
+const detailRef = ref()
+const formName = '核心账户'
 
-  function handleReset() {
-    pageParams.keyword = ''
-    loadPageData()
-  }
-
-  function handlePageChange(pageInfo: any) {
-    pageParams.current = pageInfo.current
-    pageParams.pageSize = pageInfo.pageSize
-    loadPageData()
-  }
-
-  const formRef = ref()
-  const detailRef = ref()
-  const formName = '核心账户'
-
-  const columnControllerVisible = ref(false)
+const columnControllerVisible = ref(false)
 </script>
 
 <template>
@@ -76,15 +76,21 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <t-button theme="primary" @click="loadPageData">搜索</t-button>
-          <t-button theme="default" @click="handleReset">重置</t-button>
+          <t-button theme="primary" @click="loadPageData">
+            搜索
+          </t-button>
+          <t-button theme="default" @click="handleReset">
+            重置
+          </t-button>
         </div>
       </div>
 
       <!-- 第二行：操作按钮 -->
       <div class="flex items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-          <t-button theme="primary" @click="formRef.doOpen()">新增</t-button>
+          <t-button theme="primary" @click="formRef.doOpen()">
+            新增
+          </t-button>
           <t-button variant="base" theme="danger" @click="handleDelete(selectedRowKeys)">
             删除
           </t-button>
@@ -111,7 +117,9 @@
           <t-button variant="text" theme="default" @click="columnControllerVisible = true">
             显示
           </t-button>
-          <t-button variant="text" theme="default" @click="loadPageData">刷新</t-button>
+          <t-button variant="text" theme="default" @click="loadPageData">
+            刷新
+          </t-button>
         </div>
       </div>
     </div>
@@ -120,7 +128,7 @@
       v-model:column-controller-visible="columnControllerVisible"
       :columns="COLUMNS"
       :column-controller="{
-        hideTriggerButton: true
+        hideTriggerButton: true,
       }"
       :data="pageData.records"
       row-key="id"
@@ -130,13 +138,13 @@
         current: pageData.current,
         pageSize: pageData.size,
         total: pageData.total,
-        theme: 'simple'
+        theme: 'simple',
       }"
       :selected-row-keys="selectedRowKeys"
       :tree="{
         treeNodeColumnIndex: 1,
         checkStrictly: false,
-        indent: 25
+        indent: 25,
       }"
       max-height="calc(100vh - 56px - 96px - 64px)"
       height="calc(100vh - 56px - 96px - 64px)"
@@ -163,10 +171,16 @@
       </template>
       <template #operation="{ row }">
         <t-space :size="12" align="center">
-          <t-link variant="text" theme="primary" @click="formRef.doOpen(row)">编辑</t-link>
-          <t-link variant="text" theme="primary" @click="detailRef.doOpen(row)">详情</t-link>
+          <t-link variant="text" theme="primary" @click="formRef.doOpen(row)">
+            编辑
+          </t-link>
+          <t-link variant="text" theme="primary" @click="detailRef.doOpen(row)">
+            详情
+          </t-link>
           <t-popconfirm content="确认删除吗" @confirm="handleDelete(row.id)">
-            <t-link variant="text" theme="danger">删除</t-link>
+            <t-link variant="text" theme="danger">
+              删除
+            </t-link>
           </t-popconfirm>
         </t-space>
       </template>

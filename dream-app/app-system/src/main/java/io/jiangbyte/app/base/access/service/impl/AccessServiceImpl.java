@@ -7,14 +7,24 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.captcha.generator.RandomGenerator;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.jiangbyte.app.base.access.dto.*;
 import io.jiangbyte.app.base.access.service.AccessService;
 import io.jiangbyte.app.base.auths.account.entity.AuthsAccount;
+import io.jiangbyte.app.base.auths.account.entity.AuthsAccountGroup;
+import io.jiangbyte.app.base.auths.account.entity.AuthsAccountRole;
+import io.jiangbyte.app.base.auths.account.mapper.AuthsAccountGroupMapper;
 import io.jiangbyte.app.base.auths.account.mapper.AuthsAccountMapper;
+import io.jiangbyte.app.base.auths.account.mapper.AuthsAccountRoleMapper;
+import io.jiangbyte.app.base.auths.group.entity.AuthsGroup;
+import io.jiangbyte.app.base.auths.group.mapper.AuthsGroupMapper;
+import io.jiangbyte.app.base.auths.role.entity.AuthsRole;
+import io.jiangbyte.app.base.auths.role.mapper.AuthsRoleMapper;
 import io.jiangbyte.app.base.users.info.entity.UsersInfo;
 import io.jiangbyte.app.base.users.info.mapper.UsersInfoMapper;
 import io.jiangbyte.app.base.users.preference.entity.UsersPreference;
@@ -23,6 +33,7 @@ import io.jiangbyte.app.base.users.profile.entity.UsersProfile;
 import io.jiangbyte.app.base.users.profile.mapper.UsersProfileMapper;
 import io.jiangbyte.app.base.users.stats.entity.UsersStats;
 import io.jiangbyte.app.base.users.stats.mapper.UsersStatsMapper;
+import io.jiangbyte.app.utils.DataScopeUtil;
 import io.jiangbyte.framework.utils.IpUtil;
 import io.jiangbyte.framework.email.EmailService;
 import io.jiangbyte.framework.exception.BusinessException;
@@ -38,6 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,7 +64,11 @@ import java.util.Map;
 public class AccessServiceImpl implements AccessService {
     private final RedisTemplate<String, Object> redisTemplate;
 
+    private final AuthsAccountRoleMapper authsAccountRoleMapper;
+    private final AuthsGroupMapper authsGroupMapper;
     private final AuthsAccountMapper authsAccountMapper;
+    private final AuthsAccountGroupMapper authsAccountGroupMapper;
+    private final AuthsRoleMapper authsRoleMapper;
     private final UsersInfoMapper usersInfoMapper;
     private final UsersPreferenceMapper usersPreferenceMapper;
     private final UsersProfileMapper usersProfileMapper;
@@ -134,8 +150,7 @@ public class AccessServiceImpl implements AccessService {
         authsAccountMapper.updateById(authAccount);
 
         SaLoginModel loginModel = new SaLoginModel();
-        Map<String, Object> extraData = new HashMap<>();
-        extraData.put("id", authAccount.getId());
+        Map<String, Object> extraData = getExtraData(authAccount.getId());
         loginModel.setExtraData(extraData);
         StpUtil.login(authAccount.getId(), loginModel);
 
@@ -157,6 +172,55 @@ public class AccessServiceImpl implements AccessService {
 
         return loginResp;
     }
+
+    private Map<String, Object> getExtraData(String accountId) {
+        Map<String, Object> extraData = new HashMap<>();
+        extraData.put("accountId", accountId);
+        // 角色
+        // 查询当前用户的角色
+        List<AuthsAccountRole> authsAccountRoles = authsAccountRoleMapper.selectList(
+                new LambdaQueryWrapper<AuthsAccountRole>().eq(AuthsAccountRole::getAccountId, accountId)
+        );
+        if (CollUtil.isEmpty(authsAccountRoles)) {
+            throw new BusinessException("用户没有角色");
+        }
+        // ids
+        List<String> roleIds = authsAccountRoles.stream().map(AuthsAccountRole::getRoleId).toList();
+        extraData.put("roleIds", roleIds);
+        // exesit 查询角色
+        List<AuthsRole> authsRoles = authsRoleMapper.selectList(new LambdaQueryWrapper<AuthsRole>()
+                .in(AuthsRole::getId, roleIds)
+        );
+        if (CollUtil.isEmpty(authsRoles)) {
+            throw new BusinessException("用户没有角色");
+        }
+        List<String> stringList = authsRoles.stream().map(AuthsRole::getCode).toList();
+        extraData.put("roleCodes", stringList);
+        // 用户组
+        List<AuthsAccountGroup> authsAccountGroups = authsAccountGroupMapper.selectList(
+                new LambdaQueryWrapper<AuthsAccountGroup>().eq(AuthsAccountGroup::getAccountId, accountId)
+        );
+        if (CollUtil.isEmpty(authsAccountGroups)) {
+            throw new BusinessException("用户没有用户组");
+        }
+        // 最大权限
+        String maxScope = DataScopeUtil.getMaxScope(stringList);
+        extraData.put("maxScope", maxScope);
+
+        List<String> groupIds = authsAccountGroups.stream().map(AuthsAccountGroup::getGroupId).toList();
+        extraData.put("groupIds", groupIds);
+        List<AuthsGroup> authsGroups = authsGroupMapper.selectList(new LambdaQueryWrapper<AuthsGroup>()
+                .in(AuthsGroup::getId, groupIds)
+        );
+        if (CollUtil.isEmpty(authsGroups)) {
+            throw new BusinessException("用户没有用户组");
+        }
+        List<String> groupCodes = authsGroups.stream().map(AuthsGroup::getCode).toList();
+        extraData.put("groupCodes", groupCodes);
+
+        return extraData;
+    }
+
 
     @Transactional(rollbackFor = Exception.class)
     @Override

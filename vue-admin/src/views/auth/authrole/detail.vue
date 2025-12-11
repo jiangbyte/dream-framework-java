@@ -1,39 +1,40 @@
 <script lang="ts" setup>
-  import { useAuthRoleApi } from '@/api'
-  import { useBoolean, useLoading } from '@/hooks'
-  import { ResetFormData } from '@/utils'
+import { useAuthRoleApi } from '@/api'
+import { useBoolean, useLoading } from '@/hooks'
+import { ResetFormData } from '@/utils'
 
-  const props = defineProps<{
-    formName?: string
-  }>()
+const props = defineProps<{
+  formName?: string
+}>()
 
-  const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
-  const { isLoading, withLoading } = useLoading()
+const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+const { isLoading, withLoading } = useLoading()
 
-  const formData = reactive<DataFormType>({})
+const formData = reactive<DataFormType>({})
 
-  function doClose() {
-    ResetFormData(formData)
-    closeDrawer()
-  }
+function doClose() {
+  ResetFormData(formData)
+  closeDrawer()
+}
 
-  async function doOpen(row: any) {
-    openDrawer()
-    ResetFormData(formData)
+async function doOpen(row: any) {
+  openDrawer()
+  ResetFormData(formData)
 
-    if (row?.id) {
-      const { data, success } = await withLoading(useAuthRoleApi().GetAuthRole(row?.id))
-      if (success) {
-        Object.assign(formData, data)
-      } else {
-        closeDrawer()
-      }
+  if (row?.id) {
+    const { data, success } = await withLoading(useAuthRoleApi().GetAuthRole(row?.id))
+    if (success) {
+      Object.assign(formData, data)
+    }
+    else {
+      closeDrawer()
     }
   }
+}
 
-  defineExpose({
-    doOpen
-  })
+defineExpose({
+  doOpen,
+})
 </script>
 
 <template>
@@ -61,9 +62,6 @@
         </t-descriptions-item>
         <t-descriptions-item label="角色描述">
           {{ formData.description }}
-        </t-descriptions-item>
-        <t-descriptions-item label="分配的用户组ID列表">
-          {{ formData.assignGroupIds }}
         </t-descriptions-item>
       </t-descriptions>
     </t-loading>

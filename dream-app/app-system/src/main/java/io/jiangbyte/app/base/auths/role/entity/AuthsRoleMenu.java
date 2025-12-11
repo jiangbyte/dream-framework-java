@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.jiangbyte.framework.pojo.BaseEntity;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 import io.jiangbyte.framework.enums.SortType;
 import io.jiangbyte.framework.utils.SortConfig;
@@ -20,11 +21,10 @@ import lombok.EqualsAndHashCode;
 * @date 2025-11-25
 * @description 角色菜单关联表
 */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName(value = "auths_role_menu", autoResultMap = true)
 @Schema(name = "AuthsRoleMenu", description = "角色菜单关联表")
-public class AuthsRoleMenu extends BaseEntity {
+public class AuthsRoleMenu implements Serializable {
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

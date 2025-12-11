@@ -1,60 +1,61 @@
 <script lang="ts" setup>
-  import { useAccessApi } from '@/api'
-  import { useAppStore } from '@/stores'
-  import { VerifyCapchaRule, VerifyEmailRule } from '@/utils'
+import { useAccessApi } from '@/api'
+import { useAppStore } from '@/stores'
+import { VerifyCapchaRule, VerifyEmailRule } from '@/utils'
 
-  const formRef = ref()
-  const formData = ref({
-    email: '',
-    captchaId: '',
-    captchaCode: ''
-  })
-  const formRules = {
-    email: VerifyEmailRule,
-    captchaCode: VerifyCapchaRule
-  } as any
+const formRef = ref()
+const formData = ref({
+  email: '',
+  captchaId: '',
+  captchaCode: '',
+})
+const formRules = {
+  email: VerifyEmailRule,
+  captchaCode: VerifyCapchaRule,
+} as any
 
-  const captchaRef = ref({
-    captchaId: '',
-    captchaImg: ''
-  })
-  async function loadCaptcha() {
-    captchaRef.value.captchaId = ''
-    captchaRef.value.captchaImg = ''
-    formData.value.captchaId = ''
-    formData.value.captchaCode = ''
+const captchaRef = ref({
+  captchaId: '',
+  captchaImg: '',
+})
+async function loadCaptcha() {
+  captchaRef.value.captchaId = ''
+  captchaRef.value.captchaImg = ''
+  formData.value.captchaId = ''
+  formData.value.captchaCode = ''
+  useAccessApi()
+    .Captcha()
+    .then(({ data }) => {
+      captchaRef.value = data
+      formData.value.captchaId = captchaRef.value.captchaId
+    })
+}
+
+loadCaptcha()
+
+const isLoading = ref(false)
+const router = useRouter()
+async function handleSubmit(context: any) {
+  const { validateResult } = context
+  if (validateResult === true) {
+    isLoading.value = true
     useAccessApi()
-      .Captcha()
-      .then(({ data }) => {
-        captchaRef.value = data
-        formData.value.captchaId = captchaRef.value.captchaId
+      .DoResetPassword(formData.value)
+      .then(({ success }) => {
+        isLoading.value = false
+        if (success) {
+          MessagePlugin.info('重置邮件发送成功！')
+          router.push('/login')
+        }
+        else {
+          loadCaptcha()
+        }
       })
   }
+}
 
-  loadCaptcha()
-
-  const isLoading = ref(false)
-  const router = useRouter()
-  async function handleSubmit(context: any) {
-    const { validateResult } = context
-    if (validateResult === true) {
-      isLoading.value = true
-      useAccessApi()
-        .DoResetPassword(formData.value)
-        .then(({ success }) => {
-          isLoading.value = false
-          if (success) {
-            MessagePlugin.info('重置邮件发送成功！')
-            router.push('/login')
-          } else {
-            loadCaptcha()
-          }
-        })
-    }
-  }
-
-  const appStore = useAppStore()
-  const { websiteConfig } = storeToRefs(appStore)
+const appStore = useAppStore()
+const { websiteConfig } = storeToRefs(appStore)
 </script>
 
 <template>
@@ -62,8 +63,12 @@
     <div class="w-full md:w-1/2 flex items-center justify-center p-8">
       <div class="w-full max-w-md">
         <div class="text-center mb-10">
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">忘记密码</h2>
-          <p class="text-gray-500">输入您的注册邮箱，我们将发送重置密码的指引邮件给您</p>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">
+            忘记密码
+          </h2>
+          <p class="text-gray-500">
+            输入您的注册邮箱，我们将发送重置密码的指引邮件给您
+          </p>
         </div>
 
         <t-form ref="formRef" :data="formData" :rules="formRules" @submit="handleSubmit">
@@ -95,7 +100,7 @@
                 :src="captchaRef.captchaImg"
                 class="w-30 h-full ml-2 cursor-pointer border border-gray-200 object-cover"
                 @click="loadCaptcha"
-              />
+              >
             </div>
           </t-form-item>
           <t-form-item label-width="0">
@@ -107,7 +112,9 @@
             <div class="flex flex-col w-full">
               <div class="text-center">
                 <span class="text-gray-500">想起密码了?</span>
-                <t-link theme="primary" @click="$router.push('/login')">立即登录</t-link>
+                <t-link theme="primary" @click="$router.push('/login')">
+                  立即登录
+                </t-link>
               </div>
             </div>
           </t-form-item>
