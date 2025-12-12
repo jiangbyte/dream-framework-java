@@ -4,22 +4,22 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.jiangbyte.framework.pojo.BaseEntity;
-
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.io.Serial;
-
+import java.util.Date;
 import io.jiangbyte.framework.enums.SortType;
 import io.jiangbyte.framework.utils.SortConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dromara.core.trans.anno.Trans;
-import org.dromara.core.trans.constant.TransType;
 
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 角色表
 */
 @EqualsAndHashCode(callSuper = true)
@@ -43,7 +43,6 @@ public class AuthsRole extends BaseEntity {
     private String code;
 
     @Schema(description = "数据权限范围")
-    @Trans(type = TransType.DICTIONARY, key = "DATA_SCOPE")
     private String dataScope;
 
     @Schema(description = "角色描述")

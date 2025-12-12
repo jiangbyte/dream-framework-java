@@ -20,11 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 /**
- * @author Charlie Zhang
- * @version v1.0
- * @date 2025-12-10
- * @description 代码生成任务主表 控制器
- */
+* @author Charlie Zhang
+* @version v1.0
+* @date 2025-12-12
+* @description 代码生成任务主表 控制器
+*/
 @Tag(name = "代码生成任务主表控制器")
 @Slf4j
 @RequiredArgsConstructor
@@ -83,14 +83,6 @@ public class GenCodeTaskController {
     @GetMapping("/gen/code/task/top")
     public Result<?> topN(@RequestParam(value = "n", required = false) Integer n) {
         return Result.success(genCodeTaskService.topN(n));
-    }
-
-    @Operation(summary = "获取代码生成任务主列表")
-    @SaCheckPermission("/gen/code")
-    @GetMapping("/gen/code")
-    public Result<?> genCode(@RequestParam("taskId") String taskId) {
-        genCodeTaskService.genCode(taskId);
-        return Result.success();
     }
 
 }

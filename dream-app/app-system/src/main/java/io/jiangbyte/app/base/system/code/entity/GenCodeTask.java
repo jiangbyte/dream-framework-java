@@ -4,8 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.jiangbyte.framework.pojo.BaseEntity;
-
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.io.Serial;
 import java.util.Date;
 import io.jiangbyte.framework.enums.SortType;
@@ -17,7 +21,7 @@ import lombok.EqualsAndHashCode;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-12-10
+* @date 2025-12-12
 * @description 代码生成任务主表
 */
 @EqualsAndHashCode(callSuper = true)
@@ -32,7 +36,7 @@ public class GenCodeTask extends BaseEntity {
     @Schema(description = "主键ID")
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     @SortConfig(type = SortType.NUMERIC_STRING)
-    private String id;
+    private Long id;
 
     @Schema(description = "任务名称，如：系统模块代码生成")
     private String taskName;
@@ -56,16 +60,16 @@ public class GenCodeTask extends BaseEntity {
     private String databaseName;
 
     @Schema(description = "生成后端：1-是，0-否")
-    private Boolean addBackend;
+    private Byte addBackend;
 
     @Schema(description = "生成后端：1-是，0-否")
-    private Boolean addFrontend;
+    private Byte addFrontend;
 
     @Schema(description = "实际执行时间")
     private Date executedAt;
 
     @Schema(description = "状态：0-待执行，1-成功，2-失败")
-    private Integer status;
+    private Byte status;
 
     @Schema(description = "备注")
     private String remark;

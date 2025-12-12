@@ -11,7 +11,7 @@ import java.util.List;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-12-10
+* @date 2025-12-12
 * @description 代码生成任务模块明细表 服务类
 */
 public interface GenCodeTaskModuleService extends IService<GenCodeTaskModule> {
@@ -28,5 +28,4 @@ public interface GenCodeTaskModuleService extends IService<GenCodeTaskModule> {
     List<GenCodeTaskModule> latest(int n);
 
     List<GenCodeTaskModule> topN(int n);
-
 }

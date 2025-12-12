@@ -1,13 +1,15 @@
 package io.jiangbyte.app.base.system.log.mapper;
 
+import io.jiangbyte.framework.cache.MybatisPlusRedisCache;
 import io.jiangbyte.app.base.system.log.entity.SysLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 系统活动日志记录表 Mapper 接口
 */
 @Mapper

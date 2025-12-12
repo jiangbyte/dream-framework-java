@@ -1,7 +1,9 @@
 package io.jiangbyte.app.base.config.group.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollStreamUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
@@ -13,6 +15,7 @@ import io.jiangbyte.app.base.config.group.dto.ConfigGroupPageQuery;
 import io.jiangbyte.app.base.config.group.mapper.ConfigGroupMapper;
 import io.jiangbyte.app.base.config.group.service.ConfigGroupService;
 import io.jiangbyte.framework.utils.SortUtils;
+import io.jiangbyte.framework.enums.ISortOrderEnum;
 import io.jiangbyte.framework.exception.BusinessException;
 import io.jiangbyte.framework.pojo.BasePageRequest;
 import io.jiangbyte.framework.result.ResultCode;
@@ -38,10 +41,7 @@ public class ConfigGroupServiceImpl extends ServiceImpl<ConfigGroupMapper, Confi
     public Page<ConfigGroup> page(ConfigGroupPageQuery req) {
         QueryWrapper<ConfigGroup> queryWrapper = new QueryWrapper<ConfigGroup>().checkSqlInjection();
         if (ObjectUtil.isNotEmpty(req.getKeyword())) {
-            queryWrapper.lambda()
-                    .like(ConfigGroup::getName, req.getKeyword())
-                    .or()
-                    .like(ConfigGroup::getCode, req.getKeyword());
+            queryWrapper.lambda().like(ConfigGroup::getName, req.getKeyword());
         }
         SortUtils.handleSort(ConfigGroup.class, queryWrapper, req.getSortField(), req.getSortOrder());
         return this.page(BasePageRequest.Page(

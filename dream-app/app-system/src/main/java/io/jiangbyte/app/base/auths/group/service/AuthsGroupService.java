@@ -11,7 +11,7 @@ import java.util.List;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 用户组表 服务类
 */
 public interface AuthsGroupService extends IService<AuthsGroup> {
@@ -28,9 +28,4 @@ public interface AuthsGroupService extends IService<AuthsGroup> {
     List<AuthsGroup> latest(int n);
 
     List<AuthsGroup> topN(int n);
-
-    List<AuthsGroup> getAuthsGroupListTreeWithAccountID(String accountId, String keyword);
-
-    List<AuthsGroup> getAuthsGroupListWithAccountID(String accountId, String keyword);
-
 }

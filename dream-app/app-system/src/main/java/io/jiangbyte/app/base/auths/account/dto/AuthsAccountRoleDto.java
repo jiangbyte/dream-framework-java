@@ -1,16 +1,18 @@
 package io.jiangbyte.app.base.auths.account.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.jiangbyte.framework.pojo.BaseEntity;
 import java.io.Serializable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import java.io.Serial;
+import java.util.Date;
 
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 账户角色关联 编辑参数
 */
 @Data

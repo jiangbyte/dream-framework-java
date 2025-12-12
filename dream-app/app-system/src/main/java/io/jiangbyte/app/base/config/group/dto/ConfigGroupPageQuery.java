@@ -1,7 +1,9 @@
 package io.jiangbyte.app.base.config.group.dto;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.jiangbyte.framework.pojo.BaseEntity;
 import java.io.Serializable;
-
+import java.time.LocalDateTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import java.io.Serial;
@@ -9,7 +11,7 @@ import java.io.Serial;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 配置分组 分页参数
 */
 @Data

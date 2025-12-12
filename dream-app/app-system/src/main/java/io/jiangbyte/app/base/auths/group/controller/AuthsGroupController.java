@@ -1,7 +1,6 @@
 package io.jiangbyte.app.base.auths.group.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.stp.StpUtil;
 import io.jiangbyte.framework.result.Result;
 import io.jiangbyte.app.base.auths.group.dto.AuthsGroupDto;
 import io.jiangbyte.app.base.auths.group.dto.AuthsGroupPageQuery;
@@ -21,11 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 /**
- * @author Charlie Zhang
- * @version v1.0
- * @date 2025-11-25
- * @description 用户组表 控制器
- */
+* @author Charlie Zhang
+* @version v1.0
+* @date 2025-12-12
+* @description 用户组表 控制器
+*/
 @Tag(name = "用户组表控制器")
 @Slf4j
 @RequiredArgsConstructor
@@ -84,28 +83,6 @@ public class AuthsGroupController {
     @GetMapping("/auths/group/top")
     public Result<?> topN(@RequestParam(value = "n", required = false) Integer n) {
         return Result.success(authsGroupService.topN(n));
-    }
-
-    @Operation(summary = "获取当前用户用户组")
-    @SaCheckPermission("/auths/group/list/tree")
-    @GetMapping("/auths/group/list/tree")
-    public Result<?> getAuthsGroupListTreeWithAccountID(@RequestParam("keyword") String keyword) {
-        String accountId = StpUtil.getLoginIdAsString();
-        return Result.success(authsGroupService.getAuthsGroupListTreeWithAccountID(accountId, keyword));
-    }
-
-    @Operation(summary = "获取当前用户用户组")
-    @SaCheckPermission("/auths/group/list")
-    @GetMapping("/auths/group/list")
-    public Result<?> getAuthsGroupListWithAccountID(@RequestParam("keyword") String keyword) {
-        String accountId = null;
-        try {
-            accountId = StpUtil.getLoginIdAsString();
-        } catch (Exception e) {
-            log.error("获取当前用户用户组失败", e);
-            return Result.failure("获取当前用户用户组失败");
-        }
-        return Result.success(authsGroupService.getAuthsGroupListWithAccountID(accountId, keyword));
     }
 
 }

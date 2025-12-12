@@ -22,7 +22,7 @@ import java.util.List;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 核心账户表 控制器
 */
 @Tag(name = "核心账户表控制器")
@@ -85,9 +85,4 @@ public class AuthsAccountController {
         return Result.success(authsAccountService.topN(n));
     }
 
-    @Operation(summary = "获取用户账户")
-    @GetMapping("/auths/account/user/{id}")
-    public Result<?> userAccount(@PathVariable("id") String id) {
-        return Result.success(authsAccountService.userAccount(id));
-    }
 }

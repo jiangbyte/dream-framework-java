@@ -1,7 +1,6 @@
 package io.jiangbyte.app.base.system.menu.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.stp.StpUtil;
 import io.jiangbyte.framework.result.Result;
 import io.jiangbyte.app.base.system.menu.dto.SysMenuDto;
 import io.jiangbyte.app.base.system.menu.dto.SysMenuPageQuery;
@@ -21,11 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 /**
- * @author Charlie Zhang
- * @version v1.0
- * @date 2025-11-25
- * @description 菜单表 控制器
- */
+* @author Charlie Zhang
+* @version v1.0
+* @date 2025-12-12
+* @description 菜单表 控制器
+*/
 @Tag(name = "菜单表控制器")
 @Slf4j
 @RequiredArgsConstructor
@@ -84,28 +83,6 @@ public class SysMenuController {
     @GetMapping("/sys/menu/top")
     public Result<?> topN(@RequestParam(value = "n", required = false) Integer n) {
         return Result.success(sysMenuService.topN(n));
-    }
-
-    @Operation(summary = "获取当前用户菜单")
-    @SaCheckPermission("/sys/menu/list/tree")
-    @GetMapping("/sys/menu/list/tree")
-    public Result<?> getSysMenuListTreeWithAccountID(@RequestParam("keyword") String keyword) {
-        String accountId = StpUtil.getLoginIdAsString();
-        return Result.success(sysMenuService.getSysMenuListTreeWithAccountID(accountId, keyword));
-    }
-
-    @Operation(summary = "获取当前用户菜单")
-    @SaCheckPermission("/sys/menu/list")
-    @GetMapping("/sys/menu/list")
-    public Result<?> getSysMenuListWithAccountID(@RequestParam("keyword") String keyword) {
-        String accountId = null;
-        try {
-            accountId = StpUtil.getLoginIdAsString();
-        } catch (Exception e) {
-            log.error("获取当前用户菜单失败", e);
-            return Result.failure("获取当前用户菜单失败");
-        }
-        return Result.success(sysMenuService.getSysMenuListWithAccountID(accountId, keyword));
     }
 
 }

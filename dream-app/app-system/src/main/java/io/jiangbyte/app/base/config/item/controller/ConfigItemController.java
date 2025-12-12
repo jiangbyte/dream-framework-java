@@ -22,7 +22,7 @@ import java.util.List;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 系统配置表 控制器
 */
 @Tag(name = "系统配置表控制器")
@@ -83,12 +83,6 @@ public class ConfigItemController {
     @GetMapping("/config/item/top")
     public Result<?> topN(@RequestParam(value = "n", required = false) Integer n) {
         return Result.success(configItemService.topN(n));
-    }
-
-    @Operation(summary = "获取网站配置")
-    @GetMapping("/config/item/website")
-    public Result<?> websiteConfig() {
-        return Result.success(configItemService.websiteConfig());
     }
 
 }

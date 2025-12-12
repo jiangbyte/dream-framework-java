@@ -11,7 +11,7 @@ import java.util.List;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 菜单表 服务类
 */
 public interface SysMenuService extends IService<SysMenu> {
@@ -28,14 +28,4 @@ public interface SysMenuService extends IService<SysMenu> {
     List<SysMenu> latest(int n);
 
     List<SysMenu> topN(int n);
-
-    /**
-     * 根据账户ID获取菜单列表（树形结构）
-     */
-    List<SysMenu> getSysMenuListTreeWithAccountID(String accountId, String keyword);
-
-    /**
-     * 根据账户ID获取菜单列表（扁平结构）
-     */
-    List<SysMenu> getSysMenuListWithAccountID(String accountId, String keyword);
 }

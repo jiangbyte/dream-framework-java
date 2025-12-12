@@ -11,7 +11,7 @@ import java.util.List;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 用户档案详情表 服务类
 */
 public interface UsersProfileService extends IService<UsersProfile> {

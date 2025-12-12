@@ -1,7 +1,9 @@
 package io.jiangbyte.app.base.system.log.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollStreamUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
@@ -13,6 +15,7 @@ import io.jiangbyte.app.base.system.log.dto.SysLogPageQuery;
 import io.jiangbyte.app.base.system.log.mapper.SysLogMapper;
 import io.jiangbyte.app.base.system.log.service.SysLogService;
 import io.jiangbyte.framework.utils.SortUtils;
+import io.jiangbyte.framework.enums.ISortOrderEnum;
 import io.jiangbyte.framework.exception.BusinessException;
 import io.jiangbyte.framework.pojo.BasePageRequest;
 import io.jiangbyte.framework.result.ResultCode;

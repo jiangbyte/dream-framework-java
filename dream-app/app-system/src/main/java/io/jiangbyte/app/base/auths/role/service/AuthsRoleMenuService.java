@@ -11,7 +11,7 @@ import java.util.List;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 角色菜单关联表 服务类
 */
 public interface AuthsRoleMenuService extends IService<AuthsRoleMenu> {

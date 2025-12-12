@@ -63,7 +63,7 @@ export const PARTIAL_INIT = {
 export const FORM_RULES = {
 <#list table.fields as field>
     <#if !["id", "isDeleted", "deletedAt", "deletedBy", "createdBy", "updatedBy"]?seq_contains(field.propertyName)>
-    ${field.propertyName}: [{ required: true, message: '请输入'${field.comment}'' }],
+    ${field.propertyName}: [{ required: true, message: '请输入${field.comment}' }],
     </#if>
 </#list>
 }

@@ -22,7 +22,7 @@ import java.util.List;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-11-25
+* @date 2025-12-12
 * @description 系统活动日志记录表 控制器
 */
 @Tag(name = "系统活动日志记录表控制器")
