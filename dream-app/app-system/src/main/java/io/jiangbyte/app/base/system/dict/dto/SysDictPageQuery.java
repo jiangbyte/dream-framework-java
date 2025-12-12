@@ -1,9 +1,7 @@
 package io.jiangbyte.app.base.system.dict.dto;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.jiangbyte.framework.pojo.BaseEntity;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import java.io.Serial;
@@ -11,7 +9,7 @@ import java.io.Serial;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-12-12
+* @date 2025-11-25
 * @description 系统字典 分页参数
 */
 @Data
@@ -34,4 +32,7 @@ public class SysDictPageQuery implements Serializable {
 
     @Schema(description = "关键词")
     private String keyword;
+
+    @Schema(description = "字典类型")
+    private String dictType;
 }

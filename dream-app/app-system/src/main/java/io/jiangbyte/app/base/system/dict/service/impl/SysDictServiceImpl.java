@@ -1,9 +1,7 @@
 package io.jiangbyte.app.base.system.dict.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollStreamUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
@@ -14,8 +12,8 @@ import io.jiangbyte.app.base.system.dict.dto.SysDictDto;
 import io.jiangbyte.app.base.system.dict.dto.SysDictPageQuery;
 import io.jiangbyte.app.base.system.dict.mapper.SysDictMapper;
 import io.jiangbyte.app.base.system.dict.service.SysDictService;
+import io.jiangbyte.framework.option.LabelOption;
 import io.jiangbyte.framework.utils.SortUtils;
-import io.jiangbyte.framework.enums.ISortOrderEnum;
 import io.jiangbyte.framework.exception.BusinessException;
 import io.jiangbyte.framework.pojo.BasePageRequest;
 import io.jiangbyte.framework.result.ResultCode;
@@ -25,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
 * @author Charlie Zhang
@@ -40,6 +39,12 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public Page<SysDict> page(SysDictPageQuery req) {
         QueryWrapper<SysDict> queryWrapper = new QueryWrapper<SysDict>().checkSqlInjection();
+        // 类型过滤
+        if (ObjectUtil.isNotEmpty(req.getDictType())) {
+            queryWrapper.lambda().eq(SysDict::getDictType, req.getDictType());
+        } else {
+            return new Page<>();
+        }
         SortUtils.handleSort(SysDict.class, queryWrapper, req.getSortField(), req.getSortOrder());
         return this.page(BasePageRequest.Page(
                         Optional.ofNullable(req.getCurrent()).orElse(1),
@@ -100,4 +105,102 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
             .last("limit " + n));
     }
 
+
+    @Override
+    public List<LabelOption<String>> treeOptions(String keyword) {
+        QueryWrapper<SysDict> queryWrapper = new QueryWrapper<SysDict>().checkSqlInjection();
+        // 关键字
+        if (ObjectUtil.isNotEmpty(keyword)) {
+            queryWrapper.lambda().like(SysDict::getTypeLabel, keyword);
+        }
+
+        // 从数据库获取的所有字典数据
+        List<SysDict> dictList = this.list(queryWrapper);
+
+        // 按字典类型分组
+        Map<String, List<SysDict>> dictTypeMap = dictList.stream()
+                .collect(Collectors.groupingBy(SysDict::getDictType));
+
+        // 构建树形结构
+        List<LabelOption<String>> tree = new ArrayList<>();
+
+        // 遍历每种字典类型
+        dictTypeMap.forEach((dictType, dictItems) -> {
+            // 创建字典类型节点(父节点)
+            LabelOption<String> typeNode = new LabelOption<>();
+            typeNode.setText(dictItems.getFirst().getTypeLabel()); // 使用第一个元素的dictTypeLabel
+            typeNode.setValue(dictType);
+
+            // 为该类型下的字典项创建子节点
+            List<LabelOption<String>> children = dictItems.stream()
+                    .sorted(Comparator.comparing(SysDict::getSort)) // 按排序字段排序
+                    .map(item -> {
+                        LabelOption<String> child = new LabelOption<>();
+                        child.setText(item.getDictLabel());
+                        child.setValue(null);
+                        return child;
+                    })
+                    .collect(Collectors.toList());
+
+            typeNode.setChildren(children);
+            tree.add(typeNode);
+        });
+
+        return tree;
+    }
+
+    @Override
+    public List<LabelOption<String>> listOptions(String keyword) {
+        QueryWrapper<SysDict> queryWrapper = new QueryWrapper<SysDict>().checkSqlInjection();
+        // 关键字
+        if (ObjectUtil.isNotEmpty(keyword)) {
+            queryWrapper.lambda().like(SysDict::getTypeLabel, keyword);
+        }
+        // 从数据库获取的所有字典数据
+        List<SysDict> dictList = this.list(queryWrapper);
+
+        return new ArrayList<>(dictList.stream()
+                .collect(Collectors.toMap(
+                        SysDict::getDictType,  // 以dictType作为key
+                        dict -> new LabelOption<>(dict.getDictType(), dict.getTypeLabel()),
+                        (existing, replacement) -> existing  // 如果有重复key，保留已存在的
+                ))
+                .values());
+    }
+
+    @Override
+    public List<LabelOption<String>> listTypeOptions(String keyword) {
+        QueryWrapper<SysDict> queryWrapper = new QueryWrapper<SysDict>().checkSqlInjection();
+
+        // 关键字
+        if (ObjectUtil.isNotEmpty(keyword)) {
+            queryWrapper.lambda().like(SysDict::getTypeLabel, keyword);
+        }
+        // 从数据库获取的所有字典数据
+        List<SysDict> dictList = this.list(queryWrapper);
+
+        return new ArrayList<>(dictList.stream()
+                .collect(Collectors.toMap(
+                        SysDict::getDictType,  // key
+                        dict -> new LabelOption<>(dict.getDictType(), dict.getTypeLabel()),
+                        (existing, replacement) -> existing  // 如果有重复key，保留已存在的
+                ))
+                .values());
+    }
+
+    @Override
+    public List<LabelOption<String>> listOptionsByType(String type, String keyword) {
+        QueryWrapper<SysDict> queryWrapper = new QueryWrapper<SysDict>().checkSqlInjection();
+        queryWrapper.lambda().eq(SysDict::getDictType, type);
+        if (ObjectUtil.isNotEmpty(keyword)) {
+            queryWrapper.lambda().like(SysDict::getDictLabel, keyword);
+        }
+        return new ArrayList<>(this.list(queryWrapper).stream()
+                .collect(Collectors.toMap(
+                        SysDict::getDictValue,  // key
+                        dict -> new LabelOption<>(dict.getDictValue(), dict.getDictLabel()),
+                        (existing, replacement) -> existing  // 如果有重复key，保留已存在的
+                ))
+                .values());
+    }
 }

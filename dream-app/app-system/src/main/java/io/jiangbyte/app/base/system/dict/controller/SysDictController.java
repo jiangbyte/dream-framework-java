@@ -22,7 +22,7 @@ import java.util.List;
 /**
 * @author Charlie Zhang
 * @version v1.0
-* @date 2025-12-12
+* @date 2025-11-25
 * @description 系统字典表 控制器
 */
 @Tag(name = "系统字典表控制器")
@@ -85,4 +85,32 @@ public class SysDictController {
         return Result.success(sysDictService.topN(n));
     }
 
+    @Operation(summary = "获取系统字典树")
+    @GetMapping("/sys/dict/tree/options")
+    public Result<?> treeOptions(@RequestParam(value = "keyword", required = false) String keyword) {
+        return Result.success(sysDictService.treeOptions(keyword));
+    }
+
+    @Operation(summary = "获取系统字典树")
+    @GetMapping("/sys/dict/list/options")
+    public Result<?> listOptions(@RequestParam(value = "keyword", required = false) String keyword) {
+        return Result.success(sysDictService.listOptions(keyword));
+    }
+
+    @Operation(summary = "获取系统字典树")
+    @GetMapping("/sys/dict/list/options/by/type")
+    public Result<?> listOptionsByType(
+            @RequestParam(value = "type") String type,
+            @RequestParam(value = "keyword", required = false) String keyword
+    ) {
+        return Result.success(sysDictService.listOptionsByType(type, keyword));
+    }
+
+    @Operation(summary = "获取系统字典树")
+    @GetMapping("/sys/dict/list/type/options")
+    public Result<?> listTypeOptions(
+            @RequestParam(value = "keyword", required = false) String keyword
+    ) {
+        return Result.success(sysDictService.listTypeOptions(keyword));
+    }
 }

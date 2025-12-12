@@ -49,10 +49,10 @@ public class AuthsAccount extends BaseEntity {
     private String telephone;
 
     @Schema(description = "账户状态：0-正常, 1-锁定, 2-禁用")
-    private Short status;
+    private Integer status;
 
     @Schema(description = "密码强度等级：0-3")
-    private Short passwordStrength;
+    private Integer passwordStrength;
 
     @Schema(description = "最后修改密码的时间")
     private Date lastPasswordChange;
