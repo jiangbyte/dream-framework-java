@@ -85,7 +85,12 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
       <t-tabs v-model="tabsValue">
         <t-tab-panel value="account" label="账户信息" :destroy-on-hide="true">
           <t-form :data="formData" label-align="left">

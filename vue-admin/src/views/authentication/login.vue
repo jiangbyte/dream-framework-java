@@ -77,7 +77,12 @@ const { websiteConfig } = storeToRefs(appStore)
           </p>
         </div>
 
-        <t-form ref="formRef" :data="formData" :rules="formRules" @submit="handleSubmit">
+        <t-form
+          ref="formRef"
+          :data="formData"
+          :rules="formRules"
+          @submit="handleSubmit"
+        >
           <t-form-item label="用户名" name="username">
             <t-input
               v-model="formData.username"
@@ -131,7 +136,13 @@ const { websiteConfig } = storeToRefs(appStore)
             </div>
           </t-form-item>
           <t-form-item label-width="0">
-            <t-button theme="primary" block type="submit" :loading="isLoading" size="large">
+            <t-button
+              theme="primary"
+              block
+              type="submit"
+              :loading="isLoading"
+              size="large"
+            >
               {{ isLoading ? '登录中...' : '立即登录' }}
             </t-button>
           </t-form-item>

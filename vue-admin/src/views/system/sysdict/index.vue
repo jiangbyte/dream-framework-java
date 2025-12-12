@@ -124,7 +124,12 @@ async function treeNodeClickHandler(value: Array<any>, context: any) {
           </div>
         </div>
       </div>
-      <t-loading size="small" :loading="treeOptionsLoading" show-overlay class="w-full">
+      <t-loading
+        size="small"
+        :loading="treeOptionsLoading"
+        show-overlay
+        class="w-full"
+      >
         <t-tree
           :data="treeOptions"
           :keys="{ value: 'value', label: 'text', children: 'children' }"

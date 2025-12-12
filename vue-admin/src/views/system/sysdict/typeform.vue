@@ -69,7 +69,12 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
       <t-form :data="formData" label-align="left" label-width="120px">
         <t-form-item label="字典类型编码" name="dictType">
           <t-input v-model="formData.dictType" placeholder="请输入字典类型编码" />

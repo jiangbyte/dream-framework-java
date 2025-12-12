@@ -7,6 +7,7 @@ import { useLoading } from '@/hooks'
 import Form from './form.vue'
 import Detail from './detail.vue'
 
+// ============================================== Data ==============================================
 const pageData = ref({
   current: 1,
   pages: 1,
@@ -23,16 +24,23 @@ const pageParams = reactive({
   keyword: '',
 })
 
+const formRef = ref()
+const formName = '${table.comment?replace('表', '')}'
+const detailRef = ref()
+const selectedRowKeys = ref([])
+const columnControllerVisible = ref(false)
 
+// ============================================== Loading ==============================================
 const { isLoading, withLoading } = useLoading()
 
+// ============================================== Function ==============================================
 async function loadPageData() {
-  const { data } = await withLoading(use${entity}Api().Page${entity}(pageParams))
-  pageData.value = data
+  withLoading(use${entity}Api().Page${entity}(pageParams)).then(({ data }) => {
+    pageData.value = data
+  })
 }
 loadPageData()
 
-const selectedRowKeys = ref([])
 function handleSelectChange(selectedKeys: any) {
   selectedRowKeys.value = selectedKeys
 }
@@ -43,10 +51,11 @@ async function handleDelete(id: string | string[]) {
     MessagePlugin.warning('请选择要删除的记录')
     return
   }
-  const { success } = await use${entity}Api().Delete${entity}(idArray)
-  if (success) {
-    loadPageData()
-  }
+  use${entity}Api().Delete${entity}(idArray).then(({ success }) => {
+    if (success) {
+      loadPageData()
+    }
+  })
 }
 
 function handleReset() {
@@ -59,12 +68,6 @@ function handlePageChange(pageInfo: any) {
   pageParams.pageSize = pageInfo.pageSize
   loadPageData()
 }
-
-const formRef = ref()
-const detailRef = ref()
-const formName = '${table.comment?replace('表', '')}'
-
-const columnControllerVisible = ref(false)
 </script>
 
 <template>

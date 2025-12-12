@@ -69,7 +69,12 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
       <t-form :data="formData" label-align="left">
         <t-form-item label="父级组ID" name="pid">
           <t-input v-model="formData.pid" placeholder="请输入父级组ID" />

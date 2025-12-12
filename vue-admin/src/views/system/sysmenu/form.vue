@@ -1,69 +1,62 @@
 <script lang="ts" setup>
-import { useSysDictApi, useSysMenuApi } from '@/api'
+import { useSysMenuApi } from '@/api'
+import { useBooleanDict, useNumberDict } from '@/composables'
+import { DictConstants } from '@/constants'
 import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 import { manifest } from 'tdesign-icons-vue-next'
+import { FORM_RULES, PARTIAL_INIT } from './constant'
 
+// ============================================== Props ==============================================
 const props = defineProps<{
   formName?: string
 }>()
 
+// ============================================== emit ==============================================
 const emit = defineEmits(['close', 'submit'])
 
+// ============================================== Loading ==============================================
 const { isLoading, withLoading } = useLoading()
+const { withLoading: withParentMenuOptionsLoading } = useLoading()
+
+// ============================================== Boolean ==============================================
 const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
 const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
-const { isLoading: parentMenuOptionsLoading, withLoading: withParentMenuOptionsLoading } = useLoading()
+
+// ============================================== Dict ==============================================
+const { options: booleanDictOptions } = useBooleanDict(DictConstants.SYS_BOOLEAN)
+const { options: menuTypeDictOptions } = useNumberDict(DictConstants.SYS_MENU_TYPE)
+const { options: openTargetDictOptions } = useNumberDict(DictConstants.SYS_OPEN_TARGET)
+
+// ============================================== Data ==============================================
+const formRef = ref()
 const formData = reactive<DataFormType>({})
-const booleanTypeOptions = ref<TypeOption[]>([])
-const menuTypeOptions = ref<TypeOption[]>([])
-const menuOpenMethodOptions = ref<TypeOption[]>([])
+
 const menuListTreeOptions = ref<any[]>([{
   id: '0',
   title: '无',
 }])
+
+// ============================================== Function ==============================================
 async function doOpen(row: any) {
   openDrawer()
   ResetFormData(formData)
+  Object.assign(formData, PARTIAL_INIT)
 
   if (row?.id) {
     setEditMode()
-    const { data, success } = await withLoading(useSysMenuApi().GetSysMenu(row?.id))
-    if (success) {
-      Object.assign(formData, data)
-    }
-    else {
-      closeDrawer()
-    }
+    withLoading(useSysMenuApi().GetSysMenu(row?.id)).then(({ data, success }) => {
+      if (success) {
+        Object.assign(formData, data)
+      }
+      else {
+        closeDrawer()
+      }
+    })
   }
   else {
     setAddMode()
   }
-
-  useSysDictApi().ListOptionsByType('SYS_BOOLEAN').then(
-    ({ data }) => {
-      booleanTypeOptions.value = data.map((item: TypeOption) => ({
-        ...item,
-        value: item.value === 'true', // 直接比较转换为 boolean
-      }))
-    },
-  )
-  useSysDictApi().ListOptionsByType('SYS_MENU').then(
-    ({ data }) => {
-      menuTypeOptions.value = data.map((item: TypeOption) => ({
-        ...item,
-        value: Number(item.value),
-      }))
-    },
-  )
-  useSysDictApi().ListOptionsByType('SYS_OPEN_METHOD').then(
-    ({ data }) => {
-      menuOpenMethodOptions.value = data.map((item: TypeOption) => ({
-        ...item,
-        value: Number(item.value),
-      }))
-    },
-  )
 
   withParentMenuOptionsLoading(useSysMenuApi().GetSysMenuListTreeWithAccountID('')).then(
     ({ data }) => {
@@ -79,12 +72,19 @@ function doClose() {
 }
 
 async function doSubmit() {
-  const api = isEdit.value ? useSysMenuApi().EditSysMenu : useSysMenuApi().AddSysMenu
+  if (!formRef.value)
+    return
 
-  const { success } = await withLoading(api(formData))
-  if (success) {
-    closeDrawer()
-    emit('submit')
+  const validateResult = await formRef.value.validate()
+  if (validateResult === true) {
+    const api = isEdit.value ? useSysMenuApi().EditSysMenu : useSysMenuApi().AddSysMenu
+
+    withLoading(api(formData)).then(({ success }) => {
+      if (success) {
+        closeDrawer()
+        emit('submit')
+      }
+    })
   }
 }
 
@@ -107,8 +107,19 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
-      <t-form :data="formData" label-align="left">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
+      <t-form
+        ref="formRef"
+        :data="formData"
+        scroll-to-first-error="smooth"
+        label-align="left"
+        :rules="FORM_RULES"
+      >
         <t-form-item label="父级ID" name="pid">
           <t-tree-select
             v-model="formData.pid"
@@ -126,31 +137,22 @@ defineExpose({
         <t-form-item label="组件路径" name="componentPath">
           <t-input v-model="formData.componentPath" placeholder="请输入组件路径" />
         </t-form-item>
-        <t-form-item label="重定向路径" name="redirect">
-          <t-input v-model="formData.redirect" placeholder="请输入重定向路径" />
-        </t-form-item>
-        <t-form-item label="外部链接地址" name="externalUrl">
-          <t-input v-model="formData.externalUrl" placeholder="请输入外部链接地址" />
-        </t-form-item>
         <t-form-item
           label="菜单类型"
           name="menuType"
         >
           <t-radio-group v-model="formData.menuType" :default-value="formData.menuType">
-            <t-radio v-for="item in menuTypeOptions" :key="item.value" :value="item.value">
+            <t-radio v-for="item in menuTypeDictOptions" :key="item.value" :value="item.value">
               {{ item.text }}
             </t-radio>
           </t-radio-group>
         </t-form-item>
         <t-form-item label="打开方式" name="openTarget">
           <t-radio-group v-model="formData.openTarget" :default-value="formData.openTarget">
-            <t-radio v-for="item in menuOpenMethodOptions" :key="item.value" :value="item.value">
+            <t-radio v-for="item in openTargetDictOptions" :key="item.value" :value="item.value">
               {{ item.text }}
             </t-radio>
           </t-radio-group>
-        </t-form-item>
-        <t-form-item label="iframe属性" name="iframeAttrs">
-          <t-input v-model="formData.iframeAttrs" placeholder="请输入iframe属性" />
         </t-form-item>
         <t-form-item label="菜单标题" name="title">
           <t-input v-model="formData.title" placeholder="请输入菜单标题" />
@@ -207,37 +209,46 @@ defineExpose({
         </t-form-item>
         <t-form-item label="缓存" name="keepAlive">
           <t-radio-group v-model="formData.keepAlive" :default-value="formData.keepAlive">
-            <t-radio v-for="item in booleanTypeOptions" :key="item.value" :value="item.value">
+            <t-radio v-for="(item, index) in booleanDictOptions" :key="index" :value="item.value">
               {{ item.text }}
             </t-radio>
           </t-radio-group>
         </t-form-item>
         <t-form-item label="可见" name="visible">
           <t-radio-group v-model="formData.visible" :default-value="formData.visible">
-            <t-radio v-for="item in booleanTypeOptions" :key="item.value" :value="item.value">
+            <t-radio v-for="(item, index) in booleanDictOptions" :key="index" :value="item.value">
               {{ item.text }}
             </t-radio>
           </t-radio-group>
         </t-form-item>
         <t-form-item label="钉钉" name="pined">
           <t-radio-group v-model="formData.pined" :default-value="formData.pined">
-            <t-radio v-for="item in booleanTypeOptions" :key="item.value" :value="item.value">
+            <t-radio v-for="(item, index) in booleanDictOptions" :key="index" :value="item.value">
               {{ item.text }}
             </t-radio>
           </t-radio-group>
         </t-form-item>
         <t-form-item label="无标签页" name="withoutTab">
           <t-radio-group v-model="formData.withoutTab" :default-value="formData.withoutTab">
-            <t-radio v-for="item in booleanTypeOptions" :key="item.value" :value="item.value">
+            <t-radio v-for="(item, index) in booleanDictOptions" :key="index" :value="item.value">
               {{ item.text }}
             </t-radio>
           </t-radio-group>
         </t-form-item>
         <t-form-item label="头部参数" name="parameters">
-          <t-input v-model="formData.parameters" placeholder="请输入头部参数" />
+          <t-textarea v-model="formData.parameters" placeholder="请输入头部参数" />
         </t-form-item>
         <t-form-item label="路由参数" name="extraParams">
-          <t-input v-model="formData.extraParams" placeholder="请输入路由参数" />
+          <t-textarea v-model="formData.extraParams" placeholder="请输入路由参数" />
+        </t-form-item>
+        <t-form-item label="重定向路径" name="redirect">
+          <t-textarea v-model="formData.redirect" placeholder="请输入重定向路径" />
+        </t-form-item>
+        <t-form-item label="外部链接地址" name="externalUrl">
+          <t-textarea v-model="formData.externalUrl" placeholder="请输入外部链接地址" />
+        </t-form-item>
+        <t-form-item label="iframe属性" name="iframeAttrs">
+          <t-textarea v-model="formData.iframeAttrs" placeholder="请输入iframe属性" />
         </t-form-item>
       </t-form>
     </t-loading>

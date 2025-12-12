@@ -86,7 +86,12 @@ const { websiteConfig } = storeToRefs(appStore)
           </p>
         </div>
 
-        <t-form ref="formRef" :data="formData" :rules="formRules" @submit="handleSubmit">
+        <t-form
+          ref="formRef"
+          :data="formData"
+          :rules="formRules"
+          @submit="handleSubmit"
+        >
           <t-form-item label="昵称" name="nickname">
             <t-input
               v-model="formData.nickname"
@@ -126,7 +131,12 @@ const { websiteConfig } = storeToRefs(appStore)
             </t-input>
           </t-form-item>
           <t-form-item label="邮箱" name="email">
-            <t-input v-model="formData.email" placeholder="请输入邮箱" class="w-full" size="large">
+            <t-input
+              v-model="formData.email"
+              placeholder="请输入邮箱"
+              class="w-full"
+              size="large"
+            >
               <template #prefix-icon>
                 <t-icon name="mail" />
               </template>
@@ -159,7 +169,13 @@ const { websiteConfig } = storeToRefs(appStore)
             </div>
           </t-form-item>
           <t-form-item label-width="0">
-            <t-button theme="primary" block type="submit" :loading="isLoading" size="large">
+            <t-button
+              theme="primary"
+              block
+              type="submit"
+              :loading="isLoading"
+              size="large"
+            >
               {{ isLoading ? '注册中...' : '立即注册' }}
             </t-button>
           </t-form-item>

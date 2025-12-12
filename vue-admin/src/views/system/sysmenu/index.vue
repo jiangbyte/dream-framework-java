@@ -7,6 +7,7 @@ import { useLoading } from '@/hooks'
 import Form from './form.vue'
 import Detail from './detail.vue'
 
+// ============================================== Data ==============================================
 // const pageData = ref({
 //   current: 1,
 //   pages: 1,
@@ -23,17 +24,26 @@ const pageParams = reactive({
   keyword: '',
 })
 
+const selectedRowKeys = ref([])
+const listData = ref([])
+const formRef = ref()
+const detailRef = ref()
+const formName = '菜单'
+
+const columnControllerVisible = ref(false)
+
+// ============================================== Loading ==============================================
 const { isLoading, withLoading } = useLoading()
 
-const listData = ref([])
+// ============================================== Function ==============================================
 async function loadPageData() {
-  const { data } = await withLoading(useSysMenuApi().GetSysMenuListTreeWithAccountID(pageParams.keyword))
-  // pageData.value = data
-  listData.value = data
+  withLoading(useSysMenuApi().GetSysMenuListTreeWithAccountID(pageParams.keyword)).then(({ data }) => {
+    listData.value = data
+    // pageData.value = data
+  })
 }
 loadPageData()
 
-const selectedRowKeys = ref([])
 function handleSelectChange(selectedKeys: any) {
   selectedRowKeys.value = selectedKeys
 }
@@ -44,10 +54,11 @@ async function handleDelete(id: string | string[]) {
     MessagePlugin.warning('请选择要删除的记录')
     return
   }
-  const { success } = await useSysMenuApi().DeleteSysMenu(idArray)
-  if (success) {
-    loadPageData()
-  }
+  useSysMenuApi().DeleteSysMenu(idArray).then(({ success }) => {
+    if (success) {
+      loadPageData()
+    }
+  })
 }
 
 function handleReset() {
@@ -60,12 +71,6 @@ function handlePageChange(pageInfo: any) {
   pageParams.pageSize = pageInfo.pageSize
   loadPageData()
 }
-
-const formRef = ref()
-const detailRef = ref()
-const formName = '菜单'
-
-const columnControllerVisible = ref(false)
 </script>
 
 <template>

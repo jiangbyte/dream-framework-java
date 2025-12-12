@@ -1,17 +1,23 @@
 <script lang="ts" setup>
 import { useSysMenuApi } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
-import { ResetFormData } from '@/utils'
+import { ResetFormData, withFallback } from '@/utils'
 
+// ============================================== Props ==============================================
 const props = defineProps<{
   formName?: string
 }>()
 
-const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+// ============================================== Loading ==============================================
 const { isLoading, withLoading } = useLoading()
 
+// ============================================== Boolean ==============================================
+const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+
+// ============================================== Data ==============================================
 const formData = reactive<DataFormType>({})
 
+// ============================================== Function ==============================================
 function doClose() {
   ResetFormData(formData)
   closeDrawer()
@@ -22,13 +28,14 @@ async function doOpen(row: any) {
   ResetFormData(formData)
 
   if (row?.id) {
-    const { data, success } = await withLoading(useSysMenuApi().GetSysMenu(row?.id))
-    if (success) {
-      Object.assign(formData, data)
-    }
-    else {
-      closeDrawer()
-    }
+    withLoading(useSysMenuApi().GetSysMenu(row?.id)).then(({ data, success }) => {
+      if (success) {
+        Object.assign(formData, data)
+      }
+      else {
+        closeDrawer()
+      }
+    })
   }
 }
 
@@ -49,61 +56,67 @@ defineExpose({
     <template #header>
       {{ `${props.formName}详情` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
       <t-descriptions :column="1" colon table-layout="auto">
         <t-descriptions-item label="父级ID">
-          {{ formData.pid }}
+          {{ withFallback(formData.pid) }}
         </t-descriptions-item>
         <t-descriptions-item label="菜单名称">
-          {{ formData.name }}
+          {{ withFallback(formData.name) }}
         </t-descriptions-item>
         <t-descriptions-item label="菜单路径">
-          {{ formData.path }}
+          {{ withFallback(formData.path) }}
         </t-descriptions-item>
         <t-descriptions-item label="组件路径">
-          {{ formData.componentPath }}
+          {{ withFallback(formData.componentPath) }}
         </t-descriptions-item>
-        <t-descriptions-item label="重定向路径">
-          {{ formData.redirect }}
+        <t-descriptions-item label="菜单类型">
+          {{ withFallback(formData.menuTypeName) }}
         </t-descriptions-item>
-        <t-descriptions-item label="外部链接地址">
-          {{ formData.externalUrl }}
-        </t-descriptions-item>
-        <t-descriptions-item label="菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入">
-          {{ formData.menuType }}
-        </t-descriptions-item>
-        <t-descriptions-item label="打开方式：0-当前窗口 1-新窗口打开">
-          {{ formData.openTarget }}
-        </t-descriptions-item>
-        <t-descriptions-item label="iframe属性">
-          {{ formData.iframeAttrs }}
+        <t-descriptions-item label="打开方式">
+          {{ withFallback(formData.openTargetName) }}
         </t-descriptions-item>
         <t-descriptions-item label="菜单标题">
-          {{ formData.title }}
+          {{ withFallback(formData.title) }}
         </t-descriptions-item>
         <t-descriptions-item label="菜单图标">
-          {{ formData.icon }}
+          <t-icon :name="formData.icon" size="18" />
+          {{ withFallback(formData.icon) }}
         </t-descriptions-item>
         <t-descriptions-item label="排序">
-          {{ formData.sort }}
+          {{ withFallback(formData.sort) }}
         </t-descriptions-item>
         <t-descriptions-item label="缓存">
-          {{ formData.keepAlive }}
+          {{ withFallback(formData.keepAliveName) }}
         </t-descriptions-item>
         <t-descriptions-item label="可见">
-          {{ formData.visible }}
+          {{ withFallback(formData.visibleName) }}
         </t-descriptions-item>
         <t-descriptions-item label="钉钉">
-          {{ formData.pined }}
+          {{ withFallback(formData.pinedName) }}
         </t-descriptions-item>
         <t-descriptions-item label="无标签页">
-          {{ formData.withoutTab }}
+          {{ withFallback(formData.withoutTabName) }}
         </t-descriptions-item>
         <t-descriptions-item label="头部参数">
-          {{ formData.parameters }}
+          {{ withFallback(formData.parameters) }}
         </t-descriptions-item>
         <t-descriptions-item label="路由参数">
-          {{ formData.extraParams }}
+          {{ withFallback(formData.extraParams) }}
+        </t-descriptions-item>
+        <t-descriptions-item label="重定向路径">
+          {{ withFallback(formData.redirect) }}
+        </t-descriptions-item>
+        <t-descriptions-item label="外部链接地址">
+          {{ withFallback(formData.externalUrl) }}
+        </t-descriptions-item>
+        <t-descriptions-item label="iframe属性">
+          {{ withFallback(formData.iframeAttrs) }}
         </t-descriptions-item>
       </t-descriptions>
     </t-loading>

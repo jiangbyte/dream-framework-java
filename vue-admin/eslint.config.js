@@ -10,6 +10,14 @@ export default antfu(
         'vue/no-unused-refs': 'off',
         'vue/no-reserved-component-names': 'off',
         'vue/component-definition-name-casing': 'off',
+        'vue/max-attributes-per-line': ['error', {
+          singleline: 3, // 单行最多允许 3 个属性（可调）
+          multiline: 1, // 多行时每行最多 1 个属性
+        }],
+        'vue/html-closing-bracket-newline': ['error', {
+          multiline: 'always',
+          singleline: 'never',
+        }],
       },
     },
     typescript: {

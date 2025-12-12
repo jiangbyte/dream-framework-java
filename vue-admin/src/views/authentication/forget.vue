@@ -71,7 +71,12 @@ const { websiteConfig } = storeToRefs(appStore)
           </p>
         </div>
 
-        <t-form ref="formRef" :data="formData" :rules="formRules" @submit="handleSubmit">
+        <t-form
+          ref="formRef"
+          :data="formData"
+          :rules="formRules"
+          @submit="handleSubmit"
+        >
           <t-form-item label="注册邮箱" name="email">
             <t-input
               v-model="formData.email"
@@ -104,7 +109,13 @@ const { websiteConfig } = storeToRefs(appStore)
             </div>
           </t-form-item>
           <t-form-item label-width="0">
-            <t-button theme="primary" block type="submit" :loading="isLoading" size="large">
+            <t-button
+              theme="primary"
+              block
+              type="submit"
+              :loading="isLoading"
+              size="large"
+            >
               {{ isLoading ? '发送中...' : '发送重置邮件' }}
             </t-button>
           </t-form-item>

@@ -28,13 +28,13 @@ export const COLUMNS: PrimaryTableCol[] = [
   },
   {
     title: '菜单类型',
-    colKey: 'menuType',
+    colKey: 'menuTypeName',
     width: 120,
     ellipsis: true,
   },
   {
     title: '打开方式',
-    colKey: 'openTarget',
+    colKey: 'openTargetName',
     width: 120,
     ellipsis: true,
   },
@@ -101,3 +101,27 @@ export const SortOptions: DropdownOption[] = [
     label: column.title as string,
   })),
 ]
+
+export const PARTIAL_INIT = {
+  pid: '0',
+  pined: false,
+  withoutTab: false,
+  keepAlive: false,
+  visible: true,
+  menuType: 0,
+  openTarget: 0,
+  sort: 99,
+}
+
+export const FORM_RULES = {
+  pid: [{ required: true, message: '请选择父级菜单' }],
+  title: [{ required: true, message: '请输入菜单标题' }],
+  name: [{ required: true, message: '请输入菜单名称' }],
+  path: [{ required: true, message: '请输入菜单路径' }],
+  menuType: [{ required: true, message: '请选择菜单类型' }],
+  openTarget: [{ required: true, message: '请选择打开方式' }],
+  visible: [{ required: true, message: '请选择可见' }],
+  pined: [{ required: true, message: '请选择钉钉' }],
+  withoutTab: [{ required: true, message: '请选择标签页' }],
+  keepAlive: [{ required: true, message: '请选择缓存' }],
+}

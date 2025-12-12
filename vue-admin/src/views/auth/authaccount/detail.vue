@@ -50,7 +50,12 @@ defineExpose({
     <template #header>
       {{ `${props.formName}详情` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
       <t-tabs v-model="tabsValue">
         <t-tab-panel value="account" label="账户信息" :destroy-on-hide="true">
           <t-descriptions :column="1" colon table-layout="auto">

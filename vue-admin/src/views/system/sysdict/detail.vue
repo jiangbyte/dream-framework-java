@@ -49,7 +49,12 @@ defineExpose({
     <template #header>
       {{ `${props.formName}详情` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
       <t-descriptions :column="1" colon table-layout="auto">
         <t-descriptions-item label="字典类型">
           {{ formData.dictType }}

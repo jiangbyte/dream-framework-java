@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { useAuthRoleApi, useSysDictApi } from '@/api'
+import { useAuthRoleApi } from '@/api'
+import { useStringDict } from '@/composables'
 import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 
@@ -14,7 +15,7 @@ const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean
 const { isLoading, withLoading } = useLoading()
 
 const formData = reactive<DataFormType>({})
-const dataScopeOptions = ref<TypeOption[]>([])
+const { options: dataScopeDictOptions } = useStringDict('SYS_DATA_SCOPE')
 async function doOpen(row: any) {
   openDrawer()
   ResetFormData(formData)
@@ -32,13 +33,6 @@ async function doOpen(row: any) {
   else {
     setAddMode()
   }
-  useSysDictApi().ListOptionsByType('DATA_SCOPE').then(
-    ({ data }) => {
-      dataScopeOptions.value = data.map((item: TypeOption) => ({
-        ...item,
-      }))
-    },
-  )
 }
 
 function doClose() {
@@ -76,7 +70,12 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
       <t-form :data="formData" label-align="left">
         <t-form-item label="角色名称" name="name">
           <t-input v-model="formData.name" placeholder="请输入角色名称" />
@@ -86,9 +85,12 @@ defineExpose({
         </t-form-item>
         <t-form-item label="数据权限范围" name="dataScope">
           <t-select
-            v-model="formData.dataScope" :options="dataScopeOptions" :keys="{
+            v-model="formData.dataScope"
+            :options="dataScopeDictOptions"
+            :keys="{
               label: 'text',
-            }" placeholder="请输入数据权限范围"
+            }"
+            placeholder="请输入数据权限范围"
           />
         </t-form-item>
         <t-form-item label="角色描述" name="description">

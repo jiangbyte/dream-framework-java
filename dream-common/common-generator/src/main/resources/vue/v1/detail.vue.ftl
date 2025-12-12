@@ -1,17 +1,23 @@
 <script lang="ts" setup>
 import { use${entity}Api } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
-import { ResetFormData } from '@/utils'
+import { ResetFormData, withFallback } from '@/utils'
 
+// ============================================== Props ==============================================
 const props = defineProps<{
   formName?: string
 }>()
 
-const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+// ============================================== Loading ==============================================
 const { isLoading, withLoading } = useLoading()
 
+// ============================================== Boolean ==============================================
+const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
+
+// ============================================== Data ==============================================
 const formData = reactive<DataFormType>({})
 
+// ============================================== Function ==============================================
 function doClose() {
   ResetFormData(formData)
   closeDrawer()
@@ -22,13 +28,14 @@ async function doOpen(row: any) {
   ResetFormData(formData)
 
   if (row?.id) {
-    const { data, success } = await withLoading(use${entity}Api().Get${entity}(row?.id))
-    if (success) {
-      Object.assign(formData, data)
-    }
-    else {
-      closeDrawer()
-    }
+      withLoading(use${entity}Api().Get${entity}(row?.id)).then(({ data, success }) => {
+          if (success) {
+              Object.assign(formData, data)
+          }
+          else {
+              closeDrawer()
+          }
+      })
  }
 }
 
@@ -53,13 +60,13 @@ defineExpose({
       </#noparse>
       <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
         <t-descriptions :column="1" colon table-layout="auto">
-          <#list table.fields as field>
-        <#if !["isDeleted","id", "deletedAt", "deleteUser", "createdAt", "createUser", "updatedAt", "updateUser"]?seq_contains(field.propertyName)>
+        <#list table.fields as field>
+        <#if !["isDeleted","id", "deletedAt", "deletedBy", "createdAt", "createdBy", "updatedAt", "updatedBy"]?seq_contains(field.propertyName)>
           <t-descriptions-item label="${field.comment}">
-              {{ formData.${field.propertyName} }}
+              {{ withFallback(formData.${field.propertyName}) }}
           </t-descriptions-item>
         </#if>
-          </#list>
+        </#list>
         </t-descriptions>
       </t-loading>
   </t-drawer>
