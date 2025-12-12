@@ -75,20 +75,11 @@ defineExpose({
         <t-descriptions-item label="组件路径">
           {{ withFallback(formData.componentPath) }}
         </t-descriptions-item>
-        <t-descriptions-item label="重定向路径">
-          {{ withFallback(formData.redirect) }}
+        <t-descriptions-item label="菜单类型">
+          {{ withFallback(formData.menuTypeName) }}
         </t-descriptions-item>
-        <t-descriptions-item label="外部链接地址">
-          {{ withFallback(formData.externalUrl) }}
-        </t-descriptions-item>
-        <t-descriptions-item label="菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入">
-          {{ withFallback(formData.menuType) }}
-        </t-descriptions-item>
-        <t-descriptions-item label="打开方式：0-当前窗口 1-新窗口打开">
-          {{ withFallback(formData.openTarget) }}
-        </t-descriptions-item>
-        <t-descriptions-item label="iframe属性">
-          {{ withFallback(formData.iframeAttrs) }}
+        <t-descriptions-item label="打开方式">
+          {{ withFallback(formData.openTargetName) }}
         </t-descriptions-item>
         <t-descriptions-item label="菜单标题">
           {{ withFallback(formData.title) }}
@@ -100,22 +91,31 @@ defineExpose({
           {{ withFallback(formData.sort) }}
         </t-descriptions-item>
         <t-descriptions-item label="缓存">
-          {{ withFallback(formData.keepAlive) }}
+          {{ withFallback(formData.keepAliveName) }}
         </t-descriptions-item>
         <t-descriptions-item label="可见">
-          {{ withFallback(formData.visible) }}
+          {{ withFallback(formData.visibleName) }}
         </t-descriptions-item>
         <t-descriptions-item label="钉钉">
-          {{ withFallback(formData.pined) }}
+          {{ withFallback(formData.pinedName) }}
         </t-descriptions-item>
         <t-descriptions-item label="无标签页">
-          {{ withFallback(formData.withoutTab) }}
+          {{ withFallback(formData.withoutTabName) }}
         </t-descriptions-item>
         <t-descriptions-item label="头部参数">
           {{ withFallback(formData.parameters) }}
         </t-descriptions-item>
         <t-descriptions-item label="路由参数">
           {{ withFallback(formData.extraParams) }}
+        </t-descriptions-item>
+        <t-descriptions-item label="重定向路径">
+          {{ withFallback(formData.redirect) }}
+        </t-descriptions-item>
+        <t-descriptions-item label="外部链接地址">
+          {{ withFallback(formData.externalUrl) }}
+        </t-descriptions-item>
+        <t-descriptions-item label="iframe属性">
+          {{ withFallback(formData.iframeAttrs) }}
         </t-descriptions-item>
       </t-descriptions>
     </t-loading>

@@ -45,14 +45,14 @@ export const COLUMNS: PrimaryTableCol[] = [
     ellipsis: true,
   },
   {
-    title: '菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入',
-    colKey: 'menuType',
+    title: '菜单类型',
+    colKey: 'menuTypeName',
     width: 120,
     ellipsis: true,
   },
   {
-    title: '打开方式：0-当前窗口 1-新窗口打开',
-    colKey: 'openTarget',
+    title: '打开方式',
+    colKey: 'openTargetName',
     width: 120,
     ellipsis: true,
   },

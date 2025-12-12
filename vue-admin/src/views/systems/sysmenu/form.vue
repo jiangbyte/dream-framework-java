@@ -3,6 +3,9 @@ import { useSysMenuApi } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 import { FORM_RULES, PARTIAL_INIT } from './constant'
+import { DictConstants } from '@/constants'
+import { useBooleanDict, useNumberDict } from '@/composables'
+import { manifest } from 'tdesign-icons-vue-next'
 
 // ============================================== Props ==============================================
 const props = defineProps<{
@@ -20,6 +23,9 @@ const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolea
 const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean(false)
 
 // ============================================== Dict ==============================================
+const { options: booleanDictOptions } = useBooleanDict(DictConstants.SYS_BOOLEAN)
+const { options: menuTypeDictOptions } = useNumberDict(DictConstants.SYS_MENU_TYPE)
+const { options: openTargetDictOptions } = useNumberDict(DictConstants.SYS_OPEN_TARGET)
 
 // ============================================== Data ==============================================
 const formRef = ref()
@@ -116,47 +122,94 @@ defineExpose({
         <t-form-item label="组件路径" name="componentPath">
           <t-input v-model="formData.componentPath" placeholder="请输入组件路径" />
         </t-form-item>
-        <t-form-item label="重定向路径" name="redirect">
-          <t-input v-model="formData.redirect" placeholder="请输入重定向路径" />
+        <t-form-item label="菜单类型">
+          <t-radio-group v-model="formData.menuType" :default-value="formData.menuType">
+            <t-radio v-for="item in menuTypeDictOptions" :key="item.value" :value="item.value">
+              {{ item.text }}
+            </t-radio>
+          </t-radio-group>
         </t-form-item>
-        <t-form-item label="外部链接地址" name="externalUrl">
-          <t-input v-model="formData.externalUrl" placeholder="请输入外部链接地址" />
-        </t-form-item>
-        <t-form-item label="菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入" name="menuType">
-          <t-input v-model="formData.menuType" placeholder="请输入菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入" />
-        </t-form-item>
-        <t-form-item label="打开方式：0-当前窗口 1-新窗口打开" name="openTarget">
-          <t-input v-model="formData.openTarget" placeholder="请输入打开方式：0-当前窗口 1-新窗口打开" />
-        </t-form-item>
-        <t-form-item label="iframe属性" name="iframeAttrs">
-          <t-input v-model="formData.iframeAttrs" placeholder="请输入iframe属性" />
+        <t-form-item label="打开方式" name="openTarget">
+          <t-radio-group v-model="formData.openTarget" :default-value="formData.openTarget">
+            <t-radio v-for="item in openTargetDictOptions" :key="item.value" :value="item.value">
+              {{ item.text }}
+            </t-radio>
+          </t-radio-group>
         </t-form-item>
         <t-form-item label="菜单标题" name="title">
           <t-input v-model="formData.title" placeholder="请输入菜单标题" />
         </t-form-item>
         <t-form-item label="菜单图标" name="icon">
-          <t-input v-model="formData.icon" placeholder="请输入菜单图标" />
+          <t-select
+            v-model="formData.icon"
+            placeholder="请选择菜单图标"
+            :style="{ width: '400px' }"
+            :popup-props="{ overlayInnerStyle: { width: '400px' } }"
+          >
+            <t-option
+              v-for="item in manifest"
+              :key="item.stem"
+              :value="item.stem"
+            >
+              <div class="icon-option-content">
+                <t-icon :name="item.stem" size="18" />
+                <span class="icon-name">{{ item.stem }}</span>
+              </div>
+            </t-option>
+
+            <template #valueDisplay="{ value }">
+              <div class="selected-value">
+                <t-icon :name="value" size="18" />
+                <span>{{ value }}</span>
+              </div>
+            </template>
+          </t-select>
         </t-form-item>
         <t-form-item label="排序" name="sort">
-          <t-input v-model="formData.sort" placeholder="请输入排序" />
+          <t-input-number v-model="formData.sort" />
         </t-form-item>
         <t-form-item label="缓存" name="keepAlive">
-          <t-input v-model="formData.keepAlive" placeholder="请输入缓存" />
+          <t-radio-group v-model="formData.keepAlive" :default-value="formData.keepAlive">
+            <t-radio v-for="(item, index) in booleanDictOptions" :key="index" :value="item.value">
+              {{ item.text }}
+            </t-radio>
+          </t-radio-group>
         </t-form-item>
         <t-form-item label="可见" name="visible">
-          <t-input v-model="formData.visible" placeholder="请输入可见" />
+          <t-radio-group v-model="formData.visible" :default-value="formData.visible">
+            <t-radio v-for="(item, index) in booleanDictOptions" :key="index" :value="item.value">
+              {{ item.text }}
+            </t-radio>
+          </t-radio-group>
         </t-form-item>
         <t-form-item label="钉钉" name="pined">
-          <t-input v-model="formData.pined" placeholder="请输入钉钉" />
+          <t-radio-group v-model="formData.pined" :default-value="formData.pined">
+            <t-radio v-for="(item, index) in booleanDictOptions" :key="index" :value="item.value">
+              {{ item.text }}
+            </t-radio>
+          </t-radio-group>
         </t-form-item>
         <t-form-item label="无标签页" name="withoutTab">
-          <t-input v-model="formData.withoutTab" placeholder="请输入无标签页" />
+          <t-radio-group v-model="formData.withoutTab" :default-value="formData.withoutTab">
+            <t-radio v-for="(item, index) in booleanDictOptions" :key="index" :value="item.value">
+              {{ item.text }}
+            </t-radio>
+          </t-radio-group>
         </t-form-item>
         <t-form-item label="头部参数" name="parameters">
-          <t-input v-model="formData.parameters" placeholder="请输入头部参数" />
+          <t-textarea v-model="formData.parameters" placeholder="请输入头部参数" />
         </t-form-item>
         <t-form-item label="路由参数" name="extraParams">
-          <t-input v-model="formData.extraParams" placeholder="请输入路由参数" />
+          <t-textarea v-model="formData.extraParams" placeholder="请输入路由参数" />
+        </t-form-item>
+        <t-form-item label="重定向路径" name="redirect">
+          <t-textarea v-model="formData.redirect" placeholder="请输入重定向路径" />
+        </t-form-item>
+        <t-form-item label="外部链接地址" name="externalUrl">
+          <t-textarea v-model="formData.externalUrl" placeholder="请输入外部链接地址" />
+        </t-form-item>
+        <t-form-item label="iframe属性" name="iframeAttrs">
+          <t-textarea v-model="formData.iframeAttrs" placeholder="请输入iframe属性" />
         </t-form-item>
       </t-form>
     </t-loading>
