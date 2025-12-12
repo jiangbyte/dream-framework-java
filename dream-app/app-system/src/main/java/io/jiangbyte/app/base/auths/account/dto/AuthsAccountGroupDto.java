@@ -13,10 +13,10 @@ import java.util.Date;
 * @author Charlie Zhang
 * @version v1.0
 * @date 2025-12-12
-* @description 账户用户组关联 编辑参数
+* @description 账户用户组关联 DTO
 */
 @Data
-@Schema(name = "AuthsAccountGroup", description = "账户用户组关联 编辑参数")
+@Schema(name = "AuthsAccountGroup", description = "账户用户组关联 DTO")
 public class AuthsAccountGroupDto implements Serializable {
     @Serial
     @TableField(exist = false)

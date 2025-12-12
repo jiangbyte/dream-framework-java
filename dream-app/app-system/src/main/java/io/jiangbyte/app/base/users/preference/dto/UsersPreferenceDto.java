@@ -14,10 +14,10 @@ import java.util.Date;
 * @author Charlie Zhang
 * @version v1.0
 * @date 2025-12-12
-* @description 用户偏好设置 编辑参数
+* @description 用户偏好设置 DTO
 */
 @Data
-@Schema(name = "UsersPreference", description = "用户偏好设置 编辑参数")
+@Schema(name = "UsersPreference", description = "用户偏好设置 DTO")
 public class UsersPreferenceDto implements Serializable {
     @Serial
     @TableField(exist = false)

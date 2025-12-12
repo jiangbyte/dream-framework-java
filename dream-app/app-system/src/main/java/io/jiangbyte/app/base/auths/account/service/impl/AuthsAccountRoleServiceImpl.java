@@ -100,4 +100,12 @@ public class AuthsAccountRoleServiceImpl extends ServiceImpl<AuthsAccountRoleMap
             .last("limit " + n));
     }
 
+
+    @Override
+    public List<AuthsAccountRole> lists() {
+        return this.list(new QueryWrapper<AuthsAccountRole>()
+            .lambda()
+            .orderByDesc(AuthsAccountRole::getId));
+    }
+
 }

@@ -28,4 +28,6 @@ public interface UsersStatsService extends IService<UsersStats> {
     List<UsersStats> latest(int n);
 
     List<UsersStats> topN(int n);
+
+    List<UsersStats> lists();
 }

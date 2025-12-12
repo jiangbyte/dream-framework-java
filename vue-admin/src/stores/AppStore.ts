@@ -1,4 +1,4 @@
-import { useConfigItemApi } from '@/api'
+import { useConfigsItemApi } from '@/api'
 import themeJson from './theme.json'
 
 // 社交链接类型
@@ -73,7 +73,7 @@ export const useAppStore = defineStore('appStore', {
 
       try {
         this.isFetching = true
-        const { data } = await useConfigItemApi().GetWebsiteConfig()
+        const { data } = await useConfigsItemApi().GetWebsiteConfig()
         this.website = data
         this.lastFetchTime = Date.now()
         return data

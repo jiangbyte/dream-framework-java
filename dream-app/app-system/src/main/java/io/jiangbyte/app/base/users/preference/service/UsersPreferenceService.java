@@ -28,4 +28,6 @@ public interface UsersPreferenceService extends IService<UsersPreference> {
     List<UsersPreference> latest(int n);
 
     List<UsersPreference> topN(int n);
+
+    List<UsersPreference> lists();
 }

@@ -28,4 +28,6 @@ public interface AuthsGroupService extends IService<AuthsGroup> {
     List<AuthsGroup> latest(int n);
 
     List<AuthsGroup> topN(int n);
+
+    List<AuthsGroup> lists();
 }

@@ -100,4 +100,12 @@ public class UsersPreferenceServiceImpl extends ServiceImpl<UsersPreferenceMappe
             .last("limit " + n));
     }
 
+
+    @Override
+    public List<UsersPreference> lists() {
+        return this.list(new QueryWrapper<UsersPreference>()
+            .lambda()
+            .orderByDesc(UsersPreference::getId));
+    }
+
 }

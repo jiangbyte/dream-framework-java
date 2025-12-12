@@ -100,4 +100,12 @@ public class AuthsAccountGroupServiceImpl extends ServiceImpl<AuthsAccountGroupM
             .last("limit " + n));
     }
 
+
+    @Override
+    public List<AuthsAccountGroup> lists() {
+        return this.list(new QueryWrapper<AuthsAccountGroup>()
+            .lambda()
+            .orderByDesc(AuthsAccountGroup::getId));
+    }
+
 }

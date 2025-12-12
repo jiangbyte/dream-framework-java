@@ -85,4 +85,11 @@ public class UsersInfoController {
         return Result.success(usersInfoService.topN(n));
     }
 
+    @Operation(summary = "获取用户基本信息Lists")
+    @SaCheckPermission("/users/info/lists")
+    @GetMapping("/users/info/lists")
+    public Result<?> lists() {
+        return Result.success(usersInfoService.lists());
+    }
+
 }

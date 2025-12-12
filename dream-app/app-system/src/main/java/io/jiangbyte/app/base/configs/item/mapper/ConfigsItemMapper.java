@@ -1,0 +1,19 @@
+package io.jiangbyte.app.base.configs.item.mapper;
+
+import io.jiangbyte.framework.cache.MybatisPlusRedisCache;
+import io.jiangbyte.app.base.configs.item.entity.ConfigsItem;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.CacheNamespace;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+* @author Charlie Zhang
+* @version v1.0
+* @date 2025-12-12
+* @description 系统配置表 Mapper 接口
+*/
+@Mapper
+//@CacheNamespace(implementation = MybatisPlusRedisCache.class, eviction = MybatisPlusRedisCache.class)
+public interface ConfigsItemMapper extends BaseMapper<ConfigsItem> {
+
+}

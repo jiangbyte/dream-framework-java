@@ -85,4 +85,11 @@ public class UsersStatsController {
         return Result.success(usersStatsService.topN(n));
     }
 
+    @Operation(summary = "获取用户统计信息Lists")
+    @SaCheckPermission("/users/stats/lists")
+    @GetMapping("/users/stats/lists")
+    public Result<?> lists() {
+        return Result.success(usersStatsService.lists());
+    }
+
 }

@@ -100,4 +100,12 @@ public class AuthsAccountServiceImpl extends ServiceImpl<AuthsAccountMapper, Aut
             .last("limit " + n));
     }
 
+
+    @Override
+    public List<AuthsAccount> lists() {
+        return this.list(new QueryWrapper<AuthsAccount>()
+            .lambda()
+            .orderByDesc(AuthsAccount::getId));
+    }
+
 }

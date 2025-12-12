@@ -28,4 +28,6 @@ public interface ${entity}Service extends ${superServiceClass}<${entity}> {
     List<${entity}> latest(int n);
 
     List<${entity}> topN(int n);
+
+    List<${entity}> lists();
 }

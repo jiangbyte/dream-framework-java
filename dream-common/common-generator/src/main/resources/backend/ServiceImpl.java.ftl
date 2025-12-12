@@ -113,4 +113,12 @@ public class ${entity}ServiceImpl extends ${superServiceImplClass}<${table.mappe
             .last("limit " + n));
     }
 
+
+    @Override
+    public List<${entity}> lists() {
+        return this.list(new QueryWrapper<${entity}>()
+            .lambda()
+            .orderByDesc(${entity}::getId));
+    }
+
 }

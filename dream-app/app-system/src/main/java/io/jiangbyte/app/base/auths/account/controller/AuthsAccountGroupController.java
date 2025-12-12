@@ -85,4 +85,11 @@ public class AuthsAccountGroupController {
         return Result.success(authsAccountGroupService.topN(n));
     }
 
+    @Operation(summary = "获取账户用户组关联Lists")
+    @SaCheckPermission("/auths/account/group/lists")
+    @GetMapping("/auths/account/group/lists")
+    public Result<?> lists() {
+        return Result.success(authsAccountGroupService.lists());
+    }
+
 }

@@ -85,4 +85,11 @@ public class AuthsRoleMenuController {
         return Result.success(authsRoleMenuService.topN(n));
     }
 
+    @Operation(summary = "获取角色菜单关联Lists")
+    @SaCheckPermission("/auths/role/menu/lists")
+    @GetMapping("/auths/role/menu/lists")
+    public Result<?> lists() {
+        return Result.success(authsRoleMenuService.lists());
+    }
+
 }

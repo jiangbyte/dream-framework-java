@@ -85,4 +85,11 @@ public class AuthsGroupController {
         return Result.success(authsGroupService.topN(n));
     }
 
+    @Operation(summary = "获取用户组Lists")
+    @SaCheckPermission("/auths/group/lists")
+    @GetMapping("/auths/group/lists")
+    public Result<?> lists() {
+        return Result.success(authsGroupService.lists());
+    }
+
 }

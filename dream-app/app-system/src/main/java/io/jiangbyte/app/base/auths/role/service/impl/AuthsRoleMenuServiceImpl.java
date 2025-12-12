@@ -100,4 +100,12 @@ public class AuthsRoleMenuServiceImpl extends ServiceImpl<AuthsRoleMenuMapper, A
             .last("limit " + n));
     }
 
+
+    @Override
+    public List<AuthsRoleMenu> lists() {
+        return this.list(new QueryWrapper<AuthsRoleMenu>()
+            .lambda()
+            .orderByDesc(AuthsRoleMenu::getId));
+    }
+
 }

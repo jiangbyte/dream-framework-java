@@ -14,10 +14,10 @@ import java.util.Date;
 * @author Charlie Zhang
 * @version v1.0
 * @date 2025-12-12
-* @description 用户统计信息 编辑参数
+* @description 用户统计信息 DTO
 */
 @Data
-@Schema(name = "UsersStats", description = "用户统计信息 编辑参数")
+@Schema(name = "UsersStats", description = "用户统计信息 DTO")
 public class UsersStatsDto implements Serializable {
     @Serial
     @TableField(exist = false)

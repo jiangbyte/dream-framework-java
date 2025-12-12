@@ -103,4 +103,12 @@ public class AuthsGroupServiceImpl extends ServiceImpl<AuthsGroupMapper, AuthsGr
             .last("limit " + n));
     }
 
+
+    @Override
+    public List<AuthsGroup> lists() {
+        return this.list(new QueryWrapper<AuthsGroup>()
+            .lambda()
+            .orderByDesc(AuthsGroup::getId));
+    }
+
 }

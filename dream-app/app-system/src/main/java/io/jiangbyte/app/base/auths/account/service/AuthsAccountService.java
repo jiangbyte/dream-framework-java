@@ -28,4 +28,6 @@ public interface AuthsAccountService extends IService<AuthsAccount> {
     List<AuthsAccount> latest(int n);
 
     List<AuthsAccount> topN(int n);
+
+    List<AuthsAccount> lists();
 }

@@ -1,8 +1,8 @@
 package io.jiangbyte.app.job;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.jiangbyte.app.base.system.dict.entity.SysDict;
-import io.jiangbyte.app.base.system.dict.mapper.SysDictMapper;
+import io.jiangbyte.app.base.systems.dict.entity.SysDict;
+import io.jiangbyte.app.base.systems.dict.mapper.SysDictMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

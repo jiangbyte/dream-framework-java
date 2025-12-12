@@ -28,4 +28,6 @@ public interface UsersProfileService extends IService<UsersProfile> {
     List<UsersProfile> latest(int n);
 
     List<UsersProfile> topN(int n);
+
+    List<UsersProfile> lists();
 }

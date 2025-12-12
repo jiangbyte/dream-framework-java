@@ -100,4 +100,12 @@ public class UsersProfileServiceImpl extends ServiceImpl<UsersProfileMapper, Use
             .last("limit " + n));
     }
 
+
+    @Override
+    public List<UsersProfile> lists() {
+        return this.list(new QueryWrapper<UsersProfile>()
+            .lambda()
+            .orderByDesc(UsersProfile::getId));
+    }
+
 }

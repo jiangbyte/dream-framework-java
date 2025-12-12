@@ -28,4 +28,6 @@ public interface AuthsRoleMenuService extends IService<AuthsRoleMenu> {
     List<AuthsRoleMenu> latest(int n);
 
     List<AuthsRoleMenu> topN(int n);
+
+    List<AuthsRoleMenu> lists();
 }

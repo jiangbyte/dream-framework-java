@@ -85,4 +85,11 @@ public class UsersPreferenceController {
         return Result.success(usersPreferenceService.topN(n));
     }
 
+    @Operation(summary = "获取用户偏好设置Lists")
+    @SaCheckPermission("/users/preference/lists")
+    @GetMapping("/users/preference/lists")
+    public Result<?> lists() {
+        return Result.success(usersPreferenceService.lists());
+    }
+
 }

@@ -13,10 +13,10 @@ import java.util.Date;
 * @author ${author}
 * @version v1.0
 * @date ${date}
-* @description ${table.comment?replace('表', '')} 编辑参数
+* @description ${table.comment?replace('表', '')} DTO
 */
 @Data
-@Schema(name = "${entity}", description = "${table.comment?replace('表', '')} 编辑参数")
+@Schema(name = "${entity}", description = "${table.comment?replace('表', '')} DTO")
 public class ${entity}Dto implements Serializable {
     @Serial
     @TableField(exist = false)

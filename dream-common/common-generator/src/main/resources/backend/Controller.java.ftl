@@ -89,4 +89,11 @@ public class ${entity}Controller {
         return Result.success(${table.entityPath}Service.topN(n));
     }
 
+    @Operation(summary = "获取${table.comment?replace('表', '')}Lists")
+    @SaCheckPermission("/${table.name?replace('_', '/')}/lists")
+    @GetMapping("/${table.name?replace('_', '/')}/lists")
+    public Result<?> lists() {
+        return Result.success(${table.entityPath}Service.lists());
+    }
+
 }

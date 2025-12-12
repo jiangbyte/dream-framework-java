@@ -85,4 +85,11 @@ public class AuthsAccountRoleController {
         return Result.success(authsAccountRoleService.topN(n));
     }
 
+    @Operation(summary = "获取账户角色关联Lists")
+    @SaCheckPermission("/auths/account/role/lists")
+    @GetMapping("/auths/account/role/lists")
+    public Result<?> lists() {
+        return Result.success(authsAccountRoleService.lists());
+    }
+
 }

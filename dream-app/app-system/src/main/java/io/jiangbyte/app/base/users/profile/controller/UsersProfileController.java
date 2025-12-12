@@ -85,4 +85,11 @@ public class UsersProfileController {
         return Result.success(usersProfileService.topN(n));
     }
 
+    @Operation(summary = "获取用户档案详情Lists")
+    @SaCheckPermission("/users/profile/lists")
+    @GetMapping("/users/profile/lists")
+    public Result<?> lists() {
+        return Result.success(usersProfileService.lists());
+    }
+
 }

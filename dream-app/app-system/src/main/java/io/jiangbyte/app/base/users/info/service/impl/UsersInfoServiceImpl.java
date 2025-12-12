@@ -100,4 +100,12 @@ public class UsersInfoServiceImpl extends ServiceImpl<UsersInfoMapper, UsersInfo
             .last("limit " + n));
     }
 
+
+    @Override
+    public List<UsersInfo> lists() {
+        return this.list(new QueryWrapper<UsersInfo>()
+            .lambda()
+            .orderByDesc(UsersInfo::getId));
+    }
+
 }

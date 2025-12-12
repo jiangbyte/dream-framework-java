@@ -85,4 +85,11 @@ public class AuthsAccountController {
         return Result.success(authsAccountService.topN(n));
     }
 
+    @Operation(summary = "获取核心账户Lists")
+    @SaCheckPermission("/auths/account/lists")
+    @GetMapping("/auths/account/lists")
+    public Result<?> lists() {
+        return Result.success(authsAccountService.lists());
+    }
+
 }
