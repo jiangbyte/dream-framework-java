@@ -3,6 +3,9 @@ import { useSysCodeTaskApi } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 import { FORM_RULES, PARTIAL_INIT } from './constant'
+import { DictConstants } from '@/constants'
+import { loadBooleanDict, loadNumberDict, loadStringDict } from '@/composables'
+import type { TransformedOption } from '@/composables'
 
 // ============================================== Props ==============================================
 const props = defineProps<{
@@ -28,9 +31,16 @@ const formData = reactive<DataFormType>({})
 // ============================================== Function ==============================================
 async function doOpen(row: any) {
   openDrawer()
+
+  // Iint Data
   ResetFormData(formData)
   Object.assign(formData, PARTIAL_INIT)
 
+  // Dict Load
+
+  // Data Load
+
+  // Mode Set
   if (row?.id) {
     setEditMode()
     withLoading(useSysCodeTaskApi().GetSysCodeTask(row?.id)).then(({ data, success }) => {
@@ -57,11 +67,11 @@ async function doSubmit() {
   if (!formRef.value)
     return
 
-  const validateResult = await formRef.value.validate()
-  if (validateResult === true) {
+  const validate = await formRef.value.validate()
+  if (validate === true) {
     const api = isEdit.value
-      ? useSysCodeTaskApi().EditSysCodeTask
-      : useSysCodeTaskApi().AddSysCodeTask
+            ? useSysCodeTaskApi().EditSysCodeTask
+            : useSysCodeTaskApi().AddSysCodeTask
 
     withLoading(api(formData)).then(({ success }) => {
       if (success) {
@@ -91,19 +101,8 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading
-      size="small"
-      :loading="isLoading"
-      show-overlay
-      class="w-full"
-    >
-      <t-form
-        ref="formRef"
-        :data="formData"
-        scroll-to-first-error="smooth"
-        label-align="left"
-        :rules="FORM_RULES"
-      >
+    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+      <t-form ref="formRef" :data="formData" scroll-to-first-error="smooth" label-align="left" :rules="FORM_RULES">
         <t-form-item label="任务名称，如：系统模块代码生成" name="taskName">
           <t-input v-model="formData.taskName" placeholder="请输入任务名称，如：系统模块代码生成" />
         </t-form-item>
@@ -126,16 +125,16 @@ defineExpose({
           <t-input v-model="formData.databaseName" placeholder="请输入数据库名" />
         </t-form-item>
         <t-form-item label="生成后端：1-是，0-否" name="addBackend">
-          <t-input v-model="formData.addBackend" placeholder="请输入生成后端：1-是，0-否" />
+          <t-input-number v-model="formData.addBackend" placeholder="请输入生成后端：1-是，0-否" />
         </t-form-item>
         <t-form-item label="生成后端：1-是，0-否" name="addFrontend">
-          <t-input v-model="formData.addFrontend" placeholder="请输入生成后端：1-是，0-否" />
+          <t-input-number v-model="formData.addFrontend" placeholder="请输入生成后端：1-是，0-否" />
         </t-form-item>
         <t-form-item label="实际执行时间" name="executedAt">
           <t-input v-model="formData.executedAt" placeholder="请输入实际执行时间" />
         </t-form-item>
         <t-form-item label="状态：0-待执行，1-成功，2-失败" name="status">
-          <t-input v-model="formData.status" placeholder="请输入状态：0-待执行，1-成功，2-失败" />
+          <t-input-number v-model="formData.status" placeholder="请输入状态：0-待执行，1-成功，2-失败" />
         </t-form-item>
         <t-form-item label="备注" name="remark">
           <t-input v-model="formData.remark" placeholder="请输入备注" />

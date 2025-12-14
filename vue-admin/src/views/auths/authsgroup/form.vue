@@ -3,6 +3,9 @@ import { useAuthsGroupApi } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 import { FORM_RULES, PARTIAL_INIT } from './constant'
+import { DictConstants } from '@/constants'
+import { loadBooleanDict, loadNumberDict, loadStringDict } from '@/composables'
+import type { TransformedOption } from '@/composables'
 
 // ============================================== Props ==============================================
 const props = defineProps<{
@@ -28,9 +31,16 @@ const formData = reactive<DataFormType>({})
 // ============================================== Function ==============================================
 async function doOpen(row: any) {
   openDrawer()
+
+  // Iint Data
   ResetFormData(formData)
   Object.assign(formData, PARTIAL_INIT)
 
+  // Dict Load
+
+  // Data Load
+
+  // Mode Set
   if (row?.id) {
     setEditMode()
     withLoading(useAuthsGroupApi().GetAuthsGroup(row?.id)).then(({ data, success }) => {
@@ -57,11 +67,11 @@ async function doSubmit() {
   if (!formRef.value)
     return
 
-  const validateResult = await formRef.value.validate()
-  if (validateResult === true) {
+  const validate = await formRef.value.validate()
+  if (validate === true) {
     const api = isEdit.value
-      ? useAuthsGroupApi().EditAuthsGroup
-      : useAuthsGroupApi().AddAuthsGroup
+            ? useAuthsGroupApi().EditAuthsGroup
+            : useAuthsGroupApi().AddAuthsGroup
 
     withLoading(api(formData)).then(({ success }) => {
       if (success) {
@@ -91,19 +101,8 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading
-      size="small"
-      :loading="isLoading"
-      show-overlay
-      class="w-full"
-    >
-      <t-form
-        ref="formRef"
-        :data="formData"
-        scroll-to-first-error="smooth"
-        label-align="left"
-        :rules="FORM_RULES"
-      >
+    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+      <t-form ref="formRef" :data="formData" scroll-to-first-error="smooth" label-align="left" :rules="FORM_RULES">
         <t-form-item label="父级组ID" name="pid">
           <t-input v-model="formData.pid" placeholder="请输入父级组ID" />
         </t-form-item>
@@ -120,13 +119,13 @@ defineExpose({
           <t-input v-model="formData.description" placeholder="请输入用户组描述" />
         </t-form-item>
         <t-form-item label="排序号，数字越小越靠前" name="sort">
-          <t-input v-model="formData.sort" placeholder="请输入排序号，数字越小越靠前" />
+          <t-input-number v-model="formData.sort" placeholder="请输入排序号，数字越小越靠前" />
         </t-form-item>
         <t-form-item label="管理员ID" name="adminId">
           <t-input v-model="formData.adminId" placeholder="请输入管理员ID" />
         </t-form-item>
         <t-form-item label="最大用户数量限制" name="maxUserCount">
-          <t-input v-model="formData.maxUserCount" placeholder="请输入最大用户数量限制" />
+          <t-input-number v-model="formData.maxUserCount" placeholder="请输入最大用户数量限制" />
         </t-form-item>
       </t-form>
     </t-loading>

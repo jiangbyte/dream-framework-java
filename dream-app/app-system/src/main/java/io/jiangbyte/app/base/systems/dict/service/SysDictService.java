@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import io.jiangbyte.app.base.systems.dict.entity.SysDict;
 import io.jiangbyte.app.base.systems.dict.dto.SysDictDto;
 import io.jiangbyte.app.base.systems.dict.dto.SysDictPageQuery;
+import io.jiangbyte.framework.option.LabelOption;
 
 import java.util.List;
 
@@ -30,4 +31,12 @@ public interface SysDictService extends IService<SysDict> {
     List<SysDict> topN(int n);
 
     List<SysDict> lists();
+
+    List<LabelOption<String>> treeOptions(String keyword);
+
+    List<LabelOption<String>> listOptions(String keyword);
+
+    List<LabelOption<String>> listTypeOptions(String keyword);
+
+    List<LabelOption<String>> listOptionsByType(String type, String keyword);
 }

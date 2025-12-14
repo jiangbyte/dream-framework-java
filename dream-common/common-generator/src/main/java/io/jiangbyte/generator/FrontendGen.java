@@ -93,28 +93,28 @@ public class FrontendGen {
                                 new CustomFile.Builder()
                                         .fileName("constant.ts")
                                         .formatNameFunction(tableInfo -> tableInfo.getEntityName().toLowerCase() + "/")
-                                        .templatePath("/vue/v1/constant.ts.ftl")
+                                        .templatePath("/vue/constant.ts.ftl")
                                         .enableFileOverride() // 覆盖已生成文件
                                         .packageName(module.getGModule())
                                         .build(),
                                 new CustomFile.Builder()
                                         .fileName("index.vue")
                                         .formatNameFunction(tableInfo -> tableInfo.getEntityName().toLowerCase() + "/")
-                                        .templatePath("/vue/v1/index.vue.ftl")
+                                        .templatePath("/vue/index.vue.ftl")
                                         .enableFileOverride() // 覆盖已生成文件
                                         .packageName(module.getGModule())
                                         .build(),
                                 new CustomFile.Builder()
                                         .fileName("form.vue")
                                         .formatNameFunction(tableInfo -> tableInfo.getEntityName().toLowerCase() + "/")
-                                        .templatePath("/vue/v1/form.vue.ftl")
+                                        .templatePath("/vue/form.vue.ftl")
                                         .enableFileOverride() // 覆盖已生成文件
                                         .packageName(module.getGModule())
                                         .build(),
                                 new CustomFile.Builder()
                                         .fileName("detail.vue")
                                         .formatNameFunction(tableInfo -> tableInfo.getEntityName().toLowerCase() + "/")
-                                        .templatePath("/vue/v1/detail.vue.ftl")
+                                        .templatePath("/vue/detail.vue.ftl")
                                         .enableFileOverride() // 覆盖已生成文件
                                         .packageName(module.getGModule())
                                         .build(),

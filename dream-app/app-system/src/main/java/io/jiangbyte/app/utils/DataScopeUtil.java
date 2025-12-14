@@ -7,19 +7,21 @@ import java.util.List;
  * @author CharlieZhang
  * @version v1.0
  * @date 11/12/2025
- * @description TODO
+ * @description 数据权限范围工具类，ALL > GROUP_AND_CHILD > GROUP > SELF > CUSTOM
  */
 public class DataScopeUtil {
-    public static final String DATASCOPE_ALL = "ALL"; // 1
-    public static final String DATASCOPE_GROUP_AND_CHILD = "GROUP_AND_CHILD"; // 2
-    public static final String DATASCOPE_GROUP = "GROUP"; // 3
-    public static final String DATASCOPE_SELF = "SELF"; // 4
+    public static final String DATASCOPE_ALL = "ALL"; // 1 - 全部
+    public static final String DATASCOPE_GROUP_AND_CHILD = "GROUP_AND_CHILD"; // 2 - 本组及子组
+    public static final String DATASCOPE_GROUP = "GROUP"; // 3 - 本组
+    public static final String DATASCOPE_CUSTOM = "CUSTOM"; // 4 - 自定义（如指定ID列表）
+    public static final String DATASCOPE_SELF = "SELF"; // 5 - 本人
 
     // 权限优先级顺序（从高到低）
     private static final List<String> SCOPE_ORDER = Arrays.asList(
             DATASCOPE_ALL,
             DATASCOPE_GROUP_AND_CHILD,
             DATASCOPE_GROUP,
+            DATASCOPE_CUSTOM,
             DATASCOPE_SELF
     );
 
@@ -37,7 +39,7 @@ public class DataScopeUtil {
         int index1 = SCOPE_ORDER.indexOf(scope1);
         int index2 = SCOPE_ORDER.indexOf(scope2);
 
-        // 如果某个 scope 不在预定义列表中，默认视为最低权限（SELF）
+        // 如果某个 scope 不在预定义列表中，默认视为最低权限（比 CUSTOM 还低）
         if (index1 == -1) index1 = SCOPE_ORDER.size();
         if (index2 == -1) index2 = SCOPE_ORDER.size();
 
@@ -98,5 +100,4 @@ public class DataScopeUtil {
 
         return index1 <= index2;
     }
-
 }

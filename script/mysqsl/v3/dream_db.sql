@@ -11,7 +11,7 @@
  Target Server Version : 90500 (9.5.0)
  File Encoding         : 65001
 
- Date: 14/12/2025 16:23:46
+ Date: 14/12/2025 19:06:59
 */
 
 SET NAMES utf8mb4;
@@ -49,7 +49,7 @@ CREATE TABLE `auths_account`  (
 -- ----------------------------
 -- Records of auths_account
 -- ----------------------------
-INSERT INTO `auths_account` VALUES ('1', 'superadmin', '$2a$10$GO4/.3q0l/d/HWYaGKM2d.C4H.ZJmF4RhKVpFlC3sLuzFddlyucmK', 'jiangbyte@163.com', NULL, 0, 1, '2025-11-26 14:08:50', '2025-12-14 15:25:10', '127.0.0.1', 48, 0, NULL, NULL, '2025-11-25 09:22:21', NULL, '2025-12-14 15:25:10', NULL);
+INSERT INTO `auths_account` VALUES ('1', 'superadmin', '$2a$10$GO4/.3q0l/d/HWYaGKM2d.C4H.ZJmF4RhKVpFlC3sLuzFddlyucmK', 'jiangbyte@163.com', NULL, 0, 1, '2025-11-26 14:08:50', '2025-12-14 19:01:02', '127.0.0.1', 49, 0, NULL, NULL, '2025-11-25 09:22:21', NULL, '2025-12-14 19:01:02', NULL);
 INSERT INTO `auths_account` VALUES ('1993255249205997569', 'menus', '$2a$10$wvXNOmOZ8fW1ipstwjgu4OC2IM1/cJLNV0rTHnENtveDOEUcr26Cm', '3317229064@qq.com', NULL, 0, 0, NULL, '2025-11-25 17:47:54', NULL, 0, 0, NULL, NULL, '2025-11-25 17:47:39', NULL, '2025-11-25 17:47:54', NULL);
 INSERT INTO `auths_account` VALUES ('2', 'admin', '$2a$10$eE2quG/tVgyPBeHfA7EQyOYBd36hpxBEVK6wh/HdAV9Nd9Wh.MjGi', 'admin@company.com', NULL, 0, 0, NULL, NULL, NULL, 0, 0, NULL, NULL, '2025-11-25 09:22:23', NULL, '2025-11-25 09:22:23', NULL);
 INSERT INTO `auths_account` VALUES ('3', 'deptadmin', '$2a$10$eE2quG/tVgyPBeHfA7EQyOYBd36hpxBEVK6wh/HdAV9Nd9Wh.MjGi', 'dept_admin@company.com', NULL, 0, 0, NULL, NULL, NULL, 0, 0, NULL, NULL, '2025-11-25 09:22:27', NULL, '2025-11-25 09:22:27', NULL);
@@ -131,7 +131,10 @@ CREATE TABLE `auths_group`  (
 -- Records of auths_group
 -- ----------------------------
 INSERT INTO `auths_group` VALUES ('1993559342860390401', '0', NULL, '默认用户组', 'DEFAULT', '默认用户组', 0, NULL, NULL, 0, NULL, NULL, '2025-11-26 13:56:01', NULL, '2025-12-11 22:25:29', NULL);
-INSERT INTO `auths_group` VALUES ('1999122917616205826', '1993559342860390401', 'null,1993559342860390401', '测试', 'test', '测试', 1, NULL, NULL, 0, NULL, NULL, '2025-12-11 22:23:40', NULL, '2025-12-11 22:25:49', NULL);
+INSERT INTO `auths_group` VALUES ('2000141845662466050', '0', '0', '123', '123', '123', 4, '', 2, 0, NULL, NULL, '2025-12-14 17:52:32', NULL, '2025-12-14 17:52:32', NULL);
+INSERT INTO `auths_group` VALUES ('2000141923894624258', '0', '0', '456', '456', '456', 3, '', 1, 0, NULL, NULL, '2025-12-14 17:52:50', NULL, '2025-12-14 17:52:50', NULL);
+INSERT INTO `auths_group` VALUES ('2000143355616083969', '2000141923894624258', '0,2000141923894624258', '098', '0978', '0978', 5, '', 7, 0, NULL, NULL, '2025-12-14 17:58:32', NULL, '2025-12-14 17:58:51', NULL);
+INSERT INTO `auths_group` VALUES ('2000143539897024514', '2000141845662466050', '0,2000141845662466050', '543234', '54234234', '542324', 8, '', 3, 0, NULL, NULL, '2025-12-14 17:59:15', NULL, '2025-12-14 17:59:37', NULL);
 
 -- ----------------------------
 -- Table structure for auths_role
@@ -181,23 +184,27 @@ CREATE TABLE `auths_role_menu`  (
 -- ----------------------------
 INSERT INTO `auths_role_menu` VALUES ('1000', '1', '1000');
 INSERT INTO `auths_role_menu` VALUES ('1001', '1', '1001');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208640', '1', '101681065508208640');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208641', '1', '101681065508208641');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208642', '1', '101681065508208642');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208643', '1', '101681065508208643');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208644', '1', '101681065508208644');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208645', '1', '101681065508208645');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208646', '1', '101681065508208646');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208647', '1', '101681065508208647');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208648', '1', '101681065508208648');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208649', '1', '101681065508208649');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208650', '1', '101681065508208650');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208651', '1', '101681065508208651');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208652', '1', '101681065508208652');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208653', '1', '101681065508208653');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208654', '1', '101681065508208654');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208655', '1', '101681065508208655');
-INSERT INTO `auths_role_menu` VALUES ('101681065508208656', '1', '101681065508208656');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208678', '1', '101681065508208678');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208679', '1', '101681065508208679');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208680', '1', '101681065508208680');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208681', '1', '101681065508208681');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208682', '1', '101681065508208682');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208683', '1', '101681065508208683');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208684', '1', '101681065508208684');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208685', '1', '101681065508208685');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208686', '1', '101681065508208686');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208687', '1', '101681065508208687');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208688', '1', '101681065508208688');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208689', '1', '101681065508208689');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208690', '1', '101681065508208690');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208691', '1', '101681065508208691');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208692', '1', '101681065508208692');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208693', '1', '101681065508208693');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208694', '1', '101681065508208694');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208695', '1', '101681065508208695');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208696', '1', '101681065508208696');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208697', '1', '101681065508208697');
+INSERT INTO `auths_role_menu` VALUES ('101681065508208698', '1', '101681065508208698');
 
 -- ----------------------------
 -- Table structure for config_group
@@ -495,6 +502,7 @@ INSERT INTO `sys_dict` VALUES ('1999111359209103362', 'SYS_DATA_SCOPE', '数据�
 INSERT INTO `sys_dict` VALUES ('1999111403240906754', 'SYS_DATA_SCOPE', '数据权限', 'GROUP', '本组范围', 3, 0, NULL, NULL, '2025-12-11 21:37:55', NULL, '2025-12-12 03:08:37', NULL);
 INSERT INTO `sys_dict` VALUES ('1999111457850744834', 'SYS_DATA_SCOPE', '数据权限', 'SELF', '本人数据', 4, 0, NULL, NULL, '2025-12-11 21:38:08', NULL, '2025-12-12 03:08:36', NULL);
 INSERT INTO `sys_dict` VALUES ('1999316534091796482', 'SYS_CRYPTOGRAPHIC_STRENGTH', '密码强度', '1', '弱', 1, 0, NULL, NULL, '2025-12-12 11:13:02', NULL, '2025-12-12 11:13:02', NULL);
+INSERT INTO `sys_dict` VALUES ('2000136395260874753', 'SYS_DATA_SCOPE', '数据权限', 'CUSTOM', '自定义', 5, 0, NULL, NULL, '2025-12-14 17:30:52', NULL, '2025-12-14 17:30:52', NULL);
 
 -- ----------------------------
 -- Table structure for sys_log
@@ -568,23 +576,27 @@ CREATE TABLE `sys_menu`  (
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES ('1000', '0', 'dashboard', '/dashboard', '/dashboard/index.vue', NULL, NULL, 0, 0, NULL, '仪表盘', 'dashboard', 1, 1, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-11-19 02:41:47', NULL, '2025-12-12 07:39:29', NULL);
 INSERT INTO `sys_menu` VALUES ('1001', '0', '404', '/code/404', '/code/404.vue', NULL, NULL, 0, 0, NULL, '404页面', 'battery', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-11-19 02:41:47', NULL, '2025-12-14 07:19:03', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208640', '0', 'authsaccountgroup', '/auths/authsaccountgroup', '/auths/authsaccountgroup/index.vue', NULL, NULL, 0, 0, NULL, '账户用户组关联管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:20:44', '1', '2025-12-14 07:20:44', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208641', '0', 'authsaccount', '/auths/authsaccount', '/auths/authsaccount/index.vue', NULL, NULL, 0, 0, NULL, '核心账户管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:20:44', '1', '2025-12-14 07:20:44', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208642', '0', 'authsaccountrole', '/auths/authsaccountrole', '/auths/authsaccountrole/index.vue', NULL, NULL, 0, 0, NULL, '账户角色关联管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:20:45', '1', '2025-12-14 07:20:45', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208643', '0', 'authsgroup', '/auths/authsgroup', '/auths/authsgroup/index.vue', NULL, NULL, 0, 0, NULL, '用户组管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:20:45', '1', '2025-12-14 07:20:45', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208644', '0', 'authsrole', '/auths/authsrole', '/auths/authsrole/index.vue', NULL, NULL, 0, 0, NULL, '角色管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:20:45', '1', '2025-12-14 07:20:45', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208645', '0', 'authsrolemenu', '/auths/authsrolemenu', '/auths/authsrolemenu/index.vue', NULL, NULL, 0, 0, NULL, '角色菜单关联管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:20:45', '1', '2025-12-14 07:20:45', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208646', '0', 'configsgroup', '/configs/configsgroup', '/configs/configsgroup/index.vue', NULL, NULL, 0, 0, NULL, '配置分组管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:07', '1', '2025-12-14 07:21:07', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208647', '0', 'configsitem', '/configs/configsitem', '/configs/configsitem/index.vue', NULL, NULL, 0, 0, NULL, '系统配置管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:08', '1', '2025-12-14 07:21:08', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208648', '0', 'syscodetask', '/systems/syscodetask', '/systems/syscodetask/index.vue', NULL, NULL, 0, 0, NULL, '代码生成任务主管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:28', '1', '2025-12-14 07:21:28', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208649', '0', 'syscodetaskmodule', '/systems/syscodetaskmodule', '/systems/syscodetaskmodule/index.vue', NULL, NULL, 0, 0, NULL, '代码生成任务模块明细管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:29', '1', '2025-12-14 07:21:29', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208650', '0', 'sysdict', '/systems/sysdict', '/systems/sysdict/index.vue', NULL, NULL, 0, 0, NULL, '系统字典管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:29', '1', '2025-12-14 07:21:29', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208651', '0', 'syslog', '/systems/syslog', '/systems/syslog/index.vue', NULL, NULL, 0, 0, NULL, '系统活动日志记录管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:29', '1', '2025-12-14 07:21:29', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208652', '0', 'sysmenu', '/systems/sysmenu', '/systems/sysmenu/index.vue', NULL, NULL, 0, 0, NULL, '菜单管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:29', '1', '2025-12-14 07:21:29', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208653', '0', 'usersinfo', '/users/usersinfo', '/users/usersinfo/index.vue', NULL, NULL, 0, 0, NULL, '用户基本信息管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:48', '1', '2025-12-14 07:21:48', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208654', '0', 'userspreference', '/users/userspreference', '/users/userspreference/index.vue', NULL, NULL, 0, 0, NULL, '用户偏好设置管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:48', '1', '2025-12-14 07:21:48', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208655', '0', 'usersprofile', '/users/usersprofile', '/users/usersprofile/index.vue', NULL, NULL, 0, 0, NULL, '用户档案详情管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:48', '1', '2025-12-14 07:21:48', NULL);
-INSERT INTO `sys_menu` VALUES ('101681065508208656', '0', 'usersstats', '/users/usersstats', '/users/usersstats/index.vue', NULL, NULL, 0, 0, NULL, '用户统计信息管理', NULL, 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 07:21:49', '1', '2025-12-14 07:21:49', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208678', '0', 'p_authsaccountgroup', '/auths', NULL, NULL, NULL, 0, 0, NULL, '基础账户', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:43', '1', '2025-12-14 11:03:43', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208679', '101681065508208678', 'authsaccountgroup', '/auths/authsaccountgroup', '/auths/authsaccountgroup/index.vue', NULL, NULL, 0, 0, NULL, '账户用户组关联', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:43', '1', '2025-12-14 11:06:19', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208680', '101681065508208678', 'authsaccount', '/auths/authsaccount', '/auths/authsaccount/index.vue', NULL, NULL, 0, 0, NULL, '核心账户管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:43', '1', '2025-12-14 11:03:51', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208681', '101681065508208678', 'authsaccountrole', '/auths/authsaccountrole', '/auths/authsaccountrole/index.vue', NULL, NULL, 0, 0, NULL, '账户角色关联', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:43', '1', '2025-12-14 11:06:26', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208682', '101681065508208678', 'authsgroup', '/auths/authsgroup', '/auths/authsgroup/index.vue', NULL, NULL, 0, 0, NULL, '用户组管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:43', '1', '2025-12-14 11:03:52', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208683', '101681065508208678', 'authsrole', '/auths/authsrole', '/auths/authsrole/index.vue', NULL, NULL, 0, 0, NULL, '角色管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:43', '1', '2025-12-14 11:03:52', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208684', '101681065508208678', 'authsrolemenu', '/auths/authsrolemenu', '/auths/authsrolemenu/index.vue', NULL, NULL, 0, 0, NULL, '角色菜单关联', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:43', '1', '2025-12-14 11:06:29', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208685', '0', 'p_configsgroup', '/configs', NULL, NULL, NULL, 0, 0, NULL, '配置分组', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:46', '1', '2025-12-14 11:03:53', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208686', '101681065508208685', 'configsgroup', '/configs/configsgroup', '/configs/configsgroup/index.vue', NULL, NULL, 0, 0, NULL, '配置分组管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:46', '1', '2025-12-14 11:03:53', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208687', '101681065508208685', 'configsitem', '/configs/configsitem', '/configs/configsitem/index.vue', NULL, NULL, 0, 0, NULL, '系统配置管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:46', '1', '2025-12-14 11:03:53', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208688', '0', 'p_syscodetask', '/systems', NULL, NULL, NULL, 0, 0, NULL, '基础系统', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:50', '1', '2025-12-14 11:03:54', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208689', '101681065508208688', 'syscodetask', '/systems/syscodetask', '/systems/syscodetask/index.vue', NULL, NULL, 0, 0, NULL, '代码生成任务主管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:50', '1', '2025-12-14 11:03:54', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208690', '101681065508208688', 'syscodetaskmodule', '/systems/syscodetaskmodule', '/systems/syscodetaskmodule/index.vue', NULL, NULL, 0, 0, NULL, '代码生成任务模块明细管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:50', '1', '2025-12-14 11:03:54', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208691', '101681065508208688', 'sysdict', '/systems/sysdict', '/systems/sysdict/index.vue', NULL, NULL, 0, 0, NULL, '系统字典管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:50', '1', '2025-12-14 11:03:55', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208692', '101681065508208688', 'syslog', '/systems/syslog', '/systems/syslog/index.vue', NULL, NULL, 0, 0, NULL, '系统活动日志记录管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:50', '1', '2025-12-14 11:03:55', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208693', '101681065508208688', 'sysmenu', '/systems/sysmenu', '/systems/sysmenu/index.vue', NULL, NULL, 0, 0, NULL, '菜单管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:50', '1', '2025-12-14 11:03:55', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208694', '0', 'p_usersinfo', '/users', NULL, NULL, NULL, 0, 0, NULL, '用户信息', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:53', '1', '2025-12-14 11:03:55', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208695', '101681065508208694', 'usersinfo', '/users/usersinfo', '/users/usersinfo/index.vue', NULL, NULL, 0, 0, NULL, '用户基本信息管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:53', '1', '2025-12-14 11:03:56', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208696', '101681065508208694', 'userspreference', '/users/userspreference', '/users/userspreference/index.vue', NULL, NULL, 0, 0, NULL, '用户偏好设置管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:53', '1', '2025-12-14 11:03:56', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208697', '101681065508208694', 'usersprofile', '/users/usersprofile', '/users/usersprofile/index.vue', NULL, NULL, 0, 0, NULL, '用户档案详情管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:53', '1', '2025-12-14 11:03:56', NULL);
+INSERT INTO `sys_menu` VALUES ('101681065508208698', '101681065508208694', 'usersstats', '/users/usersstats', '/users/usersstats/index.vue', NULL, NULL, 0, 0, NULL, '用户统计信息管理', 'app', 1, 0, 1, 0, 0, NULL, NULL, 0, NULL, NULL, '2025-12-14 09:06:53', '1', '2025-12-14 11:03:57', NULL);
 
 -- ----------------------------
 -- Table structure for users_info

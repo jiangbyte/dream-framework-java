@@ -25,18 +25,21 @@ function doClose() {
 
 async function doOpen(row: any) {
   openDrawer()
+
+  // Iint Data
   ResetFormData(formData)
 
+  // Data Load
   if (row?.id) {
-    withLoading(useAuthsAccountRoleApi().GetAuthsAccountRole(row?.id)).then(({ data, success }) => {
-      if (success) {
-        Object.assign(formData, data)
-      }
-      else {
-        closeDrawer()
-      }
-    })
-  }
+      withLoading(useAuthsAccountRoleApi().GetAuthsAccountRole(row?.id)).then(({ data, success }) => {
+          if (success) {
+              Object.assign(formData, data)
+          }
+          else {
+              closeDrawer()
+          }
+      })
+ }
 }
 
 defineExpose({
@@ -46,31 +49,26 @@ defineExpose({
 
 <template>
   <t-drawer
-    v-model:visible="visible"
-    :close-btn="true"
-    :confirm-btn="null"
-    size="large"
-    destroy-on-close
-    @close="doClose"
+      v-model:visible="visible"
+      :close-btn="true"
+      :confirm-btn="null"
+      size="large"
+      destroy-on-close
+      @close="doClose"
   >
-    <template #header>
-      {{ `${props.formName}详情` }}
-    </template>
-    <t-loading
-      size="small"
-      :loading="isLoading"
-      show-overlay
-      class="w-full"
-    >
-      <t-descriptions :column="1" colon table-layout="auto">
-        <t-descriptions-item label="账户ID">
-          {{ withFallback(formData.accountId) }}
-        </t-descriptions-item>
-        <t-descriptions-item label="角色ID">
-          {{ withFallback(formData.roleId) }}
-        </t-descriptions-item>
-      </t-descriptions>
-    </t-loading>
+      <template #header>
+        {{ `${props.formName}详情` }}
+      </template>
+      <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+        <t-descriptions :column="1" colon table-layout="auto">
+          <t-descriptions-item label="账户ID">
+              {{ withFallback(formData.accountId) }}
+          </t-descriptions-item>
+          <t-descriptions-item label="角色ID">
+              {{ withFallback(formData.roleId) }}
+          </t-descriptions-item>
+        </t-descriptions>
+      </t-loading>
   </t-drawer>
 </template>
 

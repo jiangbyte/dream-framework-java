@@ -3,6 +3,9 @@ import { useConfigsItemApi } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 import { FORM_RULES, PARTIAL_INIT } from './constant'
+import { DictConstants } from '@/constants'
+import { loadBooleanDict, loadNumberDict, loadStringDict } from '@/composables'
+import type { TransformedOption } from '@/composables'
 
 // ============================================== Props ==============================================
 const props = defineProps<{
@@ -28,9 +31,16 @@ const formData = reactive<DataFormType>({})
 // ============================================== Function ==============================================
 async function doOpen(row: any) {
   openDrawer()
+
+  // Iint Data
   ResetFormData(formData)
   Object.assign(formData, PARTIAL_INIT)
 
+  // Dict Load
+
+  // Data Load
+
+  // Mode Set
   if (row?.id) {
     setEditMode()
     withLoading(useConfigsItemApi().GetConfigsItem(row?.id)).then(({ data, success }) => {
@@ -57,11 +67,11 @@ async function doSubmit() {
   if (!formRef.value)
     return
 
-  const validateResult = await formRef.value.validate()
-  if (validateResult === true) {
+  const validate = await formRef.value.validate()
+  if (validate === true) {
     const api = isEdit.value
-      ? useConfigsItemApi().EditConfigsItem
-      : useConfigsItemApi().AddConfigsItem
+            ? useConfigsItemApi().EditConfigsItem
+            : useConfigsItemApi().AddConfigsItem
 
     withLoading(api(formData)).then(({ success }) => {
       if (success) {
@@ -91,19 +101,8 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading
-      size="small"
-      :loading="isLoading"
-      show-overlay
-      class="w-full"
-    >
-      <t-form
-        ref="formRef"
-        :data="formData"
-        scroll-to-first-error="smooth"
-        label-align="left"
-        :rules="FORM_RULES"
-      >
+    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+      <t-form ref="formRef" :data="formData" scroll-to-first-error="smooth" label-align="left" :rules="FORM_RULES">
         <t-form-item label="分组编码" name="groupCode">
           <t-input v-model="formData.groupCode" placeholder="请输入分组编码" />
         </t-form-item>
@@ -123,7 +122,7 @@ defineExpose({
           <t-input v-model="formData.description" placeholder="请输入配置描述" />
         </t-form-item>
         <t-form-item label="排序" name="sort">
-          <t-input v-model="formData.sort" placeholder="请输入排序" />
+          <t-input-number v-model="formData.sort" placeholder="请输入排序" />
         </t-form-item>
       </t-form>
     </t-loading>

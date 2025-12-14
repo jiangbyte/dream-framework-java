@@ -1,3 +1,4 @@
+<#include "../common/field-helpers.ftl">
 <script lang="ts" setup>
 import { use${entity}Api } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
@@ -25,8 +26,11 @@ function doClose() {
 
 async function doOpen(row: any) {
   openDrawer()
+
+  // Iint Data
   ResetFormData(formData)
 
+  // Data Load
   if (row?.id) {
       withLoading(use${entity}Api().Get${entity}(row?.id)).then(({ data, success }) => {
           if (success) {
@@ -61,7 +65,7 @@ defineExpose({
       <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
         <t-descriptions :column="1" colon table-layout="auto">
         <#list table.fields as field>
-        <#if !["isDeleted","id", "deletedAt", "deletedBy", "createdAt", "createdBy", "updatedAt", "updatedBy"]?seq_contains(field.propertyName)>
+        <#if shouldRenderField1(field)>
           <t-descriptions-item label="${field.comment}">
               {{ withFallback(formData.${field.propertyName}) }}
           </t-descriptions-item>

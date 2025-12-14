@@ -8,13 +8,13 @@ import Form from './form.vue'
 import Detail from './detail.vue'
 
 // ============================================== Data ==============================================
-const pageData = ref({
-  current: 1,
-  pages: 1,
-  records: [],
-  size: 20,
-  total: 0,
-})
+// const pageData = ref({
+//   current: 1,
+//   pages: 1,
+//   records: [],
+//   size: 20,
+//   total: 0,
+// })
 
 const pageParams = reactive({
   current: 1,
@@ -29,14 +29,19 @@ const formName = '菜单'
 const detailRef = ref()
 const selectedRowKeys = ref([])
 const columnControllerVisible = ref(false)
+const listData = ref([])
 
 // ============================================== Loading ==============================================
 const { isLoading, withLoading } = useLoading()
 
 // ============================================== Function ==============================================
 async function loadPageData() {
-  withLoading(useSysMenuApi().PageSysMenu(pageParams)).then(({ data }) => {
-    pageData.value = data
+  // withLoading(useSysMenuApi().PageSysMenu(pageParams)).then(({ data }) => {
+  //   pageData.value = data
+  // })
+  withLoading(useSysMenuApi().GetSysMenuListTreeWithAccountID(pageParams.keyword)).then(({ data }) => {
+    listData.value = data
+    // pageData.value = data
   })
 }
 loadPageData()
@@ -76,7 +81,7 @@ function handlePageChange(pageInfo: any) {
       <div class="flex items-center gap-4 flex-1">
         <div class="flex items-center gap-2">
           <span class="w-14">关键字</span>
-          <t-input v-model="pageParams.keyword" clearable class="w-40" />
+          <t-input v-model="pageParams.keyword" clearable class="w-40" placeholder="请输入关键字" />
         </div>
 
         <div class="flex items-center gap-2">
@@ -89,7 +94,6 @@ function handlePageChange(pageInfo: any) {
         </div>
       </div>
 
-      <!-- 第二行：操作按钮 -->
       <div class="flex items-center justify-between gap-2">
         <div class="flex items-center gap-2">
           <t-button theme="primary" @click="formRef.doOpen()">
@@ -134,24 +138,18 @@ function handlePageChange(pageInfo: any) {
       :column-controller="{
         hideTriggerButton: true,
       }"
-      :data="pageData.records"
+      :data="listData"
       row-key="id"
       :hover="true"
       :loading="isLoading"
-      :pagination="{
-        current: pageData.current,
-        pageSize: pageData.size,
-        total: pageData.total,
-        theme: 'simple',
-      }"
       :selected-row-keys="selectedRowKeys"
       :tree="{
         treeNodeColumnIndex: 1,
         checkStrictly: false,
         indent: 25,
       }"
-      max-height="calc(100vh - 56px - 96px - 64px)"
-      height="calc(100vh - 56px - 96px - 64px)"
+      max-height="calc(100vh - 56px - 96px)"
+      height="calc(100vh - 56px - 96px)"
       @select-change="handleSelectChange"
       @page-change="handlePageChange"
     >

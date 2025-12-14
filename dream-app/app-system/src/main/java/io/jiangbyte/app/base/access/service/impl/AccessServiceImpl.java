@@ -187,7 +187,7 @@ public class AccessServiceImpl implements AccessService {
         // ids
         List<String> roleIds = authsAccountRoles.stream().map(AuthsAccountRole::getRoleId).toList();
         extraData.put("roleIds", roleIds);
-        // exesit 查询角色
+        // 查询角色
         List<AuthsRole> authsRoles = authsRoleMapper.selectList(new LambdaQueryWrapper<AuthsRole>()
                 .in(AuthsRole::getId, roleIds)
         );
@@ -196,6 +196,15 @@ public class AccessServiceImpl implements AccessService {
         }
         List<String> stringList = authsRoles.stream().map(AuthsRole::getCode).toList();
         extraData.put("roleCodes", stringList);
+        // 角色权限范围
+        List<String> stringList1 = authsRoles.stream().map(AuthsRole::getDataScope).toList();
+        extraData.put("roleDataScopes", stringList1);
+        // 角色自定义授权的用户组ID
+        List<String> stringList2 = authsRoles.stream().map(AuthsRole::getAssignGroupIds).toList();
+        extraData.put("roleAssignGroupIds", stringList2);
+        // 最大权限
+        String maxScope = DataScopeUtil.getMaxScope(stringList1);
+        extraData.put("maxScope", maxScope);
         // 用户组
         List<AuthsAccountGroup> authsAccountGroups = authsAccountGroupMapper.selectList(
                 new LambdaQueryWrapper<AuthsAccountGroup>().eq(AuthsAccountGroup::getAccountId, accountId)
@@ -203,9 +212,6 @@ public class AccessServiceImpl implements AccessService {
         if (CollUtil.isEmpty(authsAccountGroups)) {
             throw new BusinessException("用户没有用户组");
         }
-        // 最大权限
-        String maxScope = DataScopeUtil.getMaxScope(stringList);
-        extraData.put("maxScope", maxScope);
 
         List<String> groupIds = authsAccountGroups.stream().map(AuthsAccountGroup::getGroupId).toList();
         extraData.put("groupIds", groupIds);

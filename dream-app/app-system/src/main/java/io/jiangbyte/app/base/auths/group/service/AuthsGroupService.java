@@ -9,11 +9,11 @@ import io.jiangbyte.app.base.auths.group.dto.AuthsGroupPageQuery;
 import java.util.List;
 
 /**
-* @author Charlie Zhang
-* @version v1.0
-* @date 2025-12-12
-* @description 用户组表 服务类
-*/
+ * @author Charlie Zhang
+ * @version v1.0
+ * @date 2025-12-12
+ * @description 用户组表 服务类
+ */
 public interface AuthsGroupService extends IService<AuthsGroup> {
     Page<AuthsGroup> page(AuthsGroupPageQuery req);
 
@@ -30,4 +30,6 @@ public interface AuthsGroupService extends IService<AuthsGroup> {
     List<AuthsGroup> topN(int n);
 
     List<AuthsGroup> lists();
+
+    List<AuthsGroup> listTreeOptions(String keyword);
 }

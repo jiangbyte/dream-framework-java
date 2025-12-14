@@ -50,5 +50,12 @@ export function useAuthsGroupApi() {
     ListsAuthsGroup() {
       return request.Get<IResult<any>>(`${pathPrefix}/auths/group/lists`)
     },
+    ListTreeOptions(keyword: string) {
+      return request.Get<IResult<any>>(`${pathPrefix}/auths/group/lists/tree`, {
+        params: {
+          keyword,
+        },
+      })
+    },
   }
 }

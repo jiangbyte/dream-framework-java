@@ -20,11 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 /**
-* @author Charlie Zhang
-* @version v1.0
-* @date 2025-12-12
-* @description 用户组表 控制器
-*/
+ * @author Charlie Zhang
+ * @version v1.0
+ * @date 2025-12-12
+ * @description 用户组表 控制器
+ */
 @Tag(name = "用户组表控制器")
 @Slf4j
 @RequiredArgsConstructor
@@ -90,6 +90,12 @@ public class AuthsGroupController {
     @GetMapping("/auths/group/lists")
     public Result<?> lists() {
         return Result.success(authsGroupService.lists());
+    }
+
+    @Operation(summary = "获取用户组Lists树形结构")
+    @GetMapping("/auths/group/lists/tree")
+    public Result<?> listsTree(@RequestParam(value = "keyword", required = false) String keyword) {
+        return Result.success(authsGroupService.listTreeOptions(keyword));
     }
 
 }

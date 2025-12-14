@@ -35,4 +35,12 @@ public class AuthInfoUtil {
         return (String) StpUtil.getExtra("maxScope");
     }
 
+    public static List<String> getRoleDataScopes() {
+        return (List<String>) StpUtil.getExtra("roleDataScopes");
+    }
+
+    public static List<String> getRoleAssignGroupIds() {
+        return (List<String>) StpUtil.getExtra("roleAssignGroupIds");
+    }
+
 }

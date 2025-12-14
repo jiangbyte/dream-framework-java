@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.jiangbyte.app.constants.Dict;
 import io.jiangbyte.framework.pojo.BaseEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -59,11 +60,11 @@ public class SysMenu extends BaseEntity {
     private String externalUrl;
 
     @Schema(description = "菜单类型：0-内部菜单 1-外链菜单 2-重定向菜单 3-iframe嵌入")
-    @Trans(type = TransType.DICTIONARY, key = "SYS_MENU_TYPE")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_MENU_TYPE)
     private Integer menuType;
 
     @Schema(description = "打开方式：0-当前窗口 1-新窗口打开")
-    @Trans(type = TransType.DICTIONARY, key = "SYS_OPEN_TARGET")
+    @Trans(type = TransType.DICTIONARY,key = Dict.SYS_OPEN_TARGET)
     private Integer openTarget;
 
     @Schema(description = "iframe属性")
@@ -80,19 +81,19 @@ public class SysMenu extends BaseEntity {
     private Integer sort;
 
     @Schema(description = "缓存")
-    @Trans(type = TransType.DICTIONARY, key = "SYS_BOOLEAN")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_BOOLEAN)
     private Boolean keepAlive;
 
     @Schema(description = "可见")
-    @Trans(type = TransType.DICTIONARY, key = "SYS_BOOLEAN")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_BOOLEAN)
     private Boolean visible;
 
     @Schema(description = "钉钉")
-    @Trans(type = TransType.DICTIONARY, key = "SYS_BOOLEAN")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_BOOLEAN)
     private Boolean pined;
 
     @Schema(description = "无标签页")
-    @Trans(type = TransType.DICTIONARY, key = "SYS_BOOLEAN")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_BOOLEAN)
     private Boolean withoutTab;
 
     @Schema(description = "头部参数")

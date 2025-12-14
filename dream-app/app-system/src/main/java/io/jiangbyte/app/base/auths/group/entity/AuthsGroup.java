@@ -5,11 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.jiangbyte.app.base.systems.menu.entity.SysMenu;
 import io.jiangbyte.framework.pojo.BaseEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.io.Serial;
 import java.util.Date;
+import java.util.List;
+
 import io.jiangbyte.framework.enums.SortType;
 import io.jiangbyte.framework.utils.SortConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -53,11 +56,15 @@ public class AuthsGroup extends BaseEntity {
 
     @Schema(description = "排序号，数字越小越靠前")
     @SortConfig(type = SortType.NUMERIC_STRING)
-    private Short sort;
+    private Integer sort;
 
     @Schema(description = "管理员ID")
     private String adminId;
 
     @Schema(description = "最大用户数量限制")
     private Integer maxUserCount;
+
+    @Schema(description = "子级")
+    @TableField(exist = false)
+    private List<AuthsGroup> children;
 }

@@ -1,3 +1,4 @@
+<#include "../common/field-helpers.ftl">
 import type { DropdownOption, PrimaryTableCol } from 'tdesign-vue-next'
 
 export const COLUMNS: PrimaryTableCol[] = [
@@ -9,7 +10,7 @@ export const COLUMNS: PrimaryTableCol[] = [
       fixed: 'left',
   },
 <#list table.fields as field>
-<#if !["id", "isDeleted", "deletedAt", "deletedBy", "createdBy", "updatedBy"]?seq_contains(field.propertyName)>
+<#if shouldRenderField(field)>
   {
       title: '${field.comment}',
       colKey: '${field.propertyName}',
@@ -46,12 +47,10 @@ export const SortOptions: DropdownOption[] = [
 
 export const PARTIAL_INIT = {
 <#list table.fields as field>
-<#if !["id", "isDeleted", "deletedAt", "deletedBy", "createdBy", "updatedBy"]?seq_contains(field.propertyName)>
-    <#if field.propertyType == 'String'>
-        ${field.propertyName}: '',
-    <#elseif ['Long','Integer','Short','Byte','Double','Float','BigDecimal']?seq_contains(field.propertyType)>
+<#if shouldRenderField1(field)>
+    <#if isNumberField(field)>
         ${field.propertyName}: 0,
-    <#elseif ['Boolean']?seq_contains(field.propertyType)>
+    <#elseif isBooleanField(field)>
         ${field.propertyName}: true,
     <#else>
         ${field.propertyName}: '',
@@ -62,7 +61,7 @@ export const PARTIAL_INIT = {
 
 export const FORM_RULES = {
 <#list table.fields as field>
-    <#if !["id", "isDeleted", "deletedAt", "deletedBy", "createdBy", "updatedBy"]?seq_contains(field.propertyName)>
+    <#if shouldRenderField1(field)>
     ${field.propertyName}: [{ required: true, message: '请输入${field.comment}' }],
     </#if>
 </#list>

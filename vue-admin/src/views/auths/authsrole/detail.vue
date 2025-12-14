@@ -25,18 +25,21 @@ function doClose() {
 
 async function doOpen(row: any) {
   openDrawer()
+
+  // Iint Data
   ResetFormData(formData)
 
+  // Data Load
   if (row?.id) {
-    withLoading(useAuthsRoleApi().GetAuthsRole(row?.id)).then(({ data, success }) => {
-      if (success) {
-        Object.assign(formData, data)
-      }
-      else {
-        closeDrawer()
-      }
-    })
-  }
+      withLoading(useAuthsRoleApi().GetAuthsRole(row?.id)).then(({ data, success }) => {
+          if (success) {
+              Object.assign(formData, data)
+          }
+          else {
+              closeDrawer()
+          }
+      })
+ }
 }
 
 defineExpose({
@@ -46,40 +49,35 @@ defineExpose({
 
 <template>
   <t-drawer
-    v-model:visible="visible"
-    :close-btn="true"
-    :confirm-btn="null"
-    size="large"
-    destroy-on-close
-    @close="doClose"
+      v-model:visible="visible"
+      :close-btn="true"
+      :confirm-btn="null"
+      size="large"
+      destroy-on-close
+      @close="doClose"
   >
-    <template #header>
-      {{ `${props.formName}详情` }}
-    </template>
-    <t-loading
-      size="small"
-      :loading="isLoading"
-      show-overlay
-      class="w-full"
-    >
-      <t-descriptions :column="1" colon table-layout="auto">
-        <t-descriptions-item label="角色名称">
-          {{ withFallback(formData.name) }}
-        </t-descriptions-item>
-        <t-descriptions-item label="角色编码">
-          {{ withFallback(formData.code) }}
-        </t-descriptions-item>
-        <t-descriptions-item label="数据权限范围">
-          {{ withFallback(formData.dataScope) }}
-        </t-descriptions-item>
-        <t-descriptions-item label="角色描述">
-          {{ withFallback(formData.description) }}
-        </t-descriptions-item>
-        <t-descriptions-item label="分配的用户组ID列表(JSON数组)">
-          {{ withFallback(formData.assignGroupIds) }}
-        </t-descriptions-item>
-      </t-descriptions>
-    </t-loading>
+      <template #header>
+        {{ `${props.formName}详情` }}
+      </template>
+      <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
+        <t-descriptions :column="1" colon table-layout="auto">
+          <t-descriptions-item label="角色名称">
+              {{ withFallback(formData.name) }}
+          </t-descriptions-item>
+          <t-descriptions-item label="角色编码">
+              {{ withFallback(formData.code) }}
+          </t-descriptions-item>
+          <t-descriptions-item label="数据权限范围">
+              {{ withFallback(formData.dataScopeName) }}
+          </t-descriptions-item>
+          <t-descriptions-item label="角色描述">
+              {{ withFallback(formData.description) }}
+          </t-descriptions-item>
+          <t-descriptions-item label="分配的用户组ID列表(JSON数组)">
+              {{ withFallback(formData.assignGroupIds) }}
+          </t-descriptions-item>
+        </t-descriptions>
+      </t-loading>
   </t-drawer>
 </template>
 

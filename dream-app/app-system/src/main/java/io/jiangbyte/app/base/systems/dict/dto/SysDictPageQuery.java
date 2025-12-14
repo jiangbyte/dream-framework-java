@@ -34,4 +34,7 @@ public class SysDictPageQuery implements Serializable {
 
     @Schema(description = "关键词")
     private String keyword;
+
+    @Schema(description = "字典类型")
+    private String dictType;
 }
