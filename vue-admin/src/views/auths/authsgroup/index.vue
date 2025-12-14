@@ -81,7 +81,7 @@ function handlePageChange(pageInfo: any) {
 
 async function treeNodeClickHandler(value: Array<any>, context: any) {
   const { node } = context
-  pageParams.pid = v node.data.id
+  pageParams.pid = value[0] ? node.data.id : ''
   loadPageData()
 }
 </script>

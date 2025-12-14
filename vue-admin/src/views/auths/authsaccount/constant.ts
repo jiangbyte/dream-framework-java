@@ -10,6 +10,12 @@ export const COLUMNS: PrimaryTableCol[] = [
   },
   {
     title: '用户名',
+    colKey: 'usersInfo[nickname]',
+    width: 120,
+    // ellipsis: true,
+  },
+  {
+    title: '用户名',
     colKey: 'username',
     width: 120,
     ellipsis: true,

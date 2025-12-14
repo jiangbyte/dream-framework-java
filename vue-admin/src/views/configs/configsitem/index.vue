@@ -91,8 +91,11 @@ async function treeNodeClickHandler(value: Array<any>, context: any) {
     <div class="w-60 flex-shrink-0 p-2">
       <div class="flex flex-col gap-2">
         <div class="flex items-center gap-2">
-          <t-input clearable class="w-40" 
-            placeholder="请输入关键字"/>
+          <t-input
+            clearable
+            class="w-40"
+            placeholder="请输入关键字"
+          />
         </div>
         <div class="flex items-center justify-between gap-2 w-full">
           <div class="flex items-center gap-2">

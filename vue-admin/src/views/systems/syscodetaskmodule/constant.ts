@@ -9,13 +9,13 @@ export const COLUMNS: PrimaryTableCol[] = [
     fixed: 'left',
   },
   {
-    title: '关联 gen_code_task.id',
+    title: '关联',
     colKey: 'taskId',
     width: 120,
     ellipsis: true,
   },
   {
-    title: '模块类型，如：biz, sys, auth',
+    title: '模块类型',
     colKey: 'moduleType',
     width: 120,
     ellipsis: true,
@@ -27,7 +27,7 @@ export const COLUMNS: PrimaryTableCol[] = [
     ellipsis: true,
   },
   {
-    title: '表名称，如：biz_normal_category',
+    title: '表名称',
     colKey: 'tableName',
     width: 120,
     ellipsis: true,

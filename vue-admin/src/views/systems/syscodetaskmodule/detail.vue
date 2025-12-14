@@ -66,16 +66,16 @@ defineExpose({
       class="w-full"
     >
       <t-descriptions :column="1" colon table-layout="auto">
-        <t-descriptions-item label="关联 gen_code_task.id">
+        <t-descriptions-item label="关联">
           {{ withFallback(formData.taskId) }}
         </t-descriptions-item>
-        <t-descriptions-item label="模块类型，如：biz, sys, auth">
+        <t-descriptions-item label="模块类型">
           {{ withFallback(formData.moduleType) }}
         </t-descriptions-item>
         <t-descriptions-item label="Java 包路径">
           {{ withFallback(formData.packagePath) }}
         </t-descriptions-item>
-        <t-descriptions-item label="表名称，如：biz_normal_category">
+        <t-descriptions-item label="表名称">
           {{ withFallback(formData.tableName) }}
         </t-descriptions-item>
       </t-descriptions>

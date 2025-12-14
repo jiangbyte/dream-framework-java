@@ -9,7 +9,7 @@ export const COLUMNS: PrimaryTableCol[] = [
     fixed: 'left',
   },
   {
-    title: '任务名称，如：系统模块代码生成',
+    title: '任务名称',
     colKey: 'taskName',
     width: 120,
     ellipsis: true,
@@ -39,7 +39,7 @@ export const COLUMNS: PrimaryTableCol[] = [
     ellipsis: true,
   },
   {
-    title: '数据库密码（建议加密或留空）',
+    title: '数据库密码',
     colKey: 'dbPassword',
     width: 120,
     ellipsis: true,
@@ -51,13 +51,13 @@ export const COLUMNS: PrimaryTableCol[] = [
     ellipsis: true,
   },
   {
-    title: '生成后端：1-是，0-否',
+    title: '生成后端',
     colKey: 'addBackend',
     width: 120,
     ellipsis: true,
   },
   {
-    title: '生成后端：1-是，0-否',
+    title: '生成后端',
     colKey: 'addFrontend',
     width: 120,
     ellipsis: true,
@@ -69,7 +69,7 @@ export const COLUMNS: PrimaryTableCol[] = [
     ellipsis: true,
   },
   {
-    title: '状态：0-待执行，1-成功，2-失败',
+    title: '状态',
     colKey: 'status',
     width: 120,
     ellipsis: true,

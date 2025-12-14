@@ -111,16 +111,16 @@ defineExpose({
         label-align="left"
         :rules="FORM_RULES"
       >
-        <t-form-item label="关联 gen_code_task.id" name="taskId">
-          <t-input-number v-model="formData.taskId" placeholder="请输入关联 gen_code_task.id" />
+        <t-form-item label="关联" name="taskId">
+          <t-input-number v-model="formData.taskId" placeholder="请输入关联" />
         </t-form-item>
-        <t-form-item label="模块类型，如：biz, sys, auth" name="moduleType">
+        <t-form-item label="模块类型" name="moduleType">
           <t-input v-model="formData.moduleType" placeholder="请输入模块类型，如：biz, sys, auth" />
         </t-form-item>
         <t-form-item label="Java 包路径" name="packagePath">
           <t-input v-model="formData.packagePath" placeholder="请输入Java 包路径" />
         </t-form-item>
-        <t-form-item label="表名称，如：biz_normal_category" name="tableName">
+        <t-form-item label="表名称" name="tableName">
           <t-input v-model="formData.tableName" placeholder="请输入表名称，如：biz_normal_category" />
         </t-form-item>
       </t-form>

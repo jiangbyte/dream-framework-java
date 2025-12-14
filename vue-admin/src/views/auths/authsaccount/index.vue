@@ -90,8 +90,11 @@ async function treeNodeClickHandler(value: Array<any>, context: any) {
     <div class="w-60 flex-shrink-0 p-2">
       <div class="flex flex-col gap-2">
         <div class="flex items-center gap-2">
-          <t-input clearable class="w-40"  
-            placeholder="请输入关键字"/>
+          <t-input
+            clearable
+            class="w-40"
+            placeholder="请输入关键字"
+          />
         </div>
         <div class="flex items-center justify-between gap-2 w-full">
           <div class="flex items-center gap-2">
@@ -217,6 +220,18 @@ async function treeNodeClickHandler(value: Array<any>, context: any) {
         @select-change="handleSelectChange"
         @page-change="handlePageChange"
       >
+        <template #usersInfo[nickname]="{ row }">
+          <t-space :size="12" align="center">
+            <t-avatar :image="row.usersInfo.avatar" />
+            <t-tooltip :content="row.usersInfo.nickname">
+              <t-typography-text
+                ellipsis
+              >
+                {{ row.usersInfo.nickname }}
+              </t-typography-text>
+            </t-tooltip>
+          </t-space>
+        </template>
         <template #operation="{ row }">
           <t-space :size="12" align="center">
             <t-link variant="text" theme="primary" @click="formRef.doOpen(row)">
