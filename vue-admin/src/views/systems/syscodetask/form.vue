@@ -3,9 +3,6 @@ import { useSysCodeTaskApi } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 import { FORM_RULES, PARTIAL_INIT } from './constant'
-import { DictConstants } from '@/constants'
-import { loadBooleanDict, loadNumberDict, loadStringDict } from '@/composables'
-import type { TransformedOption } from '@/composables'
 
 // ============================================== Props ==============================================
 const props = defineProps<{
@@ -70,8 +67,8 @@ async function doSubmit() {
   const validate = await formRef.value.validate()
   if (validate === true) {
     const api = isEdit.value
-            ? useSysCodeTaskApi().EditSysCodeTask
-            : useSysCodeTaskApi().AddSysCodeTask
+      ? useSysCodeTaskApi().EditSysCodeTask
+      : useSysCodeTaskApi().AddSysCodeTask
 
     withLoading(api(formData)).then(({ success }) => {
       if (success) {
@@ -101,8 +98,19 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
-      <t-form ref="formRef" :data="formData" scroll-to-first-error="smooth" label-align="left" :rules="FORM_RULES">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
+      <t-form
+        ref="formRef"
+        :data="formData"
+        scroll-to-first-error="smooth"
+        label-align="left"
+        :rules="FORM_RULES"
+      >
         <t-form-item label="任务名称，如：系统模块代码生成" name="taskName">
           <t-input v-model="formData.taskName" placeholder="请输入任务名称，如：系统模块代码生成" />
         </t-form-item>

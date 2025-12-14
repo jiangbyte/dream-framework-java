@@ -4,7 +4,7 @@ import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 import { FORM_RULES, PARTIAL_INIT } from './constant'
 import { DictConstants } from '@/constants'
-import { loadBooleanDict, loadNumberDict, loadStringDict } from '@/composables'
+import { loadBooleanDict } from '@/composables'
 import type { TransformedOption } from '@/composables'
 
 // ============================================== Props ==============================================
@@ -72,8 +72,8 @@ async function doSubmit() {
   const validate = await formRef.value.validate()
   if (validate === true) {
     const api = isEdit.value
-            ? useConfigsGroupApi().EditConfigsGroup
-            : useConfigsGroupApi().AddConfigsGroup
+      ? useConfigsGroupApi().EditConfigsGroup
+      : useConfigsGroupApi().AddConfigsGroup
 
     withLoading(api(formData)).then(({ success }) => {
       if (success) {
@@ -103,8 +103,19 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
-      <t-form ref="formRef" :data="formData" scroll-to-first-error="smooth" label-align="left" :rules="FORM_RULES">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
+      <t-form
+        ref="formRef"
+        :data="formData"
+        scroll-to-first-error="smooth"
+        label-align="left"
+        :rules="FORM_RULES"
+      >
         <t-form-item label="分组名称" name="name">
           <t-input v-model="formData.name" placeholder="请输入分组名称" />
         </t-form-item>

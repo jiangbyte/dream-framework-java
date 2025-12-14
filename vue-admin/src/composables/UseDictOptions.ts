@@ -81,7 +81,6 @@ export function useStringDict(dictType: string) {
   return useDictOptions(dictType, 'string')
 }
 
-
 // =====================
 
 /**
@@ -89,7 +88,7 @@ export function useStringDict(dictType: string) {
  */
 export async function loadBooleanDict(
   dictType: string,
-  targetRef: Ref<TransformedOption<boolean>[]>
+  targetRef: Ref<TransformedOption<boolean>[]>,
 ): Promise<void> {
   const { data } = await useSysDictApi().ListOptionsByType(dictType)
   targetRef.value = data.map((item: TypeOption) => ({
@@ -103,7 +102,7 @@ export async function loadBooleanDict(
  */
 export async function loadNumberDict(
   dictType: string,
-  targetRef: Ref<TransformedOption<number>[]>
+  targetRef: Ref<TransformedOption<number>[]>,
 ): Promise<void> {
   const { data } = await useSysDictApi().ListOptionsByType(dictType)
   targetRef.value = data.map((item: TypeOption) => ({
@@ -117,7 +116,7 @@ export async function loadNumberDict(
  */
 export async function loadStringDict(
   dictType: string,
-  targetRef: Ref<TransformedOption<string>[]>
+  targetRef: Ref<TransformedOption<string>[]>,
 ): Promise<void> {
   const { data } = await useSysDictApi().ListOptionsByType(dictType)
   targetRef.value = data.map((item: TypeOption) => ({

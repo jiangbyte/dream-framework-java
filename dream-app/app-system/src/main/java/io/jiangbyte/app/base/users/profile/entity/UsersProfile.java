@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.jiangbyte.app.constants.Dict;
 import io.jiangbyte.framework.pojo.BaseEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,6 +16,8 @@ import io.jiangbyte.framework.utils.SortConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.core.trans.anno.Trans;
+import org.dromara.core.trans.constant.TransType;
 
 /**
 * @author Charlie Zhang
@@ -79,8 +82,10 @@ public class UsersProfile extends BaseEntity {
     private String wechat;
 
     @Schema(description = "是否显示生日")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_BOOLEAN)
     private Boolean showBirthday;
 
     @Schema(description = "是否显示地理位置")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_BOOLEAN)
     private Boolean showLocation;
 }

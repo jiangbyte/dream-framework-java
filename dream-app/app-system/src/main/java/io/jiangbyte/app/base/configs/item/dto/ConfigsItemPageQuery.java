@@ -34,4 +34,7 @@ public class ConfigsItemPageQuery implements Serializable {
 
     @Schema(description = "关键词")
     private String keyword;
+
+    @Schema(description = "分组编码")
+    private String groupCode;
 }

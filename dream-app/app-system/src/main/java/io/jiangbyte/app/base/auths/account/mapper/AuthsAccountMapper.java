@@ -1,5 +1,6 @@
 package io.jiangbyte.app.base.auths.account.mapper;
 
+import icu.mhb.mybatisplus.plugln.base.mapper.JoinBaseMapper;
 import io.jiangbyte.framework.cache.MybatisPlusRedisCache;
 import io.jiangbyte.app.base.auths.account.entity.AuthsAccount;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -14,6 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 //@CacheNamespace(implementation = MybatisPlusRedisCache.class, eviction = MybatisPlusRedisCache.class)
-public interface AuthsAccountMapper extends BaseMapper<AuthsAccount> {
+//public interface AuthsAccountMapper extends BaseMapper<AuthsAccount> {
+public interface AuthsAccountMapper extends JoinBaseMapper<AuthsAccount> {
 
 }

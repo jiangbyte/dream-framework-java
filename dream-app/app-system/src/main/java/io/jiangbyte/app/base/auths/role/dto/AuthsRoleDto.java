@@ -3,19 +3,23 @@ package io.jiangbyte.app.base.auths.role.dto;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.jiangbyte.framework.pojo.BaseEntity;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
 import java.io.Serial;
 import java.util.Date;
+import java.util.List;
 
 /**
-* @author Charlie Zhang
-* @version v1.0
-* @date 2025-12-12
-* @description 角色 DTO
-*/
+ * @author Charlie Zhang
+ * @version v1.0
+ * @date 2025-12-12
+ * @description 角色 DTO
+ */
 @Data
 @Schema(name = "AuthsRole", description = "角色 DTO")
 public class AuthsRoleDto implements Serializable {
@@ -39,6 +43,6 @@ public class AuthsRoleDto implements Serializable {
     private String description;
 
     @Schema(description = "分配的用户组ID列表(JSON数组)")
-    private String assignGroupIds;
+    private List<String> assignGroupIds;
 
 }

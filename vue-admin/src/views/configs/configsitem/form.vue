@@ -1,11 +1,8 @@
 <script lang="ts" setup>
-import { useConfigsItemApi } from '@/api'
+import { useConfigsGroupApi, useConfigsItemApi } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 import { FORM_RULES, PARTIAL_INIT } from './constant'
-import { DictConstants } from '@/constants'
-import { loadBooleanDict, loadNumberDict, loadStringDict } from '@/composables'
-import type { TransformedOption } from '@/composables'
 
 // ============================================== Props ==============================================
 const props = defineProps<{
@@ -17,6 +14,7 @@ const emit = defineEmits(['close', 'submit'])
 
 // ============================================== Loading ==============================================
 const { isLoading, withLoading } = useLoading()
+const { isLoading: configGroupsIsLoading, withLoading: configGroupsWithLoading } = useLoading()
 
 // ============================================== Boolean ==============================================
 const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
@@ -27,6 +25,7 @@ const { value: isEdit, setFalse: setAddMode, setTrue: setEditMode } = useBoolean
 // ============================================== Data ==============================================
 const formRef = ref()
 const formData = reactive<DataFormType>({})
+const groupOptions = ref([])
 
 // ============================================== Function ==============================================
 async function doOpen(row: any) {
@@ -39,6 +38,9 @@ async function doOpen(row: any) {
   // Dict Load
 
   // Data Load
+  configGroupsWithLoading(useConfigsGroupApi().ListsConfigsGroup()).then(({ data }) => {
+    groupOptions.value = data
+  })
 
   // Mode Set
   if (row?.id) {
@@ -70,8 +72,8 @@ async function doSubmit() {
   const validate = await formRef.value.validate()
   if (validate === true) {
     const api = isEdit.value
-            ? useConfigsItemApi().EditConfigsItem
-            : useConfigsItemApi().AddConfigsItem
+      ? useConfigsItemApi().EditConfigsItem
+      : useConfigsItemApi().AddConfigsItem
 
     withLoading(api(formData)).then(({ success }) => {
       if (success) {
@@ -101,10 +103,29 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
-      <t-form ref="formRef" :data="formData" scroll-to-first-error="smooth" label-align="left" :rules="FORM_RULES">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
+      <t-form
+        ref="formRef"
+        :data="formData"
+        scroll-to-first-error="smooth"
+        label-align="left"
+        :rules="FORM_RULES"
+      >
         <t-form-item label="分组编码" name="groupCode">
-          <t-input v-model="formData.groupCode" placeholder="请输入分组编码" />
+          <t-select
+            v-model="formData.groupCode"
+            :options="groupOptions"
+            :keys="{
+              value: 'code',
+              label: 'name',
+            }"
+            placeholder="请选择分组编码"
+          />
         </t-form-item>
         <t-form-item label="配置项名称" name="name">
           <t-input v-model="formData.name" placeholder="请输入配置项名称" />
@@ -115,9 +136,9 @@ defineExpose({
         <t-form-item label="配置值" name="value">
           <t-input v-model="formData.value" placeholder="请输入配置值" />
         </t-form-item>
-        <t-form-item label="组件类型" name="componentType">
+        <!-- <t-form-item label="组件类型" name="componentType">
           <t-input v-model="formData.componentType" placeholder="请输入组件类型" />
-        </t-form-item>
+        </t-form-item> -->
         <t-form-item label="配置描述" name="description">
           <t-input v-model="formData.description" placeholder="请输入配置描述" />
         </t-form-item>

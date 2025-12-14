@@ -76,7 +76,12 @@ function handlePageChange(pageInfo: any) {
       <div class="flex items-center gap-4 flex-1">
         <div class="flex items-center gap-2">
           <span class="w-14">关键字</span>
-          <t-input v-model="pageParams.keyword" clearable class="w-40" placeholder="请输入关键字" />
+          <t-input
+            v-model="pageParams.keyword"
+            clearable
+            class="w-40"
+            placeholder="请输入关键字"
+          />
         </div>
 
         <div class="flex items-center gap-2">

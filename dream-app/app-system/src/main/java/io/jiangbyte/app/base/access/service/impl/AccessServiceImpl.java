@@ -47,10 +47,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author ZhangJiangHu
@@ -200,7 +197,7 @@ public class AccessServiceImpl implements AccessService {
         List<String> stringList1 = authsRoles.stream().map(AuthsRole::getDataScope).toList();
         extraData.put("roleDataScopes", stringList1);
         // 角色自定义授权的用户组ID
-        List<String> stringList2 = authsRoles.stream().map(AuthsRole::getAssignGroupIds).toList();
+        List<String> stringList2 = authsRoles.stream().map(AuthsRole::getAssignGroupIds).filter(Objects::nonNull).flatMap(Collection::stream).toList();
         extraData.put("roleAssignGroupIds", stringList2);
         // 最大权限
         String maxScope = DataScopeUtil.getMaxScope(stringList1);

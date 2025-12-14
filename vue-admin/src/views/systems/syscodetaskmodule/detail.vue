@@ -31,15 +31,15 @@ async function doOpen(row: any) {
 
   // Data Load
   if (row?.id) {
-      withLoading(useSysCodeTaskModuleApi().GetSysCodeTaskModule(row?.id)).then(({ data, success }) => {
-          if (success) {
-              Object.assign(formData, data)
-          }
-          else {
-              closeDrawer()
-          }
-      })
- }
+    withLoading(useSysCodeTaskModuleApi().GetSysCodeTaskModule(row?.id)).then(({ data, success }) => {
+      if (success) {
+        Object.assign(formData, data)
+      }
+      else {
+        closeDrawer()
+      }
+    })
+  }
 }
 
 defineExpose({
@@ -49,32 +49,37 @@ defineExpose({
 
 <template>
   <t-drawer
-      v-model:visible="visible"
-      :close-btn="true"
-      :confirm-btn="null"
-      size="large"
-      destroy-on-close
-      @close="doClose"
+    v-model:visible="visible"
+    :close-btn="true"
+    :confirm-btn="null"
+    size="large"
+    destroy-on-close
+    @close="doClose"
   >
-      <template #header>
-        {{ `${props.formName}详情` }}
-      </template>
-      <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
-        <t-descriptions :column="1" colon table-layout="auto">
-          <t-descriptions-item label="关联 gen_code_task.id">
-              {{ withFallback(formData.taskId) }}
-          </t-descriptions-item>
-          <t-descriptions-item label="模块类型，如：biz, sys, auth">
-              {{ withFallback(formData.moduleType) }}
-          </t-descriptions-item>
-          <t-descriptions-item label="Java 包路径">
-              {{ withFallback(formData.packagePath) }}
-          </t-descriptions-item>
-          <t-descriptions-item label="表名称，如：biz_normal_category">
-              {{ withFallback(formData.tableName) }}
-          </t-descriptions-item>
-        </t-descriptions>
-      </t-loading>
+    <template #header>
+      {{ `${props.formName}详情` }}
+    </template>
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
+      <t-descriptions :column="1" colon table-layout="auto">
+        <t-descriptions-item label="关联 gen_code_task.id">
+          {{ withFallback(formData.taskId) }}
+        </t-descriptions-item>
+        <t-descriptions-item label="模块类型，如：biz, sys, auth">
+          {{ withFallback(formData.moduleType) }}
+        </t-descriptions-item>
+        <t-descriptions-item label="Java 包路径">
+          {{ withFallback(formData.packagePath) }}
+        </t-descriptions-item>
+        <t-descriptions-item label="表名称，如：biz_normal_category">
+          {{ withFallback(formData.tableName) }}
+        </t-descriptions-item>
+      </t-descriptions>
+    </t-loading>
   </t-drawer>
 </template>
 

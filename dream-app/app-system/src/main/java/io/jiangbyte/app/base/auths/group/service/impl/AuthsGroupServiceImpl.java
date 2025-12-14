@@ -48,6 +48,9 @@ public class AuthsGroupServiceImpl extends ServiceImpl<AuthsGroupMapper, AuthsGr
     @Override
     public Page<AuthsGroup> page(AuthsGroupPageQuery req) {
         QueryWrapper<AuthsGroup> queryWrapper = new QueryWrapper<AuthsGroup>().checkSqlInjection();
+        if (ObjectUtil.isNotEmpty(req.getPid())) {
+            queryWrapper.lambda().eq(AuthsGroup::getPid, req.getPid());
+        }
 
         // 1. 关键词搜索
         if (ObjectUtil.isNotEmpty(req.getKeyword())) {

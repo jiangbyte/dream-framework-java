@@ -34,4 +34,6 @@ public class AuthsAccountPageQuery implements Serializable {
 
     @Schema(description = "关键词")
     private String keyword;
+
+    private String groupId;
 }

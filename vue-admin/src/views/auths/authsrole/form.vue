@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useAuthsRoleApi } from '@/api'
+import { useAuthsGroupApi, useAuthsRoleApi } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 import { FORM_RULES, PARTIAL_INIT } from './constant'
 import { DictConstants } from '@/constants'
-import { loadBooleanDict, loadNumberDict, loadStringDict } from '@/composables'
+import { loadStringDict } from '@/composables'
 import type { TransformedOption } from '@/composables'
 
 // ============================================== Props ==============================================
@@ -17,6 +17,7 @@ const emit = defineEmits(['close', 'submit'])
 
 // ============================================== Loading ==============================================
 const { isLoading, withLoading } = useLoading()
+const { isLoading: assignGroupIdOptionsLoading, withLoading: withAssignGroupIdOptionsLoading } = useLoading()
 
 // ============================================== Boolean ==============================================
 const { value: visible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean(false)
@@ -29,6 +30,7 @@ const dataScopeDictOptions = ref<TransformedOption<string>[]>([])
 // ============================================== Data ==============================================
 const formRef = ref()
 const formData = reactive<DataFormType>({})
+const assignGroupIdOptions = ref<any[]>([])
 
 // ============================================== Function ==============================================
 async function doOpen(row: any) {
@@ -42,6 +44,11 @@ async function doOpen(row: any) {
   await loadStringDict(DictConstants.SYS_DATA_SCOPE, dataScopeDictOptions)
 
   // Data Load
+  withAssignGroupIdOptionsLoading(useAuthsGroupApi().ListTreeOptions('')).then(({ data, success }) => {
+    if (success) {
+      assignGroupIdOptions.value = data
+    }
+  })
 
   // Mode Set
   if (row?.id) {
@@ -79,12 +86,12 @@ async function doSubmit() {
   const validate = await formRef.value.validate()
   if (validate === true) {
     const api = isEdit.value
-            ? useAuthsRoleApi().EditAuthsRole
-            : useAuthsRoleApi().AddAuthsRole
+      ? useAuthsRoleApi().EditAuthsRole
+      : useAuthsRoleApi().AddAuthsRole
 
-      if (formData.dataScope !== 'CUSTOM') {
-        formData.assignGroupIds = []
-      }
+    if (formData.dataScope !== 'CUSTOM') {
+      formData.assignGroupIds = []
+    }
     withLoading(api(formData)).then(({ success }) => {
       if (success) {
         closeDrawer()
@@ -122,8 +129,19 @@ function dataScopeChange(value: any) {
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
-      <t-form ref="formRef" :data="formData" scroll-to-first-error="smooth" label-align="left" :rules="FORM_RULES">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
+      <t-form
+        ref="formRef"
+        :data="formData"
+        scroll-to-first-error="smooth"
+        label-align="left"
+        :rules="FORM_RULES"
+      >
         <t-form-item label="角色名称" name="name">
           <t-input v-model="formData.name" placeholder="请输入角色名称" />
         </t-form-item>
@@ -144,8 +162,20 @@ function dataScopeChange(value: any) {
         <t-form-item label="角色描述" name="description">
           <t-input v-model="formData.description" placeholder="请输入角色描述" />
         </t-form-item>
-        <t-form-item v-if="isAssignCustom" label="分配的用户组列表" name="assignGroupIds">
-          <t-input v-model="formData.assignGroupIds" placeholder="请输入分配的用户组ID列表" />
+        <t-form-item v-if="isAssignCustom" label="用户组" name="assignGroupIds">
+          <t-tree-select
+            v-model="formData.assignGroupIds"
+            :data="assignGroupIdOptions"
+            :keys="{
+              value: 'id',
+              label: 'name',
+            }"
+            placeholder="请选择"
+            multiple
+            :tree-props="{
+              checkStrictly: true,
+            }"
+          />
         </t-form-item>
       </t-form>
     </t-loading>

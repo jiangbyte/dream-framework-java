@@ -46,6 +46,11 @@ public class ConfigsItemServiceImpl extends ServiceImpl<ConfigsItemMapper, Confi
         if (ObjectUtil.isNotEmpty(req.getKeyword())) {
             queryWrapper.lambda().like(ConfigsItem::getName, req.getKeyword());
         }
+        if (ObjectUtil.isNotEmpty(req.getGroupCode())) {
+            queryWrapper.lambda().eq(ConfigsItem::getGroupCode, req.getGroupCode());
+        } else {
+            return new Page<>();
+        }
         SortUtils.handleSort(ConfigsItem.class, queryWrapper, req.getSortField(), req.getSortOrder());
         return this.page(BasePageRequest.Page(
                         Optional.ofNullable(req.getCurrent()).orElse(1),

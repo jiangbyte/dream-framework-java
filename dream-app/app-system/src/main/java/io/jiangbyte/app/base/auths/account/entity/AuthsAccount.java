@@ -5,23 +5,31 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.jiangbyte.app.base.users.info.entity.UsersInfo;
+import io.jiangbyte.app.base.users.profile.entity.UsersProfile;
+import io.jiangbyte.app.base.users.stats.entity.UsersStats;
+import io.jiangbyte.app.constants.Dict;
 import io.jiangbyte.framework.pojo.BaseEntity;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.io.Serial;
 import java.util.Date;
+
 import io.jiangbyte.framework.enums.SortType;
 import io.jiangbyte.framework.utils.SortConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.core.trans.anno.Trans;
+import org.dromara.core.trans.constant.TransType;
 
 /**
-* @author Charlie Zhang
-* @version v1.0
-* @date 2025-12-12
-* @description 核心账户表
-*/
+ * @author Charlie Zhang
+ * @version v1.0
+ * @date 2025-12-12
+ * @description 核心账户表
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName(value = "auths_account", autoResultMap = true)
@@ -49,9 +57,11 @@ public class AuthsAccount extends BaseEntity {
     private String telephone;
 
     @Schema(description = "账户状态：0-正常, 1-锁定, 2-禁用")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_ACCOUNT_STATUS)
     private Integer status;
 
     @Schema(description = "密码强度等级：0-3")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_CRYPTOGRAPHIC_STRENGTH)
     private Integer passwordStrength;
 
     @Schema(description = "最后修改密码的时间")
@@ -65,4 +75,14 @@ public class AuthsAccount extends BaseEntity {
 
     @Schema(description = "登录次数统计")
     private Integer loginCount;
+
+    @TableField(exist = false)
+    private UsersInfo usersInfo;
+
+    @TableField(exist = false)
+    private UsersProfile usersProfile;
+
+    @TableField(exist = false)
+    private UsersStats usersStats;
+
 }

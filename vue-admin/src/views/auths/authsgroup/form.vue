@@ -3,9 +3,6 @@ import { useAuthsGroupApi } from '@/api'
 import { useBoolean, useLoading } from '@/hooks'
 import { ResetFormData } from '@/utils'
 import { FORM_RULES, PARTIAL_INIT } from './constant'
-import { DictConstants } from '@/constants'
-import { loadBooleanDict, loadNumberDict, loadStringDict } from '@/composables'
-import type { TransformedOption } from '@/composables'
 
 // ============================================== Props ==============================================
 const props = defineProps<{
@@ -70,8 +67,8 @@ async function doSubmit() {
   const validate = await formRef.value.validate()
   if (validate === true) {
     const api = isEdit.value
-            ? useAuthsGroupApi().EditAuthsGroup
-            : useAuthsGroupApi().AddAuthsGroup
+      ? useAuthsGroupApi().EditAuthsGroup
+      : useAuthsGroupApi().AddAuthsGroup
 
     withLoading(api(formData)).then(({ success }) => {
       if (success) {
@@ -101,14 +98,25 @@ defineExpose({
     <template #header>
       {{ isEdit ? `编辑${props.formName}` : `新增${props.formName}` }}
     </template>
-    <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
-      <t-form ref="formRef" :data="formData" scroll-to-first-error="smooth" label-align="left" :rules="FORM_RULES">
-        <t-form-item label="父级组ID" name="pid">
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
+      <t-form
+        ref="formRef"
+        :data="formData"
+        scroll-to-first-error="smooth"
+        label-align="left"
+        :rules="FORM_RULES"
+      >
+        <!-- <t-form-item label="父级组ID" name="pid">
           <t-input v-model="formData.pid" placeholder="请输入父级组ID" />
         </t-form-item>
         <t-form-item label="父级组路径" name="pidPath">
           <t-input v-model="formData.pidPath" placeholder="请输入父级组路径" />
-        </t-form-item>
+        </t-form-item> -->
         <t-form-item label="用户组名称" name="name">
           <t-input v-model="formData.name" placeholder="请输入用户组名称" />
         </t-form-item>
@@ -118,8 +126,8 @@ defineExpose({
         <t-form-item label="用户组描述" name="description">
           <t-input v-model="formData.description" placeholder="请输入用户组描述" />
         </t-form-item>
-        <t-form-item label="排序号，数字越小越靠前" name="sort">
-          <t-input-number v-model="formData.sort" placeholder="请输入排序号，数字越小越靠前" />
+        <t-form-item label="排序号" name="sort">
+          <t-input-number v-model="formData.sort" placeholder="请输入排序号" />
         </t-form-item>
         <t-form-item label="管理员ID" name="adminId">
           <t-input v-model="formData.adminId" placeholder="请输入管理员ID" />

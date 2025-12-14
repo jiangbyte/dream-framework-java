@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import io.jiangbyte.app.base.auths.group.entity.AuthsGroup;
 import io.jiangbyte.app.constants.Dict;
 import io.jiangbyte.framework.pojo.BaseEntity;
 
@@ -12,6 +14,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.io.Serial;
 import java.util.Date;
+import java.util.List;
 
 import io.jiangbyte.framework.enums.SortType;
 import io.jiangbyte.framework.utils.SortConfig;
@@ -55,5 +58,6 @@ public class AuthsRole extends BaseEntity {
     private String description;
 
     @Schema(description = "分配的用户组ID列表(JSON数组)")
-    private String assignGroupIds;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<String> assignGroupIds;
 }

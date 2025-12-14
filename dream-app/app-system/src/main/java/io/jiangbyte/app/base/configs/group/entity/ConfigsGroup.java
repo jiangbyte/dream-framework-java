@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.jiangbyte.app.constants.Dict;
 import io.jiangbyte.framework.pojo.BaseEntity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,6 +16,8 @@ import io.jiangbyte.framework.utils.SortConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.core.trans.anno.Trans;
+import org.dromara.core.trans.constant.TransType;
 
 /**
 * @author Charlie Zhang
@@ -50,5 +53,6 @@ public class ConfigsGroup extends BaseEntity {
     private Integer sort;
 
     @Schema(description = "是否系统分组")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_BOOLEAN)
     private Boolean isSystem;
 }

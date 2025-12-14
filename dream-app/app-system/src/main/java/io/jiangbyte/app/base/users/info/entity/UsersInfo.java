@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.jiangbyte.app.constants.Dict;
 import io.jiangbyte.framework.pojo.BaseEntity;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -16,6 +17,8 @@ import io.jiangbyte.framework.utils.SortConfig;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.core.trans.anno.Trans;
+import org.dromara.core.trans.constant.TransType;
 
 /**
 * @author Charlie Zhang
@@ -47,6 +50,7 @@ public class UsersInfo extends BaseEntity {
     private String avatar;
 
     @Schema(description = "性别：0-未知 1-男 2-女")
+    @Trans(type = TransType.DICTIONARY, key = Dict.SYS_GENDER)
     private Short gender;
 
     @Schema(description = "生日")

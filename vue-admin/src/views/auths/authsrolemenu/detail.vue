@@ -31,15 +31,15 @@ async function doOpen(row: any) {
 
   // Data Load
   if (row?.id) {
-      withLoading(useAuthsRoleMenuApi().GetAuthsRoleMenu(row?.id)).then(({ data, success }) => {
-          if (success) {
-              Object.assign(formData, data)
-          }
-          else {
-              closeDrawer()
-          }
-      })
- }
+    withLoading(useAuthsRoleMenuApi().GetAuthsRoleMenu(row?.id)).then(({ data, success }) => {
+      if (success) {
+        Object.assign(formData, data)
+      }
+      else {
+        closeDrawer()
+      }
+    })
+  }
 }
 
 defineExpose({
@@ -49,26 +49,31 @@ defineExpose({
 
 <template>
   <t-drawer
-      v-model:visible="visible"
-      :close-btn="true"
-      :confirm-btn="null"
-      size="large"
-      destroy-on-close
-      @close="doClose"
+    v-model:visible="visible"
+    :close-btn="true"
+    :confirm-btn="null"
+    size="large"
+    destroy-on-close
+    @close="doClose"
   >
-      <template #header>
-        {{ `${props.formName}详情` }}
-      </template>
-      <t-loading size="small" :loading="isLoading" show-overlay class="w-full">
-        <t-descriptions :column="1" colon table-layout="auto">
-          <t-descriptions-item label="角色ID">
-              {{ withFallback(formData.roleId) }}
-          </t-descriptions-item>
-          <t-descriptions-item label="菜单ID">
-              {{ withFallback(formData.menuId) }}
-          </t-descriptions-item>
-        </t-descriptions>
-      </t-loading>
+    <template #header>
+      {{ `${props.formName}详情` }}
+    </template>
+    <t-loading
+      size="small"
+      :loading="isLoading"
+      show-overlay
+      class="w-full"
+    >
+      <t-descriptions :column="1" colon table-layout="auto">
+        <t-descriptions-item label="角色ID">
+          {{ withFallback(formData.roleId) }}
+        </t-descriptions-item>
+        <t-descriptions-item label="菜单ID">
+          {{ withFallback(formData.menuId) }}
+        </t-descriptions-item>
+      </t-descriptions>
+    </t-loading>
   </t-drawer>
 </template>
 
